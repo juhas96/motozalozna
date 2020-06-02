@@ -1,11 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import {useForm} from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import { DevTool } from "react-hook-form-devtools";
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
+import updateAction from "../service/updateAction";
+import { useStateMachine } from "little-state-machine";
+import Button from '@material-ui/core/Button';
+import { subscriber, dataService } from '../service/FormDataService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,15 +28,28 @@ const PersonalInfoForm = () => {
   const classes = useStyles();
   const [idFile, setIdFile] = useState();
   const [carLicenseFile, setCarLicenseFile] = useState();
+  const { action, state } = useStateMachine(updateAction);
+  const [currentPage, setCurrentPage] = React.useState(0);
+
+  useEffect(() => {
+    subscriber.subscribe((data) => {
+      setCurrentPage(data);
+    });
+  })
+
+  const handleNext = data => {
+    action(data);
+    dataService.send(currentPage + 1);
+  }
 
   const { register, errors, handleSubmit, control } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone_number: '',
+      firstName: state.data.firstName,
+      lastName: state.data.lastName,
+      email: state.data.email,
+      phoneNumber: state.data.phoneNumber,
     }
   })
 
@@ -43,7 +60,7 @@ const PersonalInfoForm = () => {
         <div style={{textAlign: 'center', width: '100%' }}>
           <h1>Osobné údaje</h1>
         </div>
-          <form>
+          <form onSubmit={handleSubmit(handleNext)}>
             <div>
               <TextField
                 name="firstName"
@@ -103,6 +120,7 @@ const PersonalInfoForm = () => {
                 dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"}
                 onChange={(files) => setCarLicenseFile(files)}  />
               </div>
+              <Button type="submit" variant="contained" color="primary">Ďalej</Button>
           </form>
         </Container>
     )
