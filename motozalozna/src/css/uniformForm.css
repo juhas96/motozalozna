@@ -1,0 +1,29 @@
+.attachment {
+    max-width: 70%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom : auto;
+}
+
+.textLabel {
+    background-color: white;
+    width: 600px;
+    max-width: 80%
+}
+
+.paddingWrapper20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.marginWrapper20 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.definitionName {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+

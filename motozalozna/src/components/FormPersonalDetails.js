@@ -4,91 +4,112 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+//FORM CSS
+import '../css/formPD.css'
+import '../css/uniformForm.css'
 
-export class FormPersonalDetails extends Component {
-    continue = e => {
+import '../css/uniform.css'
+
+const FormPersonalDetails = (props) =>  {
+
+    const continueNext = e => {
         e.preventDefault();
-        this.props.nextStep();
+        props.nextStep();
     }
 
-    back = e => {
+    const back = e => {
         e.preventDefault();
-        this.props.prevStep();
+        props.prevStep();
     }
     
+    const { values, handleChange } = props;
 
-    render() {
-        const { values, handleChange } = this.props;
-
-        return (
-            <MuiThemeProvider>
-                <Container maxWidth='md' style={{marginBottom: '2%'}}>
-                    <div style={{textAlign: 'center', width: '100%' }}>
+    return (
+        <MuiThemeProvider>
+            <Container maxWidth='md' style={{marginBottom: '2%'}}>
+                <div>
+                    <div className="categoryName">
                         <h1>Osobné údaje</h1>
                     </div>
-                    <div>
-                        <TextField
-                            label="Meno"
-                            variant="outlined"
-                            type="text"
-                            onChange={handleChange('firstName')}
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                            defaultValue={values.firstName ? values.firstName : ''}/>
+                    <div className="wrapper">
+                        <h3>Zákaldne informácie</h3>
+                            <div className="textHolders">
+                                <TextField
+                                    pattern = "^[a-zA-Z-À-ž]+$"
+                                    inputProps = {{ pattern: /^[a-zA-Z-À-ž]+$/}}
+                                    label="Meno"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="text"
+                                    onChange={handleChange('firstName')}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.firstName ? values.firstName : ''}
+                                />
 
-                        <TextField
-                            label="Priezvisko"
-                            variant="outlined"
-                            type="text"
-                            onChange={handleChange('lastName')}
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                            defaultValue={values.lastName ? values.lastName : ''}/>
+                                <TextField
+                                    label="Priezvisko"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="text"
+                                    onChange={handleChange('lastName')}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.lastName ? values.lastName : ''}
+                                />
+
+                                <TextField
+                                    label="Email"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="email"
+                                    onChange={handleChange('email')}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.email ? values.email : ''}
+                                />
+
+                                <TextField
+                                    label="Tel. číslo"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="tel"
+                                    onChange={handleChange('phoneNumber')}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.phoneNumber ? values.phoneNumber : ''}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="divider"></div>
+
+                        <div className="wrapper">
+                            <div className="attachment">
+                                <h3 className="definitionName">Občiansky preukaz</h3>
+                                <DropzoneArea
+                                    filesLimit={1}
+                                    dropzoneText={"Prosím nahrajte fotku Vašeho občianskeho preukazu"}/>
+                            </div>
+
+                            <div className="attachment">
+                                <h3 className="definitionName">Vodičský preukaz</h3>
+                                <DropzoneArea
+                                    filesLimit={1}
+                                    dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} />
+                            </div>
+                        </div>
+                    <div className="customButton">
+                        <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
                     </div>
-
-                    <div>
-                        <TextField
-                            label="Email"
-                            variant="outlined"
-                            type="email"
-                            onChange={handleChange('email')}
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                            defaultValue={values.email ? values.email : ''}/>
-
-                        <TextField
-                            label="Tel. číslo"
-                            variant="outlined"
-                            type="tel"
-                            onChange={handleChange('phoneNumber')}
-                            size="small"
-                            margin="normal"
-                            fullWidth
-                            defaultValue={values.phoneNumber ? values.phoneNumber : ''}/>
-                    </div>
-
-                    <div>
-                        <h2>Občiansky preukaz</h2>
-                        <DropzoneArea
-                            filesLimit="1"
-                            dropzoneText={"Prosím nahrajte fotku Vašeho občianskeho preukazu"}/>
-                    </div>
-
-                    <div> 
-                        <h2>Vodičský preukaz</h2>
-                        <DropzoneArea
-                            filesLimit="1"
-                            dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} />
-                    </div>
-                    <br />
-                    <Button onClick={this.continue} variant="contained" color="primary">Ďalej</Button>
-                </Container>
-            </MuiThemeProvider>
-        )
-    }
+                </div>
+            </Container>
+        </MuiThemeProvider>
+    )
 }
 
 export default FormPersonalDetails;

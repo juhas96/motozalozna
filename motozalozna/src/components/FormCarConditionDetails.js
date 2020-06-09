@@ -5,100 +5,100 @@ import Container from '@material-ui/core/Container';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import '../css/formPT.css'
+import '../css/uniform.css'
 
-export class FormCarConditionDetails extends Component {
-    continue = e => {
+const FormCarConditionDetails = (props) =>  {
+
+    const { values, handleChange } = props;
+
+    const continueNext = e => {
         e.preventDefault();
-        this.props.nextStep();
+        props.nextStep();
     }
 
-    back = e => {
+    const back = e => {
         e.preventDefault();
-        this.props.prevStep();
+        props.prevStep();
     }
-    
-    render() {
-        const { values, handleChange } = this.props;
 
-        return (
-            <MuiThemeProvider>
-                <Container maxWidth='md' style={{marginBottom: '2%'}}>
-                <div style={{textAlign: 'center', width: '100%' }}>
+    return (
+        <MuiThemeProvider>
+            <Container maxWidth='md' style={{marginBottom: '2%'}}>
+                <div>
+                <div className="categoryName">
                     <h1>Stav vozidla</h1>
-                    <h2>Má Vaše vozidlo tieto poškodenia?</h2>
                 </div>
-                    <div style={{display: 'block'}}>
+                    <div className="wrapper" style={{'textAlign': "center"}}>
+                        <div className="descriptionLabel">
+                            <h3>Má Vaše vozidlo tieto poškodenia?</h3>
+                        </div>
                         <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.poskodeny_lak} onChange={handleChange('poskodeny_lak')} />
-                                }
-                                label="Poškodený lak"
-                            />
-                        </FormControl>
 
-                        <br />
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.poskodeny_lak ? true : false} onChange={handleChange('poskodeny_lak')} />
+                                    }
+                                    label="Poškodený lak"
+                                />
+                            </div>
 
-                        <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.poskodena_karoseria} onChange={handleChange('poskodena_karoseria')} />
-                                }
-                                label="Poškodená karoséria"
-                            />
-                        </FormControl>
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.poskodena_karoseria ? true : false} onChange={handleChange('poskodena_karoseria')} />
+                                    }
+                                    label="Poškodená karoséria"
+                                />
+                            </div>
 
-                        <br />
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.poskodeny_interier ? true : false} onChange={handleChange('poskodeny_interier')} />
+                                    }
+                                    label="Poškodený interiér"
+                                />
+                            </div>
 
-                        <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.poskodeny_interier} onChange={handleChange('poskodeny_interier')} />
-                                }
-                                label="Poškodený interiér"
-                            />
-                        </FormControl>
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.opotrebena_naprava ? true : false} onChange={handleChange('opotrebena_naprava')} />
+                                    }
+                                    label="Opotrebená náprava"
+                                />
+                            </div>
 
-                        <br />
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.opotrebene_pneu ? true : false} onChange={handleChange('opotrebene_pneu')} />
+                                    }
+                                    label="Opotrebené pneumatiky"
+                                />
+                            </div>
 
-                        <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.opotrebena_naprava} onChange={handleChange('opotrebena_naprava')} />
-                                }
-                                label="Opotrebená náprava"
-                            />
-                        </FormControl>
+                            <div className="checker-2">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color="primary" checked={values.poskodene_sklo ? true : false} onChange={handleChange('poskodene_sklo')} />
+                                    }
+                                    label="Poškodené čelné sklo"
+                                />
+                            </div>
 
-                        <br />
-
-                        <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.opotrebene_pneu} onChange={handleChange('opotrebene_pneu')} />
-                                }
-                                label="Opotrebené pneumatiky"
-                            />
-                        </FormControl>
-
-                        <br />
-
-                        <FormControl>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox color="primary" checked={values.poskodene_sklo} onChange={handleChange('poskodene_sklo')} />
-                                }
-                                label="Poškodené čelné sklo"
-                            />
                         </FormControl>
                     </div>
-                    <br />
-                    <Button style={{marginRight: '10px'}} onClick={this.back} variant="contained" color="primary">Späť</Button>
-                    <Button onClick={this.continue} variant="contained" color="primary">Ďalej</Button>
-                </Container>
-            </MuiThemeProvider>
-        )
-    }
+                    <div className="customButton">
+                        <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
+                        <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
+                    </div>
+                </div>
+            </Container>
+        </MuiThemeProvider>
+    )
 }
 
 export default FormCarConditionDetails;

@@ -120,7 +120,7 @@ export class UserForm extends Component {
                 </Stepper>
 
                 <div>
-                    <Typography >{this.getStepContent(step, values)}</Typography>
+                    <Typography variant='inherit'>{this.getStepContent(step, values)}</Typography>
                 </div>
             </div>
         )

@@ -1,0 +1,20 @@
+.customButton {
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+
+.wrapper {
+    background-color: #F0F0F0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.divider {
+    background-color: white;
+    height: 10px;
+}
+
+.categoryName {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
