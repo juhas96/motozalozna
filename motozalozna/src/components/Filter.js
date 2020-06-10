@@ -11,6 +11,17 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	const marks = [
+        {
+            value: 0,
+            label: '0€',
+        },
+        {
+            value: max,
+            label: `${max}€`,
+        }
+    ];
   
 	function valueText(value) {
         return `${value}€`;
@@ -34,6 +45,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 					step={1}
 					min={0}
 					max={max}
+					marks={marks}
 					onChangeCommitted={(event, value) =>
 						handleChange("areaSpace")({ target: { value } })
 					}

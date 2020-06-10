@@ -21,17 +21,6 @@ const FormLoanDetails = (props) =>  {
 
     const { values, handleChange } = props;
 
-    const marks = [
-        {
-            value: 0,
-            label: '0€',
-        },
-        {
-            value: 10000,
-            label: '10000€',
-        }
-    ];
-
     useEffect(() => {
         setTimeout(function () {
             window.scroll({
