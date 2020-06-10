@@ -42,6 +42,12 @@
     max-width: 80%;
 }
 
+.customText {
+    width: 250px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
 .textField {
     max-width: 80%;
 }

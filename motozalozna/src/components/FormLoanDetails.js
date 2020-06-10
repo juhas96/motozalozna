@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -15,20 +15,12 @@ import { TextField } from '@material-ui/core';
 import '../css/formLoadDetails.css'
 import '../css/uniform.css'
 
-const FormLoanDetails = (props) =>  {
-    
-    // const continueNext = e => {
-    //     e.preventDefault();
-    //     props.nextStep();
-    // }
+import DiscreteSlider from './Filter'
 
-    const back = e => {
-        e.preventDefault();
-        props.prevStep();
-    }
-    
-    
+const FormLoanDetails = (props) =>  {
+
     const { values, handleChange } = props;
+
     const marks = [
         {
             value: 0,
@@ -40,8 +32,48 @@ const FormLoanDetails = (props) =>  {
         }
     ];
 
+    useEffect(() => {
+        setTimeout(function () {
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }, 25);
+    }, []) 
+
+     // const continueNext = e => {
+    //     e.preventDefault();
+    //     props.nextStep();
+    // }
+
+    const back = e => {
+        e.preventDefault();
+        props.prevStep();
+    }
+
     function valueText(value) {
+        if(value != loanValue) {
+            loanValue = value
+            document.getElementById('awesomeID').value = loanValue
+        }
+
         return `${value}€`;
+    }
+
+    var loanValue = 0
+
+    const handleInput = input => e => {
+
+        // console.log(e)
+
+        if(input == 'slider') {
+            loanValue = Number(e.target.ariaValueNow)
+            document.getElementById('awesomeID').value = loanValue
+        } else {
+            loanValue = Number(e.target.value)
+            document.getElementById("absolutelyMegaID").value = loanValue
+        }
     }
 
     return (
@@ -58,17 +90,18 @@ const FormLoanDetails = (props) =>  {
                                 {/* <Row className='d-flex justify-content-center holder'> */}
                                 <div className="holder">
                                     <div className="loanLenght">
+                                        <InputLabel style={{'marginRight': "10px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
                                         <FormControl style={{marginRight: '10px'}}>
-                                            <InputLabel id="dlzka_pozicky-label">Dĺžka pôžičky</InputLabel>
+                                            {/* <InputLabel style={{'height': "20px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel> */}
                                             <Select
                                                 style={{width: '25ch', "backgroundColor":"white"}}
                                                 labelId="dlzka_pozicky"
                                                 id="dlzka_pozicky"
                                                 onChange={handleChange('dlzka_pozicky')}
-                                                defaultValue={values.dlzka_pozicky ? values.dlzka_pozicky : 0}>
-                                                <MenuItem value={0}>1 Týždeň</MenuItem>
-                                                <MenuItem value={1}>2 Týždne</MenuItem>
-                                                <MenuItem value={2}>Mesiac</MenuItem>
+                                                defaultValue={values.dlzka_pozicky ? values.dlzka_pozicky : undefined}>
+                                                <MenuItem value={'1T'}>1 Týždeň</MenuItem>
+                                                <MenuItem value={'2T'}>2 Týždne</MenuItem>
+                                                <MenuItem value={'mesiac'}>Mesiac</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </div>
@@ -84,10 +117,10 @@ const FormLoanDetails = (props) =>  {
                                             />
                                         </FormControl>
                                     </div>
-                                    </div>
-                                    {/* </Row> */}
                                 </div>
+                                    {/* </Row> */}
                             </div>
+                        </div>
 
                             <div className="divider"></div>
 
@@ -98,36 +131,8 @@ const FormLoanDetails = (props) =>  {
                                     </Typography>
                                 </div>
 
-                                <Row className='d-flex justify-content-center'>
-                                    <div className="col-md-6 slider">
-                                        <Slider
-                                            defaultValue={0}
-                                            min={0}
-                                            max={10000}
-                                            getAriaValueText={valueText}
-                                            aria-labelledby="discrete-slider-custom"
-                                            step={1}
-                                            valueLabelDisplay="auto"
-                                            marks={marks}
-                                        />
-                                    </div>
-
-                                    <div style={{'width': "30px"}}></div>
-
-
-                                    <div className="col-md-4 textField">
-                                        <TextField
-                                            style={{'backgroundColor': "white"}}
-                                            label="Vyska Pozicky"
-                                            type="number"
-                                            // onChange={handleChange('vykon')}
-                                            size="small"
-                                            fullWidth
-                                        />
-                                    </div>
-                                </Row>
+                                 <DiscreteSlider values={values} handleChange={handleChange} max={10000}/>
                             </div>
-        
                         <div className="customButton">
                             <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
                             <Button variant="contained" color="primary">Potvrdiť</Button>

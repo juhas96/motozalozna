@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +17,16 @@ import '../css/uniform.css'
 const FormCarInfoDetails = (props) =>  {
 
     const { values, handleChange } = props;
+
+    useEffect(() => {
+        setTimeout(function () {
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }, 25);
+    }, []) 
 
     const continueNext = e => {
         e.preventDefault();
@@ -44,13 +54,14 @@ const FormCarInfoDetails = (props) =>  {
                                     <FormControl className="form">
                                         <InputLabel id="karoseria-label">Typ karosérie</InputLabel>
                                         <Select
+                                            required = {true}
                                             style={{width: '25ch'}}
                                             labelId="karoseria"
                                             id="karoseria"
                                             onChange={handleChange('karoseria')}
-                                            defaultValue={values.karoseria ? values.karoseria : 0}>
-                                            <MenuItem value={0}>Hachback / Sedan</MenuItem>
-                                            <MenuItem value={1}>Kombi</MenuItem>
+                                            defaultValue={values.karoseria ? values.karoseria : undefined}>
+                                            <MenuItem value={'Hachback/Sedan'}>Hachback / Sedan</MenuItem>
+                                            <MenuItem value={'Kombi'}>Kombi</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
@@ -59,13 +70,14 @@ const FormCarInfoDetails = (props) =>  {
                                     <FormControl className="form">
                                         <InputLabel id="palivo-label">Palivo</InputLabel>
                                         <Select
+                                            required = {true}
                                             style={{width: '25ch'}}
                                             labelId="palivo"
                                             id="palivo"
                                             onChange={handleChange('palivo')}
-                                            defaultValue={values.palivo ? values.palivo : 0}>
-                                            <MenuItem value={0}>Benzín</MenuItem>
-                                            <MenuItem value={1}>Nafta</MenuItem>
+                                            defaultValue={values.palivo ? values.palivo : undefined}>
+                                            <MenuItem value={'Benzín'}>Benzín</MenuItem>
+                                            <MenuItem value={'Nafta'}>Nafta</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
@@ -76,13 +88,14 @@ const FormCarInfoDetails = (props) =>  {
                                     <FormControl className="form">
                                         <InputLabel id="pohon-label">Typ pohonu</InputLabel>
                                         <Select
+                                            required = {true}
                                             style={{width: '25ch'}}
                                             labelId="pohon"
                                             id="pohon"
                                             onChange={handleChange('pohon')}
-                                            defaultValue={values.pohon ? values.pohon : 0}>
-                                            <MenuItem value={0}>Jednej nápravy</MenuItem>
-                                            <MenuItem value={1}>4x4</MenuItem>
+                                            defaultValue={values.pohon ? values.pohon : undefined}>
+                                            <MenuItem value={'JednejNápravy'}>Jednej nápravy</MenuItem>
+                                            <MenuItem value={'4x4'}>4x4</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
@@ -91,13 +104,14 @@ const FormCarInfoDetails = (props) =>  {
                                     <FormControl className="form">
                                         <InputLabel id="prevodovka-label">Prevodovka</InputLabel>
                                         <Select
+                                            required = {true}
                                             style={{width: '25ch'}}
                                             labelId="prevodovka"
                                             id="prevodovka"
                                             onChange={handleChange('prevodovka')}
-                                            defaultValue={values.prevodovka ? values.prevodovka : 0}>
-                                            <MenuItem value={0}>Manuálna</MenuItem>
-                                            <MenuItem value={1}>Automatická</MenuItem>
+                                            defaultValue={values.prevodovka ? values.prevodovka : undefined}>
+                                            <MenuItem value={'Manuálna'}>Manuálna</MenuItem>
+                                            <MenuItem value={'Automatická'}>Automatická</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
@@ -106,6 +120,7 @@ const FormCarInfoDetails = (props) =>  {
 
                         <div className="infoHolder">
                             <TextField
+                                required = {true}
                                 label="Vykon v KW"
                                 variant="outlined"
                                 className="textLabel"
@@ -117,6 +132,7 @@ const FormCarInfoDetails = (props) =>  {
                                 defaultValue={values.vykon ? values.vykon : 0}/>
 
                             <TextField
+                                required = {true}
                                 label="Vek vozidla v rokoch"
                                 variant="outlined"
                                 className="textLabel"
@@ -128,6 +144,7 @@ const FormCarInfoDetails = (props) =>  {
                                 defaultValue={values.vek ? values.vek : 0}/>
             
                             <TextField
+                                required = {true}
                                 label="Počet najazdených km"
                                 variant="outlined"
                                 className="textLabel"
@@ -139,6 +156,7 @@ const FormCarInfoDetails = (props) =>  {
                                 defaultValue={values.pocetkm ? values.pocetkm : 0}/>
 
                             <TextField
+                                required = {true}
                                 label="EČV vozidla"
                                 variant="outlined"
                                 className="textLabel"
@@ -157,6 +175,7 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="attachment">
                             <h3 className="definitionName">Poistenie vozidla</h3>
                             <DropzoneArea
+                                required = {true}
                                 filesLimit={1}
                                 dropzoneText={"Prosím nahrajte potvrdenie o poisteni Vašeho vozidla"}/>
                         </div>
@@ -164,6 +183,7 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="attachment">
                             <h3 className="definitionName">Fotky vozidla</h3>
                             <DropzoneArea
+                                required = {true}
                                 filesLimit={1}
                                 dropzoneText={"Prosím nahrajte fotky Vašeho vozidla"} />
                         </div>
