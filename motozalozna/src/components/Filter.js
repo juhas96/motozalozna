@@ -42,7 +42,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 					getAriaValueText={valueText}
 					valueLabelDisplay="auto"
 					aria-labelledby="input-slider"
-					step={1}
+					step={100}
 					min={0}
 					max={max}
 					marks={marks}

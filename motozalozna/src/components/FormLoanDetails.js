@@ -41,30 +41,6 @@ const FormLoanDetails = (props) =>  {
         props.prevStep();
     }
 
-    function valueText(value) {
-        if(value != loanValue) {
-            loanValue = value
-            document.getElementById('awesomeID').value = loanValue
-        }
-
-        return `${value}€`;
-    }
-
-    var loanValue = 0
-
-    const handleInput = input => e => {
-
-        // console.log(e)
-
-        if(input == 'slider') {
-            loanValue = Number(e.target.ariaValueNow)
-            document.getElementById('awesomeID').value = loanValue
-        } else {
-            loanValue = Number(e.target.value)
-            document.getElementById("absolutelyMegaID").value = loanValue
-        }
-    }
-
     return (
         <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
