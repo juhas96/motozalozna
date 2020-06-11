@@ -47,7 +47,7 @@ const FormCarInfoDetails = (props) =>  {
                         <h1>Údaje o vozidle</h1>
                     </div>
                     <div className="wrapper">
-                        <h3>Zákaldne informácie</h3>
+                        <h3>Základné informácie</h3>
                         <div className="controlForm">
                             <div className="row d-flex justify-content-center">
                                 <div className="col-md-offset-2 topCol">
