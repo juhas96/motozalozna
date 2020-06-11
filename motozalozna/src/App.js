@@ -1,19 +1,13 @@
 import React from 'react';
 import './App.css';
-import MainPage from './components/MainPage';
-import { StateMachineProvider, createStore } from "little-state-machine";
+import UserForm from './components/UserForm';
 
-createStore({
-  data: {}
-});
 
 function App() {
   return (
-    <StateMachineProvider>
       <div className="App">
-        <MainPage/>
+        <UserForm/>
       </div>
-    </StateMachineProvider>
   );
 }
 
