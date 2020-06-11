@@ -1,0 +1,36 @@
+name: Upload via FTP
+on:
+  pull_request:
+    branches: 
+      - master
+  push:
+    branches: 
+      - master
+      - feat/new-form
+jobs:
+  FTP-Action:
+    name: FTP-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Build Project
+      run: |
+        cd motozalozna
+        npm install
+        npm run build
+    - name: List output files
+      run: ls
+    
+    - name: Deploy FTP
+      uses: sebastianpopp/ftp-action@master
+      with:
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASS }}
+        localDir: "dist/main.js"
+        remoteDir: "/main.js"
