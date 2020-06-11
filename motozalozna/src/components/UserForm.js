@@ -20,24 +20,24 @@ export class UserForm extends Component {
         vykon: '',
         vek: '',
         ec: '',
-        pocetkm: '',
+        pocetkm: 0,
         firstName: '',
         lastName: '',
         email: '',
-        phoneNumber: '',
-        poskodeny_lak: '',
-        poskodena_karoseria: '',
-        poskodeny_interier: '',
-        opotrebena_naprava: '',
-        opotrebene_pneu: '',
-        poskodene_sklo: '',
-        leasing: '',
-        kluc: '',
-        notar: '',
-        blokacia: '',
+        phoneNumber: 0,
+        poskodeny_lak: false,
+        poskodena_karoseria: false,
+        poskodeny_interier: false,
+        opotrebena_naprava: false,
+        opotrebene_pneu: false,
+        poskodene_sklo: false,
+        leasing: false,
+        kluc: false,
+        notar: false,
+        blokacia: false,
         zalozne_pravo: '',
         dlzka_pozicky: '',
-        cena: ''
+        cena: 0,
     };
 
     // Proceed to next step
@@ -58,43 +58,52 @@ export class UserForm extends Component {
 
     // Handle input change
     handleChange = input => e => {
+      console.log(e.target.value)
         this.setState({ [input]: e.target.value || e.target.checked });
     }
 
+    // handleState = (name, data) => {
+    //   this.setState({
+    //     'cena': 'helo'
+    //   }, function() {
+    //     console.log(this.state)
+    //   })
+    // }
+
     getStepContent = (stepIndex, values) => {
-        switch (stepIndex) {
-          case 0:
-            return <FormPersonalDetails
-                        nextStep={this.nextStep}
-                        handleChange={this.handleChange}
-                        values={values}/>;
-          case 1:
-            return <FormCarInfoDetails
-                        nextStep={this.nextStep}
-                        prevStep={this.prevStep}
-                        handleChange={this.handleChange}
-                        values={values}/>;
-          case 2:
-            return <FormCarConditionDetails
-                        nextStep={this.nextStep}
-                        prevStep={this.prevStep}
-                        handleChange={this.handleChange}
-                        values={values}/>;
-          case 3:
-            return <FormPersonalTerms
-                        nextStep={this.nextStep}
-                        prevStep={this.prevStep}
-                        handleChange={this.handleChange}
-                        values={values}/>;
-          case 4:
-            return <FormLoanDetails
-                        prevStep={this.prevStep}
-                        handleChange={this.handleChange}
-                        values={values}/>;
-          default:
-            return 'Unknown stepIndex';
-        }
+      switch (stepIndex) {
+        case 0:
+          return <FormPersonalDetails
+                      nextStep={this.nextStep}
+                      handleChange={this.handleChange}
+                      values={values}/>;
+        case 1:
+          return <FormCarInfoDetails
+                      nextStep={this.nextStep}
+                      prevStep={this.prevStep}
+                      handleChange={this.handleChange}
+                      values={values}/>;
+        case 2:
+          return <FormCarConditionDetails
+                      nextStep={this.nextStep}
+                      prevStep={this.prevStep}
+                      handleChange={this.handleChange}
+                      values={values}/>;
+        case 3:
+          return <FormPersonalTerms
+                      nextStep={this.nextStep}
+                      prevStep={this.prevStep}
+                      handleChange={this.handleChange}
+                      values={values}/>;
+        case 4:
+          return <FormLoanDetails
+                      prevStep={this.prevStep}
+                      handleChange={this.handleChange}
+                      values={values}/>;
+        default:
+          return 'Unknown stepIndex';
       }
+    }
 
     render() {
         // const classes = useStyles();

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -12,9 +12,23 @@ const FormCarConditionDetails = (props) =>  {
 
     const { values, handleChange } = props;
 
+    useEffect(() => {
+        setTimeout(function () {
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }, 25);
+    }, []) 
+
     const continueNext = e => {
         e.preventDefault();
-        props.nextStep();
+
+        var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
+        skoda = skoda*300
+
+        props.nextStep()
     }
 
     const back = e => {

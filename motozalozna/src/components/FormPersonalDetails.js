@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
@@ -12,8 +12,25 @@ import '../css/uniform.css'
 
 const FormPersonalDetails = (props) =>  {
 
+    const { values, handleChange, parentCallback } = props;
+    var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
+    var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
+    var regexEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z]+[.]+[a-zA-Z]{2,3}?$/
+
+    useEffect(() => {
+        setTimeout(function () {
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+        }, 25);
+    }, []) 
+
     const continueNext = e => {
         e.preventDefault();
+        
         props.nextStep();
     }
 
@@ -21,8 +38,6 @@ const FormPersonalDetails = (props) =>  {
         e.preventDefault();
         props.prevStep();
     }
-    
-    const { values, handleChange } = props;
 
     return (
         <MuiThemeProvider>
@@ -41,9 +56,10 @@ const FormPersonalDetails = (props) =>  {
                                     variant="outlined"
                                     className="textLabel"
                                     type="text"
-                                    onChange={handleChange('firstName')}
+                                    // onChange={}
                                     size="small"
                                     margin="normal"
+                                    name="firstName"
                                     fullWidth
                                     defaultValue={values.firstName ? values.firstName : ''}
                                 />
