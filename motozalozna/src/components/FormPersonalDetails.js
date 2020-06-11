@@ -47,7 +47,7 @@ const FormPersonalDetails = (props) =>  {
                         <h1>Osobné údaje</h1>
                     </div>
                     <div className="wrapper">
-                        <h3>Zákaldne informácie</h3>
+                        <h3>Základné informácie</h3>
                             <div className="textHolders">
                                 <TextField
                                     pattern = "^[a-zA-Z-À-ž]+$"
