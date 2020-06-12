@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap'
 import { Select, MenuItem, InputLabel, FormControl, Container, Button, TextField } from '@material-ui/core/'
 import { Autocomplete } from '@material-ui/lab';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { findPrice, checkStolen } from '../service/CarPrice';
 import cars from '../cars.json'
 //FORM CSS
 import '../css/formCarInfoDetails.css'
@@ -55,12 +56,30 @@ const FormCarInfoDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-
         if(KWError + YOError + KMError + ECVError === 0 && auto && poistenie != 0 && fotky != 0) {
             handleState('vykon', kw); handleState('vek', yo)
             handleState('pocetkm', km); handleState('ec', ecv)
             handleState('auto', auto);
-            props.nextStep();
+
+            findPrice({
+                karoseria: props.values.karoseria,
+                palivo: props.values.palivo,
+                pohon: props.values.pohon,
+                prevodovka: props.values.prevodovka,
+                vykon: kw,
+                vek: yo,
+                pocetkm: km,
+                dovezene: 0,
+                auto: auto
+            }).then(res => {
+                props.handleState('cena', res.data)
+            }).catch(err => console.log(err));
+
+            checkStolen({
+                ecv: values.ec
+            }).then(res => console.log('HWLLOLOOO')).catch(err => console.log(err));
+
+            props.nextStep()
         }
     }
 

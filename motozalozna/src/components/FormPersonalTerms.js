@@ -1,7 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Checkbox, Box, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/';
-import { findPrice, checkStolen } from '../service/CarPrice';
 import '../css/formPT.css'
 import '../css/uniform.css'
 
@@ -23,35 +22,8 @@ const FormPersonalTerms = (props) => {
         e.preventDefault();
 
         if((values.leasing + values.notar + values.kluc + values.blokacia) == 4) {
-
-            //LOADING WILL BE ADDED
-
-            console.log(values.cena)
-
-            findPrice({
-                karoseria: props.values.karoseria,
-                palivo: props.values.palivo,
-                pohon: props.values.pohon,
-                prevodovka: props.values.prevodovka,
-                vykon: props.values.vykon,
-                vek: props.values.vek,
-                pocetkm: props.values.pocetkm,
-                dovezene: 0,
-                auto: 168
-            }).then(res => {
-                console.log('d', res.data)
-                var now = values.cena + res.data
-                props.handleState('cena', now)
-            }).catch(err => console.log(err));
-
-            checkStolen({
-                ecv: values.ec
-            }).then(res => res.data == 0 ? handleNext() : console.log('kradnute')).catch(err => console.log(err));
+            props.nextStep()
         }
-    }
-
-    function handleNext() {
-        props.nextStep()
     }
 
     const back = e => {

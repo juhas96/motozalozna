@@ -9,6 +9,7 @@ const FormCarConditionDetails = (props) =>  {
     const { values, handleChange } = props;
 
     useEffect(() => {
+        console.log(values)
         setTimeout(function () {
             window.scroll({
                 top: 0,
@@ -26,7 +27,13 @@ const FormCarConditionDetails = (props) =>  {
 
         var cena = values.cena - skoda
         props.handleState('cena', cena)
-        props.handleState('ec', 'KE823CR')
+
+        console.log('cenaaa', cena)
+
+        var maximum = ((cena / 100.0) * 40.0).toFixed(2)
+
+        console.log('maaax', maximum)
+        props.handleState('max', maximum)
 
         props.nextStep()
     }

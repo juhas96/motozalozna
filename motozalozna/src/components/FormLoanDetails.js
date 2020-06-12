@@ -14,11 +14,6 @@ const FormLoanDetails = (props) =>  {
 
     useEffect(() => {
 
-        var maximum = (values.cena / 100.0) * 40.0
-        console.log('m', maximum)
-        console.log('c', values.cena)
-        props.handleState('max', maximum)
-
         setTimeout(function () {
             window.scroll({
                 top: 0,
