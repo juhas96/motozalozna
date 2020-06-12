@@ -12,7 +12,7 @@ import FormLoanDetails from './FormLoanDetails';
 
 export class UserForm extends Component {
     state = {
-        step: 4,
+        step: 0,
         karoseria: '', 
         palivo: '',
         pohon: '',
