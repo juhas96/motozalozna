@@ -100,7 +100,7 @@ const FormLoanDetails = (props) =>  {
                                         </Typography>
                                     </div>
 
-                                    <DiscreteSlider values={values.cena} handleChange={handleState} max={values.max}/>
+                                    <DiscreteSlider values={values.max} handleChange={handleState} max={values.max}/>
 
                                 </div>
                             <div className="customButton">
