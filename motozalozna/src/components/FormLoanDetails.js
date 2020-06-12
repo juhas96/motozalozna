@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React,  { useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Button, Container, FormControl, FormControlLabel, Checkbox, InputLabel, MenuItem, Select, Typography } from '@material-ui/core/'
 import { Form } from 'react-bootstrap'
@@ -13,6 +13,12 @@ const FormLoanDetails = (props) =>  {
     const { values, handleChange, handleState } = props;
 
     useEffect(() => {
+
+        var maximum = (values.cena / 100.0) * 40.0
+        console.log('m', maximum)
+        console.log('c', values.cena)
+        props.handleState('max', maximum)
+
         setTimeout(function () {
             window.scroll({
                 top: 0,
@@ -94,7 +100,7 @@ const FormLoanDetails = (props) =>  {
                                         </Typography>
                                     </div>
 
-                                    <DiscreteSlider values={values} handleChange={handleState} max={10000}/>
+                                    <DiscreteSlider values={values.cena} handleChange={handleState} max={values.max}/>
 
                                 </div>
                             <div className="customButton">

@@ -49,7 +49,8 @@ export class UserForm extends Component {
       obcianskyFile: null,
       vodickyFile: null,
       poistenieFile: null,
-      vozidloFiles: [null]
+      vozidloFiles: [null],
+      max: null
     };
 
     this.handleState = this.handleState.bind(this)
@@ -138,11 +139,11 @@ export class UserForm extends Component {
         const { karoseria, palivo, pohon, prevodovka, vykon,
                 vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
                 poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto } = this.state;
+                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto };
+            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max };
 
         return (
             <div>

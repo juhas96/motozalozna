@@ -1,7 +1,8 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { TextField, Button, Container }  from '@material-ui/core/';
+import { Alert } from '@material-ui/lab'
 import { Form } from 'react-bootstrap'
 //FORM CSS
 import '../css/formPD.css'
@@ -47,7 +48,7 @@ const FormPersonalDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        if(emailError + numberError === 0 && ID != 0 && carLicense != 0) {
+        if(emailError + numberError === 0 && ID != 0 && carLicense != 0 && firstName && lastName) {
             handleState('firstName', firstName); handleState('lastName', lastName)
             handleState('email', email); handleState('phoneNumber', number)
             handleState('vodicskyFile', carLicense); handleState('obcianskyFile', ID)

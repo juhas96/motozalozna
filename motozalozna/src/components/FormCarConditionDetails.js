@@ -26,6 +26,7 @@ const FormCarConditionDetails = (props) =>  {
 
         var cena = values.cena - skoda
         props.handleState('cena', cena)
+        props.handleState('ec', 'KE823CR')
 
         props.nextStep()
     }

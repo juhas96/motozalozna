@@ -6,7 +6,7 @@ import '../css/formLoadDetails.css'
 import '../css/uniform.css'
 
 export default function DiscreteSlider({ values, handleChange, max }) {
-	const [value, setValue] = React.useState(values.cena);
+	const [value, setValue] = React.useState(values);
   
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
