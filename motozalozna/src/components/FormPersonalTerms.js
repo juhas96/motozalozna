@@ -1,10 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Checkbox, Box, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/';
 import { findPrice } from '../service/CarPrice';
 import '../css/formPT.css'
 import '../css/uniform.css'
@@ -25,7 +21,7 @@ const FormPersonalTerms = (props) => {
 
     const continueNext = e => {
         e.preventDefault();
-
+        
         if((values.leasing + values.notar + values.kluc + values.blokacia) == 4)
             props.nextStep();
 
@@ -40,6 +36,8 @@ const FormPersonalTerms = (props) => {
             dovezene: 0,
             auto: 168
         }).then(res => console.log('CENA VOZIDLA JE: ', res)).catch(err => console.log(err));
+
+        // props.handleState('cena', res.cena)
     }
 
     const back = e => {
@@ -61,7 +59,11 @@ const FormPersonalTerms = (props) => {
                                 control={
                                     <Checkbox color="primary" checked={values.leasing ? values.leasing : false} onChange={handleChange('leasing')} />
                                 }
-                                label="1. Potvrdzujem, že na vozidlo nie je žiadna ťarcha, leasing a iné záložné právo."
+                                label= {
+                                    <Box component="div" fontSize={20}>
+                                        1. Potvrdzujem, že na vozidlo nie je žiadna ťarcha, leasing a iné záložné právo.
+                                    </Box>
+                                }
                             />
                         </div>
 
@@ -70,7 +72,11 @@ const FormPersonalTerms = (props) => {
                                 control={
                                     <Checkbox color="primary" checked={values.blokacia ? values.blokacia : false} onChange={handleChange('blokacia')} />
                                 }
-                                label="2. Potvrdzujem, že na vozidlo nie je blokácia na dopravnom inšpektoráte alebo blokácia na daňovom úrade a exekútorskom úrade."
+                                label= {
+                                    <Box component="div" fontSize={20}>
+                                        2. Potvrdzujem, že na vozidlo nie je blokácia na dopravnom inšpektoráte alebo blokácia na daňovom úrade a exekútorskom úrade.
+                                    </Box>
+                                }
                             />
                         </div>
 
@@ -79,7 +85,11 @@ const FormPersonalTerms = (props) => {
                                 control={
                                     <Checkbox color="primary" checked={values.kluc ? values.kluc : false} onChange={handleChange('kluc')} />
                                 }
-                                label="3. Potvrdzujem, že vlastním druhý náhradný kľúč."
+                                label= {
+                                    <Box component="div" fontSize={20}>
+                                        3. Potvrdzujem, že vlastním druhý náhradný kľúč.
+                                    </Box>
+                                }
                             />
                         </div>
 
@@ -88,7 +98,11 @@ const FormPersonalTerms = (props) => {
                                 control={
                                     <Checkbox color="primary" checked={values.notar ? values.notar : false} onChange={handleChange('notar')} />
                                 }
-                                label="4. Potvrdzujem umožnenie plnej moci na zriadenie záložného práva na tlačive Motozáložne overenú notárom."
+                                label= {
+                                    <Box component="div" fontSize={20}>
+                                        4. Potvrdzujem umožnenie plnej moci na zriadenie záložného práva na tlačive Motozáložne overenú notárom.
+                                     </Box>
+                                }
                             />
                         </div>
 

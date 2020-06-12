@@ -9,36 +9,51 @@ import FormCarInfoDetails from './FormCarInfoDetails';
 import FormCarConditionDetails from './FormCarConditionDetails';
 import FormPersonalTerms from './FormPersonalTerms';
 import FormLoanDetails from './FormLoanDetails';
+import Summary from './Summary';
 
 export class UserForm extends Component {
-    state = {
-        step: 0,
-        karoseria: '', 
-        palivo: '',
-        pohon: '',
-        prevodovka: '',
-        vykon: '',
-        vek: '',
-        ec: '',
-        pocetkm: 0,
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: 0,
-        poskodeny_lak: false,
-        poskodena_karoseria: false,
-        poskodeny_interier: false,
-        opotrebena_naprava: false,
-        opotrebene_pneu: false,
-        poskodene_sklo: false,
-        leasing: false,
-        kluc: false,
-        notar: false,
-        blokacia: false,
-        zalozne_pravo: '',
-        dlzka_pozicky: '',
-        cena: 0,
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      step: 4,
+      karoseria: null, 
+      palivo: null,
+      pohon: null,
+      prevodovka: null,
+      vykon: null,
+      vek: null,
+      ec: '',
+      pocetkm: null,
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: null,
+      poskodeny_lak: false,
+      poskodena_karoseria: false,
+      poskodeny_interier: false,
+      opotrebena_naprava: false,
+      opotrebene_pneu: false,
+      poskodene_sklo: false,
+      leasing: false,
+      kluc: false,
+      notar: false,
+      blokacia: false,
+      zalozne_pravo: '',
+      dlzka_pozicky: null,
+      cena: null,
+      auto: null,
+      autoName: '',
+      max: null,
+      obcianskyFile: null,
+      vodickyFile: null,
+      poistenieFile: null,
+      vozidloFiles: [null]
     };
+
+    this.handleState = this.handleState.bind(this)
+  }
 
     // Proceed to next step
     nextStep = () => {
@@ -58,47 +73,58 @@ export class UserForm extends Component {
 
     // Handle input change
     handleChange = input => e => {
-      console.log(e.target.value)
+      console.log(e.target)
         this.setState({ [input]: e.target.value || e.target.checked });
+        console.log(this.state.vodickyFile)
     }
 
-    // handleState = (name, data) => {
-    //   this.setState({
-    //     'cena': 'helo'
-    //   }, function() {
-    //     console.log(this.state)
-    //   })
-    // }
+    handleState = (name, data) => {
+      this.setState({
+        [name]: data
+      }, function() {
+        console.log(this.state)
+      })
+    }
 
     getStepContent = (stepIndex, values) => {
       switch (stepIndex) {
         case 0:
           return <FormPersonalDetails
+                      handleState = {this.handleState}
                       nextStep={this.nextStep}
                       handleChange={this.handleChange}
                       values={values}/>;
         case 1:
           return <FormCarInfoDetails
+                      handleState = {this.handleState}
                       nextStep={this.nextStep}
                       prevStep={this.prevStep}
                       handleChange={this.handleChange}
                       values={values}/>;
         case 2:
           return <FormCarConditionDetails
+                      handleState = {this.handleState}
                       nextStep={this.nextStep}
                       prevStep={this.prevStep}
                       handleChange={this.handleChange}
                       values={values}/>;
         case 3:
           return <FormPersonalTerms
+                      handleState = {this.handleState}
                       nextStep={this.nextStep}
                       prevStep={this.prevStep}
                       handleChange={this.handleChange}
                       values={values}/>;
         case 4:
           return <FormLoanDetails
+                      handleState = {this.handleState}
+                      nextStep={this.nextStep}
                       prevStep={this.prevStep}
                       handleChange={this.handleChange}
+                      values={values}/>;
+        case 5:
+          return <Summary
+                      prevStep={this.prevStep}
                       values={values}/>;
         default:
           return 'Unknown stepIndex';
@@ -112,11 +138,11 @@ export class UserForm extends Component {
         const { karoseria, palivo, pohon, prevodovka, vykon,
                 vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
                 poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky } = this.state;
+                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky };
+            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto };
 
         return (
             <div>
@@ -151,7 +177,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   function getSteps() {
-    return ['Osobné údaje', 'Údaje o vozidle', 'Stav vozidla', 'Podmienky', 'Typ pôžičky'];
+    return ['Osobné údaje', 'Údaje o vozidle', 'Stav vozidla', 'Podmienky', 'Typ pôžičky', 'Suhrn'];
   }
   
 //   function getStepContent(stepIndex, values) {

@@ -8,3 +8,11 @@ export const findPrice = car => {
             return response;
         }).catch(err => console.warn(err));
 }
+
+export const checkStolen = car => {
+    return axios.post('http://localhost:5000/check_stolen', car)
+        .then(response => {
+            console.log(response);
+            return response;
+        }).catch(err => console.warn(err));
+}

@@ -9,6 +9,7 @@
 .textLabel {
     background-color: white;
     width: 600px;
+    font-size: 50;
     max-width: 80%
 }
 
