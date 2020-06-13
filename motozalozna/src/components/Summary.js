@@ -70,7 +70,7 @@ const Summary = (props) => {
                                     case 'prevodovka':
                                         value == 0 ? value = 'Manuálna' : value = 'Automatická'
                                         break;
-                                    case 'dlzka_pozicky':
+                                    case 'dlzka pozicky':
                                         if(value == 0)
                                             value = '1 Týždeň 9%'
                                         else if(value == 1)

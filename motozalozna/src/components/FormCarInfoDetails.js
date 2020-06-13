@@ -76,10 +76,8 @@ const FormCarInfoDetails = (props) =>  {
             }).catch(err => console.log(err));
 
             checkStolen({
-                ecv: values.ec
-            }).then(res => console.log('HWLLOLOOO')).catch(err => console.log(err));
-
-            props.nextStep()
+                ecv: ecv
+            }).then(res => res.data == 0 ? props.nextStep() : console.log('stolen')).catch(err => console.log(err));
         }
     }
 

@@ -18,6 +18,12 @@ export class UserForm extends Component {
 
     this.state = {
       step: 0,
+
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: null,
+
       karoseria: null, 
       palivo: null,
       pohon: null,
@@ -26,26 +32,27 @@ export class UserForm extends Component {
       vek: null,
       ec: '',
       pocetkm: null,
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: null,
+
       poskodeny_lak: false,
       poskodena_karoseria: false,
       poskodeny_interier: false,
       opotrebena_naprava: false,
       opotrebene_pneu: false,
       poskodene_sklo: false,
+
       leasing: false,
       kluc: false,
       notar: false,
       blokacia: false,
       zalozne_pravo: '',
+
       dlzka_pozicky: null,
       cena: null,
       auto: null,
       autoName: '',
-      max: null,
+      cenaPozicky: null,
+      vyslednaPozicka: null,
+
       obcianskyFile: null,
       vodicskyFile: null,
       poistenieFile: null,
@@ -138,14 +145,14 @@ export class UserForm extends Component {
         const { karoseria, palivo, pohon, prevodovka, vykon,
                 vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
                 poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max, obcianskyFile,
+                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, obcianskyFile,
                 vodicskyFile,
                 poistenieFile,
-                vozidloFiles } = this.state;
+                vozidloFiles, vyslednaPozicka } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max,vodicskyFile,
+            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, vodicskyFile,
             poistenieFile,
             vozidloFiles,obcianskyFile };
 
@@ -156,7 +163,7 @@ export class UserForm extends Component {
           {name: 'Stav Auta', values: {poskodeny_lak, poskodena_karoseria, poskodeny_interier,
             opotrebena_naprava, opotrebene_pneu, poskodene_sklo}},
           {name: 'Potvrdzujem', values: {leasing, kluc, notar, blokacia, zalozne_pravo}},
-          {name: 'Pozicka', values: {dlzka_pozicky, cena}}
+          {name: 'Pozicka', values: {dlzka_pozicky, cena, vyslednaPozicka}}
         ]
 
         return (

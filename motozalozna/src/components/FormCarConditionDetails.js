@@ -22,18 +22,19 @@ const FormCarConditionDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
+        var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
         skoda = skoda*300
+
 
         var cena = values.cena - skoda
         props.handleState('cena', cena)
 
         console.log('cenaaa', cena)
 
-        var maximum = ((cena / 100.0) * 40.0).toFixed(2)
+        var maximum = ((cena / 100.0) * 40.0).toFixed(0)
 
         console.log('maaax', maximum)
-        props.handleState('max', maximum)
+        props.handleState('cenaPozicky', maximum)
 
         props.nextStep()
     }

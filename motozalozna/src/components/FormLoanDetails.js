@@ -25,10 +25,6 @@ const FormLoanDetails = (props) =>  {
 
      const continueNext = e => {
 
-        // if(props.cena < 0 && props.cena > 1000) {
-
-        // }
-
         e.preventDefault();
         props.nextStep();
     }
@@ -52,6 +48,20 @@ const FormLoanDetails = (props) =>  {
                                     <h2>Chcete Vaše vozidlo používať počas záložného práva?</h2>
                                     {/* <Row className='d-flex justify-content-center holder'> */}
                                     <div className="holder">
+
+                                        <div className="confirmCol">
+                                                <label className="labelConfirm">Áno, chcem používať svoje vozidlo  - </label> 
+                                                <FormControl>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox color="primary" checked={values.zalozne_pravo ? values.zalozne_pravo : false} onChange={handleChange('zalozne_pravo')} />
+                                                        }
+                                                        label="Áno"
+                                                    />
+                                                </FormControl>
+                                            </div>
+                                        </div>
+
                                         <div className="loanLenght">
                                             <InputLabel style={{'marginRight': "10px", "fontSize": "18px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
                                             <FormControl style={{marginRight: '10px'}}>
@@ -69,19 +79,7 @@ const FormLoanDetails = (props) =>  {
                                                 </Select>
                                             </FormControl>
                                         </div>
-                                                
-                                        <div className="confirmCol">
-                                            <label className="labelConfirm">Potvrdzujem svoj záujem  - </label> 
-                                            <FormControl>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox color="primary" checked={values.zalozne_pravo ? values.zalozne_pravo : false} onChange={handleChange('zalozne_pravo')} />
-                                                    }
-                                                    label="Áno"
-                                                />
-                                            </FormControl>
-                                        </div>
-                                    </div>
+                                            
                                         {/* </Row> */}
                                 </div>
                             </div>
@@ -95,7 +93,7 @@ const FormLoanDetails = (props) =>  {
                                         </Typography>
                                     </div>
 
-                                    <DiscreteSlider values={values.max} handleChange={handleState} max={values.max}/>
+                                    <DiscreteSlider values={values.cenaPozicky} handleChange={handleState} max={values.cenaPozicky}/>
 
                                 </div>
                             <div className="customButton">
