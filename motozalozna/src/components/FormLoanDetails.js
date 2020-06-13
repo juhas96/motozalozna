@@ -63,7 +63,7 @@ const FormLoanDetails = (props) =>  {
                                         </div>
 
                                         <div className="loanLenght">
-                                            <InputLabel style={{'marginRight': "10px", "fontSize": "18px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
+                                            <InputLabel style={{'marginRight': "10px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
                                             <FormControl style={{marginRight: '10px'}}>
                                                 {/* <InputLabel style={{'height': "20px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel> */}
                                                 <Select
