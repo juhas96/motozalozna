@@ -33,7 +33,7 @@ const FormPersonalDetails = (props) =>  {
     const [ numberError, setNumberError ] = useState(false)
 
     useEffect(() => {
-        setFirstName(values.firstName); setLastName(values.lastName); setEmail(values.email); setNumber(values.phoneNumber)
+        setFirstName(values.firstName); setLastName(values.lastName); setEmail(values.email); setNumber(values.phoneNumber); setCarLicense(values.vodicskyFile); setID(values.obcianskyFile)
 
         setTimeout(function () {
             window.scroll({
@@ -66,11 +66,11 @@ const FormPersonalDetails = (props) =>  {
 
         switch(e.target.name) {
             case 'firstName': 
-                if(regexName.test(value) || e.target.value === "")
+                if((regexName.test(value) || e.target.value === ""))
                     setFirstName(value)
                 break;
             case 'lastName':
-                if(regexName.test(value) || value === "")
+                if((regexName.test(value) || value === ""))
                     setLastName(value)
                 break;
             case 'email':
@@ -93,10 +93,10 @@ const FormPersonalDetails = (props) =>  {
     }
 
     return (
-        <MuiThemeProvider>
+        // <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
-                    <Form onSubmit={continueNext}>
+                    {/* <Form onSubmit={continueNext}> */}
                         <div className="categoryName">
                             <h1>Osobné údaje</h1>
                         </div>
@@ -185,17 +185,18 @@ const FormPersonalDetails = (props) =>  {
                                     <DropzoneArea
                                         required = {true}
                                         filesLimit={1}
+                                        value = {carLicense}
                                         onChange={(files) => setCarLicense(files)}
                                         dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} />
                                 </div>
                             </div>
                         <div className="customButton">
-                            <Button type="submit" variant="contained" color="primary">Ďalej</Button>
+                            <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
                         </div>
-                    </Form>
+                    {/* </Form> */}
                 </div>
             </Container>
-        </MuiThemeProvider>
+        // </MuiThemeProvider>
     )
 }
 
