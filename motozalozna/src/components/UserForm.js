@@ -17,7 +17,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 4,
+      step: 0,
       karoseria: null, 
       palivo: null,
       pohon: null,
@@ -47,10 +47,9 @@ export class UserForm extends Component {
       autoName: '',
       max: null,
       obcianskyFile: null,
-      vodickyFile: null,
+      vodicskyFile: null,
       poistenieFile: null,
       vozidloFiles: [null],
-      max: null
     };
 
     this.handleState = this.handleState.bind(this)
@@ -87,7 +86,7 @@ export class UserForm extends Component {
       })
     }
 
-    getStepContent = (stepIndex, values) => {
+    getStepContent = (stepIndex, values, summaryValues) => {
       switch (stepIndex) {
         case 0:
           return <FormPersonalDetails
@@ -126,7 +125,7 @@ export class UserForm extends Component {
         case 5:
           return <Summary
                       prevStep={this.prevStep}
-                      values={values}/>;
+                      values={summaryValues}/>;
         default:
           return 'Unknown stepIndex';
       }
@@ -139,11 +138,26 @@ export class UserForm extends Component {
         const { karoseria, palivo, pohon, prevodovka, vykon,
                 vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
                 poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max } = this.state;
+                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max, obcianskyFile,
+                vodicskyFile,
+                poistenieFile,
+                vozidloFiles } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max };
+            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, max,vodicskyFile,
+            poistenieFile,
+            vozidloFiles,obcianskyFile };
+
+        const summaryValues = [
+          {name: 'Osobne Informacie', values: {firstName, lastName, email, phoneNumber}},
+          {name: 'Informacie o Aute', values: {karoseria, palivo, pohon, prevodovka, vykon,
+            vek, ec, pocetkm}},
+          {name: 'Stav Auta', values: {poskodeny_lak, poskodena_karoseria, poskodeny_interier,
+            opotrebena_naprava, opotrebene_pneu, poskodene_sklo}},
+          {name: 'Potvrdzujem', values: {leasing, kluc, notar, blokacia, zalozne_pravo}},
+          {name: 'Pozicka', values: {dlzka_pozicky, cena}}
+        ]
 
         return (
             <div>
@@ -156,7 +170,7 @@ export class UserForm extends Component {
                 </Stepper>
 
                 <div>
-                    <Typography variant='inherit'>{this.getStepContent(step, values)}</Typography>
+                    <Typography variant='inherit'>{this.getStepContent(step, values, summaryValues)}</Typography>
                 </div>
             </div>
         )
