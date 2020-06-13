@@ -72,7 +72,7 @@ const FormLoanDetails = (props) =>  {
                                                     labelId="dlzka_pozicky"
                                                     id="dlzka_pozicky"
                                                     onChange={handleChange('dlzka_pozicky')}
-                                                    defaultValue={values.dlzka_pozicky ? values.dlzka_pozicky : undefined}>
+                                                    defaultValue={values.dlzka_pozicky ?? undefined}>
                                                     <MenuItem value={0}>1 Týždeň</MenuItem>
                                                     <MenuItem value={1}>2 Týždne</MenuItem>
                                                     <MenuItem value={2}>Mesiac</MenuItem>

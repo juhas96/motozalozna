@@ -49,6 +49,7 @@ export class UserForm extends Component {
       dlzka_pozicky: null,
       cena: null,
       auto: null,
+      autoIndex: null,
       autoName: '',
       cenaPozicky: null,
       vyslednaPozicka: null,
@@ -148,13 +149,15 @@ export class UserForm extends Component {
                 opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, obcianskyFile,
                 vodicskyFile,
                 poistenieFile,
+                autoIndex,
                 vozidloFiles, vyslednaPozicka } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
+            autoIndex,
             opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, vodicskyFile,
             poistenieFile,
-            vozidloFiles,obcianskyFile };
+            vozidloFiles,obcianskyFile, vyslednaPozicka };
 
         const summaryValues = [
           {name: 'Osobne Informacie', values: {firstName, lastName, email, phoneNumber}},

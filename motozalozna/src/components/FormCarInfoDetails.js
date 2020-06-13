@@ -14,7 +14,7 @@ import '../css/uniform.css'
 
 const FormCarInfoDetails = (props) =>  {
 
-    const { values, handleChange, handleState } = props;
+    const { values, handleState } = props;
     const number = 200
 
     var regexECV = /^([A-Z]{2}[0-9]{3}[A-Z]{2})+$/
@@ -28,7 +28,6 @@ const FormCarInfoDetails = (props) =>  {
     const [ auto, setAuto ] = useState()
     const [ poistenie, setPoistenie ] = useState()
     const [ fotky, setFotky ] = useState()
-    // const [ index, setIndex ] = useState()
 
     const [ KWError, setKWError ] = useState(false)
     const [ YOError, setYOError ] = useState(false)
@@ -40,8 +39,6 @@ const FormCarInfoDetails = (props) =>  {
         setYo(values.vek)
         setKm(values.pocetkm)
         setEcv(values.ec)
-
-        console.log(values)
 
         setTimeout(function () {
             window.scroll({
@@ -60,6 +57,13 @@ const FormCarInfoDetails = (props) =>  {
             handleState('vykon', kw); handleState('vek', yo)
             handleState('pocetkm', km); handleState('ec', ecv)
             handleState('auto', auto);
+
+            cars.map((value, index) => {
+                if(value.key == auto) {
+                    handleState('autoIndex', index)
+                    return;
+                }
+            })
 
             findPrice({
                 karoseria: props.values.karoseria,
@@ -121,14 +125,10 @@ const FormCarInfoDetails = (props) =>  {
         }
     }
 
-    // function handleValue() {
-    //     cars.map((value, index) => {
-    //         if(value.key == values.auto) {
-    //             setIndex(index)
-    //             return;
-    //         }
-    //     })
-    // }
+    function handleCar(value) {
+        if(value != undefined)
+            setAuto(value.key)
+    }
     
     return (
         <MuiThemeProvider>
@@ -214,17 +214,16 @@ const FormCarInfoDetails = (props) =>  {
                                 <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto">Vyberte si z {number} aut</InputLabel>
                                 <Autocomplete
                                     id="auto"
-                                    onChange={(e, value) => { setAuto(value.key) }}
+                                    onChange={(e, value) => { handleCar(value) }}
                                     style={{maxWidth: 300}}
+                                    defaultValue = {cars[values.autoIndex]}
                                     className="autoComplete"
                                     options={cars}
-                      
                                     getOptionLabel={(option) => option.model}
                                     renderInput={(params) => <TextField {...params} label={"Auto"} variant="outlined" />}
                                     />
 
                                 <TextField
-                                    inputProps={{style: {fontSize: 22.0}}}
                                     required = {true}
                                     name = "KW"
                                     label="Vykon v KW"
@@ -236,10 +235,9 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vykon ? values.vykon : undefined}/>
+                                    defaultValue={values.vykon ?? undefined}/>
 
                                 <TextField
-                                    inputProps={{style: {fontSize: 22.0}}}
                                     required = {true}
                                     name = "YO"
                                     label="Vek vozidla v rokoch"
@@ -251,10 +249,9 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vek ? values.vek : undefined}/>
+                                    defaultValue={values.vek ?? undefined}/>
                 
                                 <TextField
-                                    inputProps={{style: {fontSize: 22.0}}}
                                     required = {true}
                                     name = "KM"
                                     label="Počet najazdených km"
@@ -266,10 +263,9 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.pocetkm ? values.pocetkm : undefined}/>
+                                    defaultValue={values.pocetkm ?? undefined}/>
 
                                 <TextField
-                                    inputProps={{style: {fontSize: 22.0}}}
                                     required = {true}
                                     name = "ECV"
                                     label="EČV vozidla"
@@ -281,7 +277,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.ec ? values.ec : undefined}/>
+                                    defaultValue={values.ec ?? undefined}/>
                             </div>
                         </div>
 
@@ -291,6 +287,7 @@ const FormCarInfoDetails = (props) =>  {
                             <div className="attachment">
                                 <h2 className="definitionName">Poistenie vozidla</h2>
                                 <DropzoneArea
+                                    // initialFiles={[values.vodicskyFile.name]}
                                     required = {true}
                                     filesLimit={1}
                                     onChange={(files) => setPoistenie(files)}

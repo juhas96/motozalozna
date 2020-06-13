@@ -56,7 +56,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 			</div>
 
 			<div className="col-md-4 slider">
-				<InputLabel style={{"fontSize": "18px"}}>Výška pôžičky</InputLabel>
+				<InputLabel>Výška pôžičky</InputLabel>
 				<TextField
 					className="customText"
 					value={value}
@@ -67,7 +67,6 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 						max: max,
 						type: "number",
 						"aria-labelledby": "input-slider",
-						style: {fontSize: 22.0}
 					}}
 				/>
 			</div>

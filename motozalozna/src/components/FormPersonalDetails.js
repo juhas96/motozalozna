@@ -96,7 +96,7 @@ const FormPersonalDetails = (props) =>  {
         // <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
-                    {/* <Form onSubmit={continueNext}> */}
+                    <Form onSubmit={continueNext}>
                         <div className="categoryName">
                             <h1>Osobné údaje</h1>
                         </div>
@@ -105,7 +105,6 @@ const FormPersonalDetails = (props) =>  {
                                 <div className="textHolders">
                                     <TextField
                                         required={true}
-                                        inputProps={{style: {fontSize: 22.0}}}
                                         label="Meno"
                                         variant="outlined"
                                         className="textLabel"
@@ -116,12 +115,11 @@ const FormPersonalDetails = (props) =>  {
                                         name="firstName"
                                         id="firstName"
                                         fullWidth
-                                        defaultValue={values.firstName}
+                                        defaultValue={values.firstName ?? ''}
                                     />
 
                                     <TextField
                                         required={true}
-                                        inputProps={{style: {fontSize: 22.0}}}
                                         label="Priezvisko"
                                         variant="outlined"
                                         className="textLabel"
@@ -131,12 +129,11 @@ const FormPersonalDetails = (props) =>  {
                                         margin="normal"
                                         name="lastName"
                                         fullWidth
-                                        defaultValue={values.lastName ? values.lastName : ''}
+                                        defaultValue={values.lastName ?? ''}
                                     />
 
                                     <TextField
                                         required={true}
-                                        inputProps={{style: {fontSize: 22.0}}}
                                         label="Email"
                                         variant="outlined"
                                         className="textLabel"
@@ -147,12 +144,11 @@ const FormPersonalDetails = (props) =>  {
                                         margin="normal"
                                         name="email"
                                         fullWidth
-                                        defaultValue={values.email ? values.email : ''}
+                                        defaultValue={values.email ?? ''}
                                     />
 
                                     <TextField
                                         required={true}
-                                        inputProps={{style: {fontSize: 22.0}}}
                                         label="Tel. číslo"
                                         variant="outlined"
                                         className="textLabel"
@@ -163,7 +159,7 @@ const FormPersonalDetails = (props) =>  {
                                         size="small"
                                         margin="normal"
                                         fullWidth
-                                        defaultValue={values.phoneNumber ? values.phoneNumber : ''}
+                                        defaultValue={values.phoneNumber ?? ''}
                                     />
                                 </div>
                             </div>
@@ -173,7 +169,7 @@ const FormPersonalDetails = (props) =>  {
                             <div className="wrapper">
                                 <div className="attachment">
                                     <h2 className="definitionName">Občiansky preukaz</h2>
-                                    <DropzoneArea
+                                    <DropzoneArea  
                                         required = {true}
                                         filesLimit={1}
                                         onChange={(files) => setID(files)}
@@ -191,9 +187,9 @@ const FormPersonalDetails = (props) =>  {
                                 </div>
                             </div>
                         <div className="customButton">
-                            <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
+                            <Button type="submit" variant="contained" color="primary">Ďalej</Button>
                         </div>
-                    {/* </Form> */}
+                    </Form>
                 </div>
             </Container>
         // </MuiThemeProvider>
