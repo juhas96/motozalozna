@@ -284,7 +284,7 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="divider"></div>
 
                         <div className="wrapper">
-                            <div className="attachment">
+                            <div>
                                 <h2 className="definitionName">Poistenie vozidla</h2>
                                 <DropzoneArea
                                     // initialFiles={[values.vodicskyFile.name]}
