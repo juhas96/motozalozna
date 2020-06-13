@@ -49,8 +49,8 @@ const FormPersonalDetails = (props) =>  {
         e.preventDefault();
 
         if(emailError + numberError === 0 && ID != 0 && carLicense != 0 && firstName && lastName) {
-            handleState('firstName', firstName); handleState('lastName', lastName)
-            handleState('email', email); handleState('phoneNumber', number)
+            handleState('krstne_meno', firstName); handleState('priezvisko', lastName)
+            handleState('email', email); handleState('telefonne_cislo', number)
             handleState('vodicskyFile', carLicense); handleState('obcianskyFile', ID)
             props.nextStep();
         }

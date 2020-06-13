@@ -10,7 +10,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
   
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
-		handleChange('vyslednaPozicka', newValue)
+		handleChange('vysledna_pozicka', newValue)
 	};
 
 	const marks = [
@@ -29,7 +29,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 	}
 	
 	const handleInputChange = event => {
-		handleChange('vyslednaPozicka', Number(event.target.value))
+		handleChange('vysledna_pozicka', Number(event.target.value))
 		setValue(event.target.value === "" ? "" : Number(event.target.value));
 
 	};

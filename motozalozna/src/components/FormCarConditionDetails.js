@@ -32,7 +32,7 @@ const FormCarConditionDetails = (props) =>  {
         var maximum = ((cena / 100.0) * 40.0).toFixed(0)
 
         props.handleState('cenaPozicky', maximum)
-        props.handleState('vyslednaPozicka', maximum)
+        props.handleState('vysledna_pozicka', maximum)
 
         props.nextStep()
     }

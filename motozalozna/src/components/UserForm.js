@@ -19,10 +19,10 @@ export class UserForm extends Component {
     this.state = {
       step: 0,
 
-      firstName: '',
-      lastName: '',
+      krstne_meno: '',
+      priezvisko: '',
       email: '',
-      phoneNumber: null,
+      telefonne_cislo: null,
 
       karoseria: null, 
       palivo: null,
@@ -52,7 +52,7 @@ export class UserForm extends Component {
       autoIndex: null,
       autoName: '',
       cenaPozicky: null,
-      vyslednaPozicka: null,
+      vysledna_pozicka: null,
 
       obcianskyFile: null,
       vodicskyFile: null,
@@ -144,29 +144,29 @@ export class UserForm extends Component {
         const steps = getSteps();
         const { step } = this.state;
         const { karoseria, palivo, pohon, prevodovka, vykon,
-                vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
+                vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
                 poskodeny_lak, poskodena_karoseria, poskodeny_interier,
                 opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, obcianskyFile,
                 vodicskyFile,
                 poistenieFile,
                 autoIndex,
-                vozidloFiles, vyslednaPozicka } = this.state;
+                vozidloFiles, vysledna_pozicka } = this.state;
         const values = { karoseria, palivo, pohon, prevodovka, vykon,
-            vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
+            vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
             poskodeny_lak, poskodena_karoseria, poskodeny_interier,
             autoIndex,
             opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, vodicskyFile,
             poistenieFile,
-            vozidloFiles,obcianskyFile, vyslednaPozicka };
+            vozidloFiles,obcianskyFile, vysledna_pozicka };
 
         const summaryValues = [
-          {name: 'Osobne Informacie', values: {firstName, lastName, email, phoneNumber}},
+          {name: 'Osobne Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
           {name: 'Informacie o Aute', values: {karoseria, palivo, pohon, prevodovka, vykon,
             vek, ec, pocetkm}},
           {name: 'Stav Auta', values: {poskodeny_lak, poskodena_karoseria, poskodeny_interier,
             opotrebena_naprava, opotrebene_pneu, poskodene_sklo}},
           {name: 'Potvrdzujem', values: {leasing, kluc, notar, blokacia, zalozne_pravo}},
-          {name: 'Pozicka', values: {dlzka_pozicky, cena, vyslednaPozicka}}
+          {name: 'Pozicka', values: {dlzka_pozicky, cena, vysledna_pozicka}}
         ]
 
         return (

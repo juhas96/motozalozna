@@ -9,15 +9,8 @@ import '../css/uniform.css'
 const Summary = (props) => {
     
     const { values } = props;
-    
-    var valueRate = []
 
     useEffect(() => {
-
-        // console.log(values)
-        // Object.entries(values).map( ([key, value]) =>  valueRate.push({[key]: value}))
-
-        // console.log(valueRate)
 
         setTimeout(function () {
             window.scroll({
@@ -39,6 +32,10 @@ const Summary = (props) => {
         props.prevStep();
     }
 
+    String.prototype.Capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
     const getValues = () => { 
 
         return(
@@ -48,6 +45,8 @@ const Summary = (props) => {
                        <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
                        {
                             Object.entries(e.values).map( ([key, value]) =>  {
+
+                                key = key.Capitalize()
 
                                 if(key.includes('_'))
                                 key = key.replace('_', " ")
