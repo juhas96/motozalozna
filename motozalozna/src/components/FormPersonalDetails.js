@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { DropzoneArea } from 'material-ui-dropzone';
 import { TextField, Button, Container }  from '@material-ui/core/';
-import { Alert } from '@material-ui/lab'
 import { Form } from 'react-bootstrap'
 //FORM CSS
 import '../css/formPD.css'
@@ -12,7 +10,7 @@ import '../css/uniform.css'
 
 const FormPersonalDetails = (props) =>  {
 
-    const { values, handleChange, handleState, handleFiles } = props;
+    const { values, handleState, handleFiles } = props;
 
     var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
     var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/

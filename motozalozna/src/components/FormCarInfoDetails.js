@@ -1,9 +1,8 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Form } from 'react-bootstrap'
 import { Select, MenuItem, InputLabel, FormControl, Container, Button, TextField, CircularProgress, Fade } from '@material-ui/core/'
 import { Autocomplete } from '@material-ui/lab';
-import { DropzoneArea } from 'material-ui-dropzone';
 import { findPrice, checkStolen } from '../service/CarPrice';
 import cars from '../cars.json'
 //FORM CSS
@@ -41,9 +40,9 @@ const FormCarInfoDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        // setLoading(true)
-
         if(KWError + YOError + KMError + ECVError === 0 && values.auto && values.vozidloFiles && values.poistenieFile) {
+            
+            setLoading(true)
 
             cars.map((value, index) => {
                 if(value.key == values.auto) {
@@ -51,8 +50,6 @@ const FormCarInfoDetails = (props) =>  {
                     return;
                 }
             })
-
-            console.log(values)
 
             findPrice({
                 karoseria: props.values.karoseria,
@@ -120,15 +117,38 @@ const FormCarInfoDetails = (props) =>  {
     }
 
     function handleVozidlo(e) {
-        if(values.vozidloFiles) {
+        if(values.vozidloFiles && e.target.files.length == 1)
             handlePushLast(e.target.files[0])
-        } else {
+        else if(values.vozidloFiles)
+            handlePushLast(e.target.files)
+        else
             handleState('vozidloFiles', e.target.files)
-        }
+    }
+
+    const styleButtons = () => {
+        if(!loading) 
+            return (
+                <div className="customButton">
+                    <div>
+                        <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
+                        <Button type="submit" variant="contained" color="primary">Ďalej</Button>
+                    </div>
+                </div> 
+            )
+
+        return (
+            <div className="customButton">
+                <div>
+                    <Fade in={loading}>
+                        <CircularProgress />
+                    </Fade>
+                </div>
+            </div>
+        )
     }
     
     return (
-        <MuiThemeProvider>
+        // <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
                     <Form onSubmit={continueNext} id='form'>
@@ -312,20 +332,24 @@ const FormCarInfoDetails = (props) =>  {
                             </div>
                         </div>
 
-                        <div className="customButton">
-                            <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                            <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
-                        </div>
+                        {styleButtons()}
+
+                        {/* <div className="customButton">
+                            <div>
+                                <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
+                                <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
+                            </div>
+                            {/* { loading ? 
+                             <Fade
+                                 in={loading}>
+                                     <CircularProgress />
+                                 </Fade>: null
+                            } 
+                        </div> */}
                     </Form>
                 </div>
-                {/* <div style={{top: '0px',bottom: '0px',left: '0px',right: '0px', width: '100%',}}>
-                    <Fade
-                    in={loading}>
-                        <CircularProgress />
-                    </Fade>
-                </div> */}
             </Container>
-        </MuiThemeProvider>
+        //</MuiThemeProvider> 
     )
 }
 

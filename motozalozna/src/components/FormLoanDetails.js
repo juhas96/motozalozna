@@ -24,7 +24,6 @@ const FormLoanDetails = (props) =>  {
     }, []) 
 
      const continueNext = e => {
-
         e.preventDefault();
         props.nextStep();
     }
@@ -54,7 +53,7 @@ const FormLoanDetails = (props) =>  {
                                                 <FormControl>
                                                     <FormControlLabel
                                                         control={
-                                                            <Checkbox color="primary" checked={values.zalozne_pravo ? values.zalozne_pravo : false} onChange={handleChange('zalozne_pravo')} />
+                                                            <Checkbox color="primary" checked={values.zalozne_pravo ?? false} onChange={handleChange('zalozne_pravo')} />
                                                         }
                                                         label="Áno"
                                                     />

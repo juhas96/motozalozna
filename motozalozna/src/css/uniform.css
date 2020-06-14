@@ -24,9 +24,12 @@
     padding-left: 15px;
     padding-right: 15px;
     margin-top: 10px;
+    border: '1px solid red';
     border-radius: 5px;
-    border-width: 3px;
     background-color: white;
+    border-radius: 5px;
+    border: solid rgb(216, 216, 216);
+    border-width: 1px;
 }
 
 .fileLabel {

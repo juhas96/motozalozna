@@ -57,19 +57,19 @@ const Summary = (props) => {
                                     value = 'Nie'
                     
                                 switch (key) {
-                                    case 'karoseria':
+                                    case 'Karoseria':
                                         value == 0 ? value = 'Hatchbag / Sedan' : value = 'Kombi'
                                         break;
-                                    case 'palivo':
+                                    case 'Palivo':
                                         value == 0 ? value = 'Benzín' : value = 'Nafta'
                                         break;
-                                    case 'pohon':
+                                    case 'Pohon':
                                         value == 0 ? value = 'Jednej nápravy' : value = '4x4'
                                         break;
-                                    case 'prevodovka':
+                                    case 'Prevodovka':
                                         value == 0 ? value = 'Manuálna' : value = 'Automatická'
                                         break;
-                                    case 'dlzka pozicky':
+                                    case 'Dlzka pozicky':
                                         if(value == 0)
                                             value = '1 Týždeň 9%'
                                         else if(value == 1)
@@ -81,13 +81,13 @@ const Summary = (props) => {
                                 }
 
                                 return(
-                                <div style={{margin: "auto"}}>
-                                    <ul class="list-group" style={{width: "500px"}}>
-                                    <li class="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
-                                    </ul>
-                                </div>
+                                    <div style={{margin: "auto"}}>
+                                        <ul class="list-group" style={{width: "500px"}}>
+                                        <li class="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
+                                        </ul>
+                                    </div>
                                 )
-                        })
+                            })
                        }
                    </div>
                 )

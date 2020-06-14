@@ -10,6 +10,7 @@ import FormCarConditionDetails from './FormCarConditionDetails';
 import FormPersonalTerms from './FormPersonalTerms';
 import FormLoanDetails from './FormLoanDetails';
 import Summary from './Summary';
+import { Row } from 'react-bootstrap'
 
 import '../css/uniform.css'
 
@@ -19,7 +20,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 1,
+      step: 0,
 
       krstne_meno: '',
       priezvisko: '',
@@ -83,12 +84,20 @@ export class UserForm extends Component {
 
     // Handle input change
     handleChange = input => e => {
-      console.log(e.target)
-        this.setState({ [input]: e.target.value || e.target.checked });
-        console.log(this.state.vodickyFile)
+      this.setState({ [input]: e.target.value || e.target.checked });
     }
 
     handlePushLast = (value) => {
+      if(Object.entries(value).length > 0) {
+        Object.entries(value).map(e => {
+          if(e[1].name) {
+            this.setState(prevState => ({
+              vozidloFiles: [...prevState.vozidloFiles, e[1]]
+            }))
+          }
+        })
+      }
+     
       this.setState(prevState => ({
         vozidloFiles: [...prevState.vozidloFiles, value]
       }))
@@ -98,7 +107,6 @@ export class UserForm extends Component {
       await this.setState({
         [name]: data
       }, function() {
-        console.log(this.state)
       })
     }
 
@@ -109,9 +117,19 @@ export class UserForm extends Component {
             {
               Object.entries(type).map((e, inx) => {
                 return (
-                  <div className="fileShow">
-                    <label>{e[1].name}</label>
-                    <Button onClick={this.handleDelete.bind(this, e[1], typeName)}>Delete</Button>
+                  <div>
+                    { e[1].name ? 
+                      <div className="fileShow">
+                        <Row>
+                          <div class="col-sm-9 col-md-9">
+                            <Typography>{e[1].name}</Typography>
+                          </div>
+                          <div class="col-sm-3 col-md-3">
+                            <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, e[1], typeName)}>Delete</Button>
+                          </div>
+                        </Row>
+                      </div>: <div> </div>
+                    }
                   </div>
                 )
               })
@@ -120,18 +138,24 @@ export class UserForm extends Component {
         )
       else
         return(
-            <div>{
-              type ? <div className="fileShow"> 
-
-              {type.name ? 
-                <div>
-                  <label>{type.name}</label>
-                  <Button onClick={this.handleDelete.bind(this, type, typeName)}>Delete</Button> 
-                </div> :<div> </div>
+            <div>
+              {
+                type ? <div> 
+                { type.name ? 
+                  <div className="fileShow">
+                    <Row>
+                      <div class="col-sm-9 col-md-9">
+                        <Typography style={{'marginTop': "5px"}}>{type.name}</Typography>
+                      </div>
+                      <div class="col-sm-3 col-md-3">
+                        <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, type, typeName)}>Delete</Button> 
+                      </div>
+                    </Row>
+                  </div> : <div> </div>
+                }
+                  </div> : <div> </div> 
               }
-                </div> : <div> </div> 
-
-            }</div>
+            </div>
         )
   }
 
@@ -223,7 +247,7 @@ export class UserForm extends Component {
           autoIndex,
           opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, vodicskyFile,
           poistenieFile,
-          vozidloFiles,obcianskyFile, vysledna_pozicka };
+          vozidloFiles, obcianskyFile, vysledna_pozicka };
 
       const summaryValues = [
         {name: 'Osobne Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
