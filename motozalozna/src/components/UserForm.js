@@ -19,7 +19,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 0,
+      step: 1,
 
       krstne_meno: '',
       priezvisko: '',
