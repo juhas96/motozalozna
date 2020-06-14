@@ -46,7 +46,7 @@ const FormPersonalTerms = (props) => {
                                     <Checkbox color="primary" checked={values.leasing ? values.leasing : false} onChange={handleChange('leasing')} />
                                 }
                                 label= {
-                                    <Box component="div" fontSize={20}>
+                                    <Box component="div">
                                         1. Potvrdzujem, že na vozidlo nie je žiadna ťarcha, leasing a iné záložné právo.
                                     </Box>
                                 }
@@ -59,7 +59,7 @@ const FormPersonalTerms = (props) => {
                                     <Checkbox color="primary" checked={values.blokacia ? values.blokacia : false} onChange={handleChange('blokacia')} />
                                 }
                                 label= {
-                                    <Box component="div" fontSize={20}>
+                                    <Box component="div">
                                         2. Potvrdzujem, že na vozidlo nie je blokácia na dopravnom inšpektoráte alebo blokácia na daňovom úrade a exekútorskom úrade.
                                     </Box>
                                 }
@@ -72,7 +72,7 @@ const FormPersonalTerms = (props) => {
                                     <Checkbox color="primary" checked={values.kluc ? values.kluc : false} onChange={handleChange('kluc')} />
                                 }
                                 label= {
-                                    <Box component="div" fontSize={20}>
+                                    <Box component="div">
                                         3. Potvrdzujem, že vlastním druhý náhradný kľúč.
                                     </Box>
                                 }
@@ -85,7 +85,7 @@ const FormPersonalTerms = (props) => {
                                     <Checkbox color="primary" checked={values.notar ? values.notar : false} onChange={handleChange('notar')} />
                                 }
                                 label= {
-                                    <Box component="div" fontSize={20}>
+                                    <Box component="div">
                                         4. Potvrdzujem umožnenie plnej moci na zriadenie záložného práva na tlačive Motozáložne overenú notárom.
                                      </Box>
                                 }

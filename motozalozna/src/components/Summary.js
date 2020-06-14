@@ -9,15 +9,8 @@ import '../css/uniform.css'
 const Summary = (props) => {
     
     const { values } = props;
-    
-    var valueRate = []
 
     useEffect(() => {
-
-        // console.log(values)
-        // Object.entries(values).map( ([key, value]) =>  valueRate.push({[key]: value}))
-
-        // console.log(valueRate)
 
         setTimeout(function () {
             window.scroll({
@@ -39,55 +32,66 @@ const Summary = (props) => {
         props.prevStep();
     }
 
+    String.prototype.Capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
     const getValues = () => { 
 
-        Object.entries(values).map( ([key, value]) =>  {
-            if(key.includes('_'))
-                key = key.replace('_', " ")
+        return(
+            values.map((e) => {
+                return(
+                   <div>
+                       <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
+                       {
+                            Object.entries(e.values).map( ([key, value]) =>  {
 
-            if(value == true)
-                value = 'Áno'
-            else if(value == false)
-                value = 'Nie'
+                                key = key.Capitalize()
 
-            switch (key) {
-                case 'karoseria':
-                    value == 0 ? value = 'Hatchbag / Sedan' : value = 'Kombi'
-                    break;
-                case 'palivo':
-                    value == 0 ? value = 'Benzín' : value = 'Nafta'
-                    break;
-                case 'pohon':
-                    value == 0 ? value = 'Jednej nápravy' : value = '4x4'
-                    break;
-                case 'prevodovka':
-                    value == 0 ? value = 'Manuálna' : value = 'Automatická'
-                    break;
-                case 'dlzka_pozicky':
-                    if(value == 0)
-                        value = '1 Týždeň 9%'
-                    else if(value == 1)
-                        value = '2 Týždne 15%'
-                    else 
-                        value = 'Mesiac 19%'
-                default:
-                    break;
-            }
+                                if(key.includes('_'))
+                                key = key.replace('_', " ")
+                
+                                if(value == true)
+                                    value = 'Áno'
+                                else if(value == false)
+                                    value = 'Nie'
+                    
+                                switch (key) {
+                                    case 'karoseria':
+                                        value == 0 ? value = 'Hatchbag / Sedan' : value = 'Kombi'
+                                        break;
+                                    case 'palivo':
+                                        value == 0 ? value = 'Benzín' : value = 'Nafta'
+                                        break;
+                                    case 'pohon':
+                                        value == 0 ? value = 'Jednej nápravy' : value = '4x4'
+                                        break;
+                                    case 'prevodovka':
+                                        value == 0 ? value = 'Manuálna' : value = 'Automatická'
+                                        break;
+                                    case 'dlzka pozicky':
+                                        if(value == 0)
+                                            value = '1 Týždeň 9%'
+                                        else if(value == 1)
+                                            value = '2 Týždne 15%'
+                                        else 
+                                            value = 'Mesiac 19%'
+                                    default:
+                                        break;
+                                }
 
-            valueRate.push({name: key, val: value})
-        })
-
-        return (
-            valueRate.map((value) => {
-                return (
-                    <div style={{margin: "auto"}}>
-                        <ul class="list-group" style={{width: "500px"}}>
-                            <li class="list-group-item" style={{'textAlign': "left", "fontSize": "20px"}}>{value.name} - {value.val}</li>
-                        </ul>
-                    </div>
+                                return(
+                                <div style={{margin: "auto"}}>
+                                    <ul class="list-group" style={{width: "500px"}}>
+                                    <li class="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
+                                    </ul>
+                                </div>
+                                )
+                        })
+                       }
+                   </div>
                 )
-            })
-        )
+        }))
     }
 
     return (

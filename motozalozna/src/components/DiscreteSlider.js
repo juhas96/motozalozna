@@ -10,7 +10,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
   
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
-		handleChange('cena', newValue)
+		handleChange('vysledna_pozicka', newValue)
 	};
 
 	const marks = [
@@ -29,7 +29,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 	}
 	
 	const handleInputChange = event => {
-		handleChange('cena', Number(event.target.value))
+		handleChange('vysledna_pozicka', Number(event.target.value))
 		setValue(event.target.value === "" ? "" : Number(event.target.value));
 
 	};
@@ -56,7 +56,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 			</div>
 
 			<div className="col-md-4 slider">
-				<InputLabel style={{"fontSize": "18px"}}>Výška pôžičky</InputLabel>
+				<InputLabel>Výška pôžičky</InputLabel>
 				<TextField
 					className="customText"
 					value={value}
@@ -67,7 +67,6 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 						max: max,
 						type: "number",
 						"aria-labelledby": "input-slider",
-						style: {fontSize: 22.0}
 					}}
 				/>
 			</div>
