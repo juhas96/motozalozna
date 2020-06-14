@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Form } from 'react-bootstrap'
-import { Select, MenuItem, InputLabel, FormControl, Container, Button, TextField } from '@material-ui/core/'
+import { Select, MenuItem, InputLabel, FormControl, Container, Button, TextField, CircularProgress, Fade } from '@material-ui/core/'
 import { Autocomplete } from '@material-ui/lab';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { findPrice, checkStolen } from '../service/CarPrice';
@@ -20,11 +20,7 @@ const FormCarInfoDetails = (props) =>  {
     var regexCustom = /^([A-Z]{2}[A-Z]{5})$/
     var regexNumbers = /^([A-Z]{2}[0-9]{5})$/
 
-    const [ kw, setKw ] = useState()
-    const [ yo, setYo ] = useState()
-    const [ km, setKm ] = useState()
-    const [ ecv, setEcv ] = useState()
-    const [ auto, setAuto ] = useState()
+    const [ loading, setLoading ] = useState(false)
 
     const [ KWError, setKWError ] = useState(false)
     const [ YOError, setYOError ] = useState(false)
@@ -32,12 +28,6 @@ const FormCarInfoDetails = (props) =>  {
     const [ ECVError, setECVError ] = useState(false)
 
     useEffect(() => {
-
-        setKw(values.vykon)
-        setYo(values.vek)
-        setKm(values.pocetkm)
-        setEcv(values.ec)
-
         setTimeout(function () {
             window.scroll({
                 top: 0,
@@ -46,39 +36,40 @@ const FormCarInfoDetails = (props) =>  {
             });
         }, 25);
 
-    }, [setKm, setKw, setEcv, setYo]) 
+    }, []) 
 
     const continueNext = e => {
         e.preventDefault();
 
-        if(KWError + YOError + KMError + ECVError === 0 && auto && values.vozidloFiles && values.poistenieFile) {
-            handleState('vykon', kw); handleState('vek', yo)
-            handleState('pocetkm', km); handleState('ec', ecv)
-            handleState('auto', auto);
+        // setLoading(true)
+
+        if(KWError + YOError + KMError + ECVError === 0 && values.auto && values.vozidloFiles && values.poistenieFile) {
 
             cars.map((value, index) => {
-                if(value.key == auto) {
+                if(value.key == values.auto) {
                     handleState('autoIndex', index)
                     return;
                 }
             })
+
+            console.log(values)
 
             findPrice({
                 karoseria: props.values.karoseria,
                 palivo: props.values.palivo,
                 pohon: props.values.pohon,
                 prevodovka: props.values.prevodovka,
-                vykon: kw,
-                vek: yo,
-                pocetkm: km,
+                vykon: props.values.vykon,
+                vek: props.values.vek,
+                pocetkm: props.values.pocetkm,
                 dovezene: 0,
-                auto: auto
+                auto: props.values.auto
             }).then(res => {
                 props.handleState('cena', res.data)
             }).catch(err => console.log(err));
 
             checkStolen({
-                ecv: ecv
+                ecv: values.ec
             }).then(res => res.data == 0 ? props.nextStep() : console.log('stolen')).catch(err => console.log(err));
         }
     }
@@ -95,28 +86,28 @@ const FormCarInfoDetails = (props) =>  {
             case 'KW':
                 if((1000 > value) && (value > 10)) {
                     setKWError(false)
-                    setKw(value)
+                    handleState('vykon', value)
                 } else 
                     setKWError(true)
                 break;
             case 'YO':
                 if(value > 0 && value < 100) {
                     setYOError(false)
-                    setYo(value)
+                    handleState('vek', value)
                 } else
                     setYOError(true)
                 break;
             case 'KM':
                 if(value > 1000 && value < 1000000) {
                     setKMError(false)
-                    setKm(value)
+                    handleState('pocetkm', value)
                 } else
                     setKMError(true)
                 break;
             case 'ECV':
                 if(regexECV.test(value) || regexCustom.test(value) || regexNumbers.test(value)) {
                     setECVError(false)
-                    setEcv(value)
+                    handleState('ec', value)
                 } else 
                     setECVError(true)
                 break;
@@ -125,7 +116,7 @@ const FormCarInfoDetails = (props) =>  {
 
     function handleCar(value) {
         if(value != undefined)
-            setAuto(value.key)
+            handleState('auto', value.key);
     }
 
     function handleVozidlo(e) {
@@ -140,7 +131,7 @@ const FormCarInfoDetails = (props) =>  {
         <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
-                    <Form onSubmit={continueNext}>
+                    <Form onSubmit={continueNext} id='form'>
                         <div className="categoryName">
                             <h1>Údaje o vozidle</h1>
                         </div>
@@ -309,7 +300,7 @@ const FormCarInfoDetails = (props) =>  {
                             <div className="attachment">
                                 <h2 className="definitionName">Fotky vozidla</h2>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleState('vozidloFiles', e.target.files[0])}/>
+                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
                                     <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 {/* <DropzoneArea
@@ -323,10 +314,16 @@ const FormCarInfoDetails = (props) =>  {
 
                         <div className="customButton">
                             <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                            <Button type='submit' variant="contained" color="primary">Ďalej</Button>
+                            <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
                         </div>
                     </Form>
                 </div>
+                {/* <div style={{top: '0px',bottom: '0px',left: '0px',right: '0px', width: '100%',}}>
+                    <Fade
+                    in={loading}>
+                        <CircularProgress />
+                    </Fade>
+                </div> */}
             </Container>
         </MuiThemeProvider>
     )

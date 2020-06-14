@@ -22,16 +22,10 @@ const FormPersonalDetails = (props) =>  {
     var regexTMail = /^[a-zA-Z-À-ž-@.]+$/
     var regexNumber = /^[+]?[0-9]*$/
 
-    const [ firstName, setFirstName ] = useState()
-    const [ lastName, setLastName ] = useState()
-    const [ email, setEmail ] = useState()
-    const [ number, setNumber ] = useState()
-
     const [ emailError, setEmailError ] = useState(false)
     const [ numberError, setNumberError ] = useState(false)
 
     useEffect(() => {
-        setFirstName(values.krstne_meno); setLastName(values.priezvisko); setEmail(values.email); setNumber(values.telefonne_cislo)
 
         setTimeout(function () {
             window.scroll({
@@ -41,14 +35,12 @@ const FormPersonalDetails = (props) =>  {
             });
 
         }, 25);
-    }, [ setFirstName, setLastName, setEmail, setNumber ]) 
+    }, []) 
 
     const continueNext = e => {
         e.preventDefault();
 
-        if(emailError + numberError === 0 && firstName && lastName && values.vodicskyFile && values.obcianskyFile) {
-            handleState('krstne_meno', firstName); handleState('priezvisko', lastName)
-            handleState('email', email); handleState('telefonne_cislo', number)
+        if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.vodicskyFile && values.obcianskyFile) {
             props.nextStep();
         }
     }
@@ -64,24 +56,24 @@ const FormPersonalDetails = (props) =>  {
         switch(e.target.name) {
             case 'krstne_meno': 
                 if((regexName.test(value) || e.target.value === ""))
-                    setFirstName(value)
+                    handleState('krstne_meno', value)
                 break;
             case 'priezvisko':
                 if((regexName.test(value) || value === ""))
-                    setLastName(value)
+                    handleState('priezvisko', value)
                 break;
             case 'email':
                 if(regexTMail.test(value) || value === "")
-                    setEmail(value)
-                if(regexEmail.test(value))
+                    handleState('email',value)
+                if(regexEmail.test(values.email))
                     setEmailError(false)
                 else
                     setEmailError(true)
                 break;
             case 'telefonne_cislo':
                 if(regexNumber.test(value) || value === "")
-                    setNumber(value)
-                if((regexPN.test(value) || regexPNPrefix.test(value)))
+                    handleState('telefonne_cislo', value)
+                if((regexPN.test(values.telefonne_cislo) || regexPNPrefix.test(values.telefonne_cislo)))
                     setNumberError(false)
                 else
                     setNumberError(true)
