@@ -309,7 +309,7 @@ const FormCarInfoDetails = (props) =>  {
                             <div className="attachment">
                                 <h2 className="definitionName">Fotky vozidla</h2>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
+                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleState('vozidloFiles', e.target.files[0])}/>
                                     <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 {/* <DropzoneArea
