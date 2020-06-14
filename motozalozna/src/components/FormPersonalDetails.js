@@ -14,8 +14,8 @@ const FormPersonalDetails = (props) =>  {
 
     const { values, handleChange, handleState, handleFiles } = props;
 
-    var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{2}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
-    var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{3})$/
+    var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
+    var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
     var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     var regexName = /^[a-zA-Z-À-ž]+$/
 
@@ -55,6 +55,11 @@ const FormPersonalDetails = (props) =>  {
 
     function handleCheck(e) {
         const value = e.target.value
+        console.log(value);
+
+        if(regexEmail.test(value)) {
+            console.log('tady');
+        }
 
         switch(e.target.name) {
             case 'krstne_meno': 
@@ -68,7 +73,7 @@ const FormPersonalDetails = (props) =>  {
             case 'email':
                 if(regexTMail.test(value) || value === "")
                     setEmail(value)
-                if(regexEmail.test(email))
+                if(regexEmail.test(value))
                     setEmailError(false)
                 else
                     setEmailError(true)
@@ -76,7 +81,7 @@ const FormPersonalDetails = (props) =>  {
             case 'telefonne_cislo':
                 if(regexNumber.test(value) || value === "")
                     setNumber(value)
-                if((regexPN.test(number) || regexPNPrefix.test(number)))
+                if((regexPN.test(value) || regexPNPrefix.test(value)))
                     setNumberError(false)
                 else
                     setNumberError(true)
