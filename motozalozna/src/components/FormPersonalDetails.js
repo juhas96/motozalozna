@@ -65,7 +65,7 @@ const FormPersonalDetails = (props) =>  {
             case 'email':
                 if(regexTMail.test(value) || value === "")
                     handleState('email',value)
-                if(regexEmail.test(values.email))
+                if(regexEmail.test(value))
                     setEmailError(false)
                 else
                     setEmailError(true)
@@ -73,7 +73,7 @@ const FormPersonalDetails = (props) =>  {
             case 'telefonne_cislo':
                 if(regexNumber.test(value) || value === "")
                     handleState('telefonne_cislo', value)
-                if((regexPN.test(values.telefonne_cislo) || regexPNPrefix.test(values.telefonne_cislo)))
+                if((regexPN.test(value) || regexPNPrefix.test(value)))
                     setNumberError(false)
                 else
                     setNumberError(true)
