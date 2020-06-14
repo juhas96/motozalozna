@@ -14,8 +14,7 @@ import '../css/uniform.css'
 
 const FormCarInfoDetails = (props) =>  {
 
-    const { values, handleState } = props;
-    const number = 200
+    const { values, handleState, handleFiles, handlePushLast } = props;
 
     var regexECV = /^([A-Z]{2}[0-9]{3}[A-Z]{2})+$/
     var regexCustom = /^([A-Z]{2}[A-Z]{5})$/
@@ -26,8 +25,6 @@ const FormCarInfoDetails = (props) =>  {
     const [ km, setKm ] = useState()
     const [ ecv, setEcv ] = useState()
     const [ auto, setAuto ] = useState()
-    const [ poistenie, setPoistenie ] = useState()
-    const [ fotky, setFotky ] = useState()
 
     const [ KWError, setKWError ] = useState(false)
     const [ YOError, setYOError ] = useState(false)
@@ -35,6 +32,7 @@ const FormCarInfoDetails = (props) =>  {
     const [ ECVError, setECVError ] = useState(false)
 
     useEffect(() => {
+
         setKw(values.vykon)
         setYo(values.vek)
         setKm(values.pocetkm)
@@ -53,7 +51,7 @@ const FormCarInfoDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        if(KWError + YOError + KMError + ECVError === 0 && auto && poistenie != 0 && fotky != 0) {
+        if(KWError + YOError + KMError + ECVError === 0 && auto && values.vozidloFiles && values.poistenieFile) {
             handleState('vykon', kw); handleState('vek', yo)
             handleState('pocetkm', km); handleState('ec', ecv)
             handleState('auto', auto);
@@ -128,6 +126,14 @@ const FormCarInfoDetails = (props) =>  {
     function handleCar(value) {
         if(value != undefined)
             setAuto(value.key)
+    }
+
+    function handleVozidlo(e) {
+        if(values.vozidloFiles) {
+            handlePushLast(e.target.files[0])
+        } else {
+            handleState('vozidloFiles', e.target.files)
+        }
     }
     
     return (
@@ -211,7 +217,7 @@ const FormCarInfoDetails = (props) =>  {
                             </div>
 
                             <div className="infoHolder">
-                                <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto">Vyberte si z {number} aut</InputLabel>
+                                <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto">Vyberte si zo {Object.keys(cars).length} aut</InputLabel>
                                 <Autocomplete
                                     id="auto"
                                     onChange={(e, value) => { handleCar(value) }}
@@ -284,23 +290,34 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="divider"></div>
 
                         <div className="wrapper">
-                            <div className="attachment">>
+                            <div className="attachment">
                                 <h2 className="definitionName">Poistenie vozidla</h2>
-                                <DropzoneArea
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" onChange={(e) => handleState('poistenieFile', e.target.files[0])}/>
+                                    <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                {/* <DropzoneArea
                                     // initialFiles={[values.vodicskyFile.name]}
                                     required = {true}
                                     filesLimit={1}
                                     onChange={(files) => setPoistenie(files)}
-                                    dropzoneText={"Prosím nahrajte potvrdenie o poisteni Vašeho vozidla"}/>
+                                    dropzoneText={"Prosím nahrajte potvrdenie o poisteni Vašeho vozidla"}/> */}
+
+                                    {handleFiles(values.poistenieFile, 'poistenieFile')}
                             </div>
 
                             <div className="attachment">
                                 <h2 className="definitionName">Fotky vozidla</h2>
-                                <DropzoneArea
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
+                                    <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                {/* <DropzoneArea
                                     required = {true}
                                     filesLimit={10}
                                     onChange={(files) => setFotky(files)}
-                                    dropzoneText={"Prosím nahrajte fotky Vašeho vozidla"} />
+                                    dropzoneText={"Prosím nahrajte fotky Vašeho vozidla"} /> */}
+                                    {handleFiles(values.vozidloFiles, 'vozidloFiles')}
                             </div>
                         </div>
 

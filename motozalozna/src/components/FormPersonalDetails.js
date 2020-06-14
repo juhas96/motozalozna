@@ -12,7 +12,7 @@ import '../css/uniform.css'
 
 const FormPersonalDetails = (props) =>  {
 
-    const { values, handleChange, handleState } = props;
+    const { values, handleChange, handleState, handleFiles } = props;
 
     var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{2}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
     var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{3})$/
@@ -26,14 +26,12 @@ const FormPersonalDetails = (props) =>  {
     const [ lastName, setLastName ] = useState()
     const [ email, setEmail ] = useState()
     const [ number, setNumber ] = useState()
-    const [ carLicense, setCarLicense ] = useState()
-    const [ ID ,setID ] = useState()
 
     const [ emailError, setEmailError ] = useState(false)
     const [ numberError, setNumberError ] = useState(false)
 
     useEffect(() => {
-        setFirstName(values.firstName); setLastName(values.lastName); setEmail(values.email); setNumber(values.phoneNumber); setCarLicense(values.vodicskyFile); setID(values.obcianskyFile)
+        setFirstName(values.krstne_meno); setLastName(values.priezvisko); setEmail(values.email); setNumber(values.telefonne_cislo)
 
         setTimeout(function () {
             window.scroll({
@@ -48,28 +46,22 @@ const FormPersonalDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        if(emailError + numberError === 0 && ID != 0 && carLicense != 0 && firstName && lastName) {
+        if(emailError + numberError === 0 && firstName && lastName && values.vodicskyFile && values.obcianskyFile) {
             handleState('krstne_meno', firstName); handleState('priezvisko', lastName)
             handleState('email', email); handleState('telefonne_cislo', number)
-            handleState('vodicskyFile', carLicense); handleState('obcianskyFile', ID)
             props.nextStep();
         }
-    }
-
-    const back = e => {
-        e.preventDefault();
-        props.prevStep();
     }
 
     function handleCheck(e) {
         const value = e.target.value
 
         switch(e.target.name) {
-            case 'firstName': 
+            case 'krstne_meno': 
                 if((regexName.test(value) || e.target.value === ""))
                     setFirstName(value)
                 break;
-            case 'lastName':
+            case 'priezvisko':
                 if((regexName.test(value) || value === ""))
                     setLastName(value)
                 break;
@@ -81,7 +73,7 @@ const FormPersonalDetails = (props) =>  {
                 else
                     setEmailError(true)
                 break;
-            case 'phoneNumber':
+            case 'telefonne_cislo':
                 if(regexNumber.test(value) || value === "")
                     setNumber(value)
                 if((regexPN.test(number) || regexPNPrefix.test(number)))
@@ -112,10 +104,10 @@ const FormPersonalDetails = (props) =>  {
                                         onChange={(e) => handleCheck(e)}
                                         size="small"
                                         margin="normal"
-                                        name="firstName"
-                                        id="firstName"
+                                        name="krstne_meno"
+                                        id="krstne_meno"
                                         fullWidth
-                                        defaultValue={values.firstName ?? ''}
+                                        defaultValue={values.krstne_meno ?? ''}
                                     />
 
                                     <TextField
@@ -127,9 +119,9 @@ const FormPersonalDetails = (props) =>  {
                                         onChange={(e) => handleCheck(e)}
                                         size="small"
                                         margin="normal"
-                                        name="lastName"
+                                        name="priezvisko"
                                         fullWidth
-                                        defaultValue={values.lastName ?? ''}
+                                        defaultValue={values.priezvisko ?? ''}
                                     />
 
                                     <TextField
@@ -153,13 +145,13 @@ const FormPersonalDetails = (props) =>  {
                                         variant="outlined"
                                         className="textLabel"
                                         type="tel"
-                                        name="phoneNumber"
+                                        name="telefonne_cislo"
                                         error={numberError}
                                         onChange={(e) => handleCheck(e)}
                                         size="small"
                                         margin="normal"
                                         fullWidth
-                                        defaultValue={values.phoneNumber ?? ''}
+                                        defaultValue={values.telefonne_cislo ?? ''}
                                     />
                                 </div>
                             </div>
@@ -169,23 +161,34 @@ const FormPersonalDetails = (props) =>  {
                             <div className="wrapper">
                                 <div className="attachment">
                                     <h2 className="definitionName">Občiansky preukaz</h2>
-                                    <DropzoneArea  
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="ID" id="ID" onChange={(e) => handleState('obcianskyFile', e.target.files[0])}/>
+                                        <label id="obciansky" class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                    {/* {showFiles(ID)} */}
+                                    {/* <DropzoneArea  
                                         required = {true}
                                         filesLimit={1}
                                         onChange={(files) => setID(files)}
-                                        dropzoneText={"Prosím nahrajte fotku Vašeho občianskeho preukazu"}/>
+                                        dropzoneText={"Prosím nahrajte fotku Vašeho občianskeho preukazu"}/> */}
+                                        {handleFiles(values.obcianskyFile, 'obcianskyFile')}
                                 </div>
 
                                 <div className="attachment">
                                     <h2 className="definitionName">Vodičský preukaz</h2>
-                                    <DropzoneArea
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('vodicskyFile', e.target.files[0])}/>
+                                        <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                    {/* <DropzoneArea
                                         required = {true}
                                         filesLimit={1}
                                         value = {carLicense}
                                         onChange={(files) => setCarLicense(files)}
-                                        dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} />
+                                        dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} /> */}
+                                        {handleFiles(values.vodicskyFile, 'vodicskyFile')}
                                 </div>
-                            </div>
+                        </div>
                         <div className="customButton">
                             <Button type="submit" variant="contained" color="primary">Ďalej</Button>
                         </div>
