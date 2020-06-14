@@ -52,16 +52,18 @@ const FormCarInfoDetails = (props) =>  {
                 }
             })
 
+            console.log(values)
+
             findPrice({
                 karoseria: props.values.karoseria,
                 palivo: props.values.palivo,
                 pohon: props.values.pohon,
                 prevodovka: props.values.prevodovka,
-                vykon: values.vykon,
-                vek: values.vet,
-                pocetkm: values.pocetkm,
+                vykon: props.values.vykon,
+                vek: props.values.vek,
+                pocetkm: props.values.pocetkm,
                 dovezene: 0,
-                auto: values.auto
+                auto: props.values.auto
             }).then(res => {
                 props.handleState('cena', res.data)
             }).catch(err => console.log(err));
