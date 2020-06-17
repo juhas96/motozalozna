@@ -3,7 +3,7 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Form } from 'react-bootstrap'
 import { Select, MenuItem, InputLabel, FormControl, Container, Button, TextField, CircularProgress, Fade } from '@material-ui/core/'
 import { Autocomplete } from '@material-ui/lab';
-import { findPrice, checkStolen } from '../service/CarPrice';
+import { findPrice, checkStolen } from '../service/HttpService';
 import cars from '../cars.json'
 //FORM CSS
 import '../css/formCarInfoDetails.css'

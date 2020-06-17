@@ -223,7 +223,8 @@ export class UserForm extends Component {
       case 5:
         return <Summary
                     prevStep={this.prevStep}
-                    values={summaryValues}/>;
+                    summaryValues={summaryValues}
+                    values={values}/>;
       default:
         return 'Unknown stepIndex';
     }

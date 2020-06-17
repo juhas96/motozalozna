@@ -5,10 +5,11 @@ import { Box, FormControlLabel, FormControl, Container, Button, InputLabel } fro
 
 import '../css/formPT.css'
 import '../css/uniform.css'
+import { sendData } from '../service/HttpService';
 
 const Summary = (props) => {
     
-    const { values } = props;
+    const { summaryValues, values } = props;
 
     useEffect(() => {
 
@@ -24,7 +25,17 @@ const Summary = (props) => {
 
     const continueNext = e => {
         e.preventDefault();
-
+        let formData = new FormData();
+        Object.entries(values).forEach(([key, value]) => {
+            if (value instanceof File) {
+                formData.append('files', value, value.name);
+            } else if (value instanceof FileList) {
+                console.log('FILELIST', value);
+            } else {
+                formData.set(key.toString(), value);
+            }
+        })
+        sendData(formData);
     }
 
     const back = e => {
@@ -39,7 +50,7 @@ const Summary = (props) => {
     const getValues = () => { 
 
         return(
-            values.map((e) => {
+            summaryValues.map((e) => {
                 return(
                    <div>
                        <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
@@ -107,7 +118,7 @@ const Summary = (props) => {
                 </div>
                 <div className="customButton">
                     <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                    <Button variant="contained" color="primary">Potvrdit</Button>
+                    <Button onClick={continueNext} variant="contained" color="primary">Potvrdit</Button>
                 </div>
             </Container>
         </MuiThemeProvider>
