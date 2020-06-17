@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const findPrice = async (car) => {
-    return await axios.post('http://localhost:5000/check_price', car)
+    return await axios.post('https://motozalozna-backend.herokuapp.com/check_price', car)
         .then(response => {
             console.log(response);
             return response;
@@ -9,7 +9,7 @@ export const findPrice = async (car) => {
 }
 
 export const checkStolen = car => {
-    return axios.post('http://localhost:5000/check_stolen', car)
+    return axios.post('https://motozalozna-backend.herokuapp.com/check_stolen', car)
         .then(response => {
             console.log(response);
             return response;
@@ -17,7 +17,7 @@ export const checkStolen = car => {
 }
 
 export const sendData = data => {
-    return axios.post('http://localhost:5000/upload', data, {headers: {'Content-Type': 'multipart/form-data'}})
+    return axios.post('https://motozalozna-backend.herokuapp.com/upload', data, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(response => {
             console.log(response);
             return response;
