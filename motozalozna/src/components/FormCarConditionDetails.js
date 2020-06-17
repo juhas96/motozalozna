@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Box, Checkbox, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/'
 import '../css/formPT.css'
 import '../css/uniform.css'
@@ -43,7 +42,6 @@ const FormCarConditionDetails = (props) =>  {
     }
 
     return (
-        <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
                 <div className="categoryName">
@@ -141,7 +139,6 @@ const FormCarConditionDetails = (props) =>  {
                     </div>
                 </div>
             </Container>
-        </MuiThemeProvider>
     )
 }
 

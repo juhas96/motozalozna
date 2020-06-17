@@ -1,6 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import { Box, FormControlLabel, FormControl, Container, Button, InputLabel } from '@material-ui/core/';
+import React, { useEffect,  } from 'react';
+import { FormControl, Container, Button } from '@material-ui/core/';
 // import { Form } from 'react-bootstrap'
 
 import '../css/formPT.css'
@@ -106,22 +105,20 @@ const Summary = (props) => {
     }
 
     return (
-        <MuiThemeProvider>
-            <Container maxWidth='md' style={{marginBottom: '2%'}}>
-                <div className="categoryName">
-                    <h1>Suhrn</h1>
-                </div>
-                <div className="wrapper" style={{'textAlign': "center"}}>
-                    <FormControl>
-                        { getValues() }
-                    </FormControl>
-                </div>
-                <div className="customButton">
-                    <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                    <Button onClick={continueNext} variant="contained" color="primary">Potvrdit</Button>
-                </div>
-            </Container>
-        </MuiThemeProvider>
+        <Container maxWidth='md' style={{marginBottom: '2%'}}>
+            <div className="categoryName">
+                <h1>Suhrn</h1>
+            </div>
+            <div className="wrapper" style={{'textAlign': "center"}}>
+                <FormControl>
+                    { getValues() }
+                </FormControl>
+            </div>
+            <div className="customButton">
+                <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
+                <Button onClick={continueNext} variant="contained" color="primary">Potvrdit</Button>
+            </div>
+        </Container>
     )
 }
 

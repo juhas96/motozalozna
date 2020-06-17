@@ -108,6 +108,8 @@ const FormCarInfoDetails = (props) =>  {
                 } else 
                     setECVError(true)
                 break;
+            default:
+                break;
         }
     }
 
@@ -303,9 +305,9 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="wrapper">
                             <div className="attachment">
                                 <h2 className="definitionName">Poistenie vozidla</h2>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" onChange={(e) => handleState('poistenieFile', e.target.files[0])}/>
-                                    <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                <div className="custom-file">
+                                    <input type="file" className="custom-file-input" id="customFile" onChange={(e) => handleState('poistenieFile', e.target.files[0])}/>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                 </div>
                                 {/* <DropzoneArea
                                     // initialFiles={[values.vodicskyFile.name]}
@@ -319,9 +321,9 @@ const FormCarInfoDetails = (props) =>  {
 
                             <div className="attachment">
                                 <h2 className="definitionName">Fotky vozidla</h2>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
-                                    <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                <div className="custom-file">
+                                    <input type="file" className="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                 </div>
                                 {/* <DropzoneArea
                                     required = {true}

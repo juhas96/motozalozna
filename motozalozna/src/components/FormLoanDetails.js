@@ -1,5 +1,4 @@
 import React,  { useEffect } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Button, Container, FormControl, FormControlLabel, Checkbox, InputLabel, MenuItem, Select, Typography } from '@material-ui/core/'
 import { Form } from 'react-bootstrap'
 
@@ -34,7 +33,6 @@ const FormLoanDetails = (props) =>  {
     }
 
     return (
-        <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
                     <Form onSubmit={continueNext}> 
@@ -103,7 +101,6 @@ const FormLoanDetails = (props) =>  {
                     </Form>
                 </div>
             </Container>
-        </MuiThemeProvider>
     )
 }
 

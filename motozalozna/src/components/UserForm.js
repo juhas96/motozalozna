@@ -20,7 +20,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 0,
+      step: 2,
 
       krstne_meno: '',
       priezvisko: '',
@@ -121,10 +121,10 @@ export class UserForm extends Component {
                     { e[1].name ? 
                       <div className="fileShow">
                         <Row>
-                          <div class="col-sm-9 col-md-9">
+                          <div className="col-sm-9 col-md-9">
                             <Typography>{e[1].name}</Typography>
                           </div>
-                          <div class="col-sm-3 col-md-3">
+                          <div className="col-sm-3 col-md-3">
                             <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, e[1], typeName)}>Delete</Button>
                           </div>
                         </Row>
@@ -144,10 +144,10 @@ export class UserForm extends Component {
                 { type.name ? 
                   <div className="fileShow">
                     <Row>
-                      <div class="col-sm-9 col-md-9">
+                      <div className="col-sm-9 col-md-9">
                         <Typography style={{'marginTop': "5px"}}>{type.name}</Typography>
                       </div>
-                      <div class="col-sm-3 col-md-3">
+                      <div className="col-sm-3 col-md-3">
                         <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, type, typeName)}>Delete</Button> 
                       </div>
                     </Row>

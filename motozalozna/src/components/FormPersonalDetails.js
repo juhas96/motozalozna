@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { TextField, Button, Container }  from '@material-ui/core/';
 import { Form } from 'react-bootstrap'
 //FORM CSS
@@ -76,11 +75,12 @@ const FormPersonalDetails = (props) =>  {
                 else
                     setNumberError(true)
                 break;
+            default:
+                break;
         }
     }
 
     return (
-        // <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
                     <Form onSubmit={continueNext}>
@@ -156,9 +156,9 @@ const FormPersonalDetails = (props) =>  {
                             <div className="wrapper">
                                 <div className="attachment">
                                     <h2 className="definitionName">Občiansky preukaz</h2>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="ID" id="ID" onChange={(e) => handleState('obcianskyFile', e.target.files[0])}/>
-                                        <label id="obciansky" class="custom-file-label" for="customFile">Choose file</label>
+                                    <div className="custom-file">
+                                        <input type="file" className="custom-file-input" name="ID" id="ID" onChange={(e) => handleState('obcianskyFile', e.target.files[0])}/>
+                                        <label id="obciansky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                     </div>
                                     {/* {showFiles(ID)} */}
                                     {/* <DropzoneArea  
@@ -171,9 +171,9 @@ const FormPersonalDetails = (props) =>  {
 
                                 <div className="attachment">
                                     <h2 className="definitionName">Vodičský preukaz</h2>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('vodicskyFile', e.target.files[0])}/>
-                                        <label id="vodicsky" class="custom-file-label" for="customFile">Choose file</label>
+                                    <div className="custom-file">
+                                        <input type="file" className="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('vodicskyFile', e.target.files[0])}/>
+                                        <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                     </div>
                                     {/* <DropzoneArea
                                         required = {true}
@@ -190,7 +190,6 @@ const FormPersonalDetails = (props) =>  {
                     </Form>
                 </div>
             </Container>
-        // </MuiThemeProvider>
     )
 }
 

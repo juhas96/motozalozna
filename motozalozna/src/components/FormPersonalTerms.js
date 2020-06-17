@@ -1,5 +1,4 @@
 import React, { Component, useEffect } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Checkbox, Box, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/';
 import '../css/formPT.css'
 import '../css/uniform.css'
@@ -32,7 +31,6 @@ const FormPersonalTerms = (props) => {
     }
 
     return (
-        <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div className="categoryName">
                     <h1>Podmienky</h1>
@@ -99,7 +97,6 @@ const FormPersonalTerms = (props) => {
                     <Button id='nextButton' name='nextButton' onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
                 </div>
             </Container>
-        </MuiThemeProvider>
     )
 }
 
