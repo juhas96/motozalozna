@@ -40,7 +40,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 			<div className="col-md-6 textField">
 				<Slider
 					style={{ marginTop: "20px" }}
-					value={typeof value === "number" ? value : 0}
+					value={parseInt(value)}
 					onChange={handleSliderChange}
 					getAriaValueText={valueText}
 					valueLabelDisplay="auto"
