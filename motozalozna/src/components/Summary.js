@@ -55,17 +55,11 @@ const Summary = (props) => {
                        <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
                        {
                             Object.entries(e.values).map( ([key, value]) =>  {
-
                                 key = key.Capitalize()
 
                                 if(key.includes('_'))
                                 key = key.replace('_', " ")
-                
-                                if(value == true)
-                                    value = 'Áno'
-                                else if(value == false)
-                                    value = 'Nie'
-                    
+
                                 switch (key) {
                                     case 'Karoseria':
                                         value == 0 ? value = 'Hatchbag / Sedan' : value = 'Kombi'
@@ -80,7 +74,6 @@ const Summary = (props) => {
                                         value == 0 ? value = 'Manuálna' : value = 'Automatická'
                                         break;
                                     case 'Dlzka pozicky':
-                                        console.log('DLZKA POZICKY: ', value);
                                         if(value == 0)
                                             value = '1 Týždeň 9%'
                                         else if(value == 1)
@@ -90,11 +83,16 @@ const Summary = (props) => {
                                     default:
                                         break;
                                 }
+                
+                                if(value == true)
+                                    value = 'Áno'
+                                else if(value == false)
+                                    value = 'Nie'
 
                                 return(
                                     <div style={{margin: "auto"}}>
-                                        <ul class="list-group" style={{width: "500px"}}>
-                                        <li class="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
+                                        <ul className="list-group" style={{width: "500px"}}>
+                                        <li className="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
                                         </ul>
                                     </div>
                                 )

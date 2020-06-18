@@ -38,7 +38,6 @@ const FormCarInfoDetails = (props) =>  {
 
     const continueNext = e => {
         e.preventDefault();
-
         if(KWError + YOError + KMError + ECVError === 0 && values.auto) {
             
             setLoading(true)
@@ -360,7 +359,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vykon ?? undefined}/>
+                                    defaultValue={values.vykon ?? null}/>
 
                                 <TextField
                                     required = {true}
@@ -374,7 +373,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vek ?? undefined}/>
+                                    defaultValue={values.vek ?? null}/>
                 
                                 <TextField
                                     required = {true}
@@ -388,7 +387,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.pocetkm ?? undefined}/>
+                                    defaultValue={values.pocetkm ?? null}/>
 
                                 <TextField
                                     required = {true}
@@ -402,7 +401,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.ec ?? undefined}/>
+                                    defaultValue={values.ec ?? ''}/>
                             </div>
                         </div>
 

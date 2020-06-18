@@ -38,7 +38,6 @@ const FormPersonalDetails = (props) =>  {
 
     const continueNext = e => {
         e.preventDefault();
-
         if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.technickyFile && values.obcianskyFile && ((values.leasing + values.notar + values.kluc + values.blokacia) == 4)) {
             props.nextStep();
         }
