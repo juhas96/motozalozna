@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Container }  from '@material-ui/core/';
 import { Form } from 'react-bootstrap'
+import FormLoanDetails from './FormLoanDetails';
+import FormPersonalTerms from './FormPersonalTerms'
 //FORM CSS
 import '../css/formPD.css'
 import '../css/uniformForm.css'
@@ -9,7 +11,7 @@ import '../css/uniform.css'
 
 const FormPersonalDetails = (props) =>  {
 
-    const { values, handleState, handleFiles } = props;
+    const { values, handleState, handleFiles, handleChange, handlePushLast } = props;
 
     var regexPNPrefix = /^(\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/  ///^(\+[1-9]{3})? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/
     var regexPN = /^\+?(09)\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
@@ -37,9 +39,14 @@ const FormPersonalDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.vodicskyFile && values.obcianskyFile) {
+        if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.technickyFile && values.obcianskyFile && ((values.leasing + values.notar + values.kluc + values.blokacia) == 4)) {
             props.nextStep();
         }
+    }
+
+    const back = e => {
+        e.preventDefault();
+        props.prevStep();
     }
 
     function handleCheck(e) {
@@ -78,6 +85,20 @@ const FormPersonalDetails = (props) =>  {
             default:
                 break;
         }
+    }
+
+    function handleCar(value) {
+        if(value != undefined)
+            handleState('auto', value.key);
+    }
+
+    function handleVozidlo(e) {
+        if(values.vozidloFiles && e.target.files.length == 1)
+            handlePushLast(e.target.files[0])
+        else if(values.vozidloFiles)
+            handlePushLast(e.target.files)
+        else
+            handleState('vozidloFiles', e.target.files)
     }
 
     return (
@@ -153,6 +174,11 @@ const FormPersonalDetails = (props) =>  {
 
                             <div className="divider"></div>
 
+                            <FormLoanDetails
+                                handleState = {handleState}
+                                handleChange={handleChange}
+                                values={values}/>
+
                             <div className="wrapper">
                                 <div className="attachment">
                                     <h2 className="definitionName">Občiansky preukaz</h2>
@@ -160,31 +186,35 @@ const FormPersonalDetails = (props) =>  {
                                         <input type="file" className="custom-file-input" name="ID" id="ID" onChange={(e) => handleState('obcianskyFile', e.target.files[0])}/>
                                         <label id="obciansky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                     </div>
-                                    {/* {showFiles(ID)} */}
-                                    {/* <DropzoneArea  
-                                        required = {true}
-                                        filesLimit={1}
-                                        onChange={(files) => setID(files)}
-                                        dropzoneText={"Prosím nahrajte fotku Vašeho občianskeho preukazu"}/> */}
                                         {handleFiles(values.obcianskyFile, 'obcianskyFile')}
                                 </div>
 
                                 <div className="attachment">
-                                    <h2 className="definitionName">Vodičský preukaz</h2>
+                                    <h2 className="definitionName">Technický preukaz</h2>
                                     <div className="custom-file">
-                                        <input type="file" className="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('vodicskyFile', e.target.files[0])}/>
-                                        <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                        <input type="file" className="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('technickyFile', e.target.files[0])}/>
+                                        <label id="technicky" className="custom-file-label" htmlFor="customFile">Choose file</label>
                                     </div>
-                                    {/* <DropzoneArea
-                                        required = {true}
-                                        filesLimit={1}
-                                        value = {carLicense}
-                                        onChange={(files) => setCarLicense(files)}
-                                        dropzoneText={"Prosím nahrajte fotku Vašeho vodičského preukazu"} /> */}
-                                        {handleFiles(values.vodicskyFile, 'vodicskyFile')}
+                                        {handleFiles(values.technickyFile, 'technickyFile')}
                                 </div>
-                        </div>
+
+                                <div className="attachment">
+                                <h2 className="definitionName">Fotky vozidla</h2>
+                                <div className="custom-file">
+                                    <input type="file" className="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                </div>
+                                    {handleFiles(values.vozidloFiles, 'vozidloFiles')}
+                            </div>
+                            </div>
+                            <div className="divider"></div>
+                            <FormPersonalTerms
+                                handleState = {handleState}
+                                handleChange = {handleChange}
+                                values= {values} />
+
                         <div className="customButton">
+                            <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
                             <Button type="submit" variant="contained" color="primary">Ďalej</Button>
                         </div>
                     </Form>

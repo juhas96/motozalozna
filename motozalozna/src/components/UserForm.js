@@ -20,7 +20,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 2,
+      step: 1,
 
       krstne_meno: '',
       priezvisko: '',
@@ -50,6 +50,7 @@ export class UserForm extends Component {
       zalozne_pravo: '',
 
       dlzka_pozicky: null,
+      urok: null,
       cena: null,
       auto: null,
       autoIndex: null,
@@ -58,7 +59,7 @@ export class UserForm extends Component {
       vysledna_pozicka: null,
 
       obcianskyFile: null,
-      vodicskyFile: null,
+      technickyFile: null,
       poistenieFile: null,
       vozidloFiles: null,
     };
@@ -175,8 +176,8 @@ export class UserForm extends Component {
       case 'obcianskyFile':
         this.setState({obcianskyFile: null})
         break;
-      case 'vodicskyFile':
-        this.setState({vodicskyFile: null})
+      case 'technickyFile':
+        this.setState({technickyFile: null})
         break;
     }
   }
@@ -184,13 +185,6 @@ export class UserForm extends Component {
   getStepContent = (stepIndex, values, summaryValues) => {
     switch (stepIndex) {
       case 0:
-        return <FormPersonalDetails
-                    handleFiles = {this.showFiles}
-                    handleState = {this.handleState}
-                    nextStep={this.nextStep}
-                    handleChange={this.handleChange}
-                    values={values}/>;
-      case 1:
         return <FormCarInfoDetails
                     handlePushLast = {this.handlePushLast}
                     handleFiles = {this.showFiles}
@@ -199,56 +193,61 @@ export class UserForm extends Component {
                     prevStep={this.prevStep}
                     handleChange={this.handleChange}
                     values={values}/>;
+      case 1:
+        return <FormPersonalDetails
+                    handleFiles = {this.showFiles}
+                    handleState = {this.handleState}
+                    nextStep={this.nextStep}
+                    prevStep={this.prevStep}
+                    handleChange={this.handleChange}
+                    values={values}/>;
       case 2:
-        return <FormCarConditionDetails
-                    handleState = {this.handleState}
-                    nextStep={this.nextStep}
-                    prevStep={this.prevStep}
-                    handleChange={this.handleChange}
-                    values={values}/>;
-      case 3:
-        return <FormPersonalTerms
-                    handleState = {this.handleState}
-                    nextStep={this.nextStep}
-                    prevStep={this.prevStep}
-                    handleChange={this.handleChange}
-                    values={values}/>;
-      case 4:
-        return <FormLoanDetails
-                    handleState = {this.handleState}
-                    nextStep={this.nextStep}
-                    prevStep={this.prevStep}
-                    handleChange={this.handleChange}
-                    values={values}/>;
-      case 5:
         return <Summary
                     prevStep={this.prevStep}
                     summaryValues={summaryValues}
                     values={values}/>;
+      // case 3:
+      //   return <FormPersonalTerms
+      //               handleState = {this.handleState}
+      //               nextStep={this.nextStep}
+      //               prevStep={this.prevStep}
+      //               handleChange={this.handleChange}
+      //               values={values}/>;
+      // case 4:
+      //   return <FormLoanDetails
+      //               handleState = {this.handleState}
+      //               nextStep={this.nextStep}
+      //               prevStep={this.prevStep}
+      //               handleChange={this.handleChange}
+      //               values={values}/>;
+      // case 5:
+      //   return <Summary
+      //               prevStep={this.prevStep}
+      //               summaryValues={summaryValues}
+      //               values={values}/>;
       default:
         return 'Unknown stepIndex';
     }
   }
 
   render() {
-      // const classes = useStyles();
       const steps = getSteps();
       const { step } = this.state;
       const { karoseria, palivo, pohon, prevodovka, vykon,
               vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
               poskodeny_lak, poskodena_karoseria, poskodeny_interier,
               opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, obcianskyFile,
-              vodicskyFile,
+              technickyFile,
               poistenieFile,
               autoIndex,
-              vozidloFiles, vysledna_pozicka } = this.state;
+              vozidloFiles, vysledna_pozicka, urok } = this.state;
       const values = { karoseria, palivo, pohon, prevodovka, vykon,
           vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
           poskodeny_lak, poskodena_karoseria, poskodeny_interier,
           autoIndex,
-          opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, vodicskyFile,
+          opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, technickyFile,
           poistenieFile,
-          vozidloFiles, obcianskyFile, vysledna_pozicka };
+          vozidloFiles, obcianskyFile, vysledna_pozicka, urok };
 
       const summaryValues = [
         {name: 'Osobne Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
@@ -293,28 +292,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   function getSteps() {
-    return ['Osobné údaje', 'Údaje o vozidle', 'Stav vozidla', 'Podmienky', 'Typ pôžičky', 'Suhrn'];
+    return ['Údaje o vozidle', 'Osobné údaje', 'Suhrn'];
   }
-  
-//   function getStepContent(stepIndex, values) {
-//     switch (stepIndex) {
-//       case 0:
-//         return <FormPersonalDetails
-//                     nextStep={this.nextStep}
-//                     handleChange={this.handleChange}
-//                     values={values}/>;
-//       case 1:
-//         return <h1>TEST2</h1>;
-//       case 2:
-//         return <h1>TEST3</h1>;
-//       case 3:
-//         return <h1>TEST4</h1>;
-//       case 4:
-//         return <h1>TEST5</h1>;
-//       default:
-//         return 'Unknown stepIndex';
-//     }
-//   }
-
 
 export default UserForm;

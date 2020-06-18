@@ -6,36 +6,12 @@ import '../css/uniform.css'
 const FormPersonalTerms = (props) => {
     
     const { values, handleChange } = props;
-
-    useEffect(() => {
-        setTimeout(function () {
-            window.scroll({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-            });
-        }, 25);
-    }, []) 
-
-    const continueNext = e => {
-        e.preventDefault();
-
-        if((values.leasing + values.notar + values.kluc + values.blokacia) == 4) {
-            props.nextStep()
-        }
-    }
-
-    const back = e => {
-        e.preventDefault();
-        props.prevStep();
-    }
-
     return (
-            <Container maxWidth='md' style={{marginBottom: '2%'}}>
-                <div className="categoryName">
+        <div>
+                <div className="wrapper" style={{'textAlign': "left"}}>
+                <div className="categoryName" style={{'textAlign': "center"}}>
                     <h1>Podmienky</h1>
                 </div>
-                <div className="wrapper" style={{'textAlign': "left"}}>
                     <FormControl>
 
                         <div className="checker">
@@ -92,11 +68,7 @@ const FormPersonalTerms = (props) => {
 
                     </FormControl>
                 </div>
-                <div className="customButton">
-                    <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                    <Button id='nextButton' name='nextButton' onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
                 </div>
-            </Container>
     )
 }
 

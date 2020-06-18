@@ -80,6 +80,7 @@ const Summary = (props) => {
                                         value == 0 ? value = 'Manuálna' : value = 'Automatická'
                                         break;
                                     case 'Dlzka pozicky':
+                                        console.log('DLZKA POZICKY: ', value);
                                         if(value == 0)
                                             value = '1 Týždeň 9%'
                                         else if(value == 1)
