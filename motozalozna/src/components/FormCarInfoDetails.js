@@ -275,7 +275,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="karoseria"
                                                 id="karoseria"
                                                 onChange={e => handleState('karoseria', e.target.value)}
-                                                value={values.karoseria ?? 0}>
+                                                value={values.karoseria ?? ''}>
                                                 <MenuItem value={0}>Hachback / Sedan</MenuItem>
                                                 <MenuItem value={1}>Kombi</MenuItem>
                                             </Select>
@@ -291,7 +291,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="palivo"
                                                 id="palivo"
                                                 onChange={e => handleState('palivo', e.target.value)}
-                                                value={values.palivo ?? 0}>
+                                                value={values.palivo ?? ''}>
                                                 <MenuItem value={0}>Benzín</MenuItem>
                                                 <MenuItem value={1}>Nafta</MenuItem>
                                             </Select>
@@ -309,7 +309,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="pohon"
                                                 id="pohon"
                                                 onChange={e => handleState('pohon', e.target.value)}
-                                                value={values.pohon ?? 0}>
+                                                value={values.pohon ?? ''}>
                                                 <MenuItem value={0}>Jednej nápravy</MenuItem>
                                                 <MenuItem value={1}>4x4</MenuItem>
                                             </Select>
@@ -325,7 +325,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="prevodovka"
                                                 id="prevodovka"
                                                 onChange={e => handleState('prevodovka', e.target.value)}
-                                                value={values.prevodovka ?? 0}>
+                                                value={values.prevodovka ?? ''}>
                                                 <MenuItem value={0}>Manuálna</MenuItem>
                                                 <MenuItem value={1}>Automatická</MenuItem>
                                             </Select>
