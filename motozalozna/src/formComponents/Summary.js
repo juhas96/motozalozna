@@ -1,9 +1,10 @@
 import React, { useEffect,  } from 'react';
 import { FormControl, Container, Button } from '@material-ui/core/';
+import '../extensions/StringExtension'
 // import { Form } from 'react-bootstrap'
 
-import '../css/formPT.css'
-import '../css/uniform.css'
+import './formCss/formPT.css'
+import './formCss/uniform.css'
 import { sendData } from '../service/HttpService';
 
 const Summary = (props) => {
@@ -42,16 +43,12 @@ const Summary = (props) => {
         props.prevStep();
     }
 
-    String.prototype.Capitalize = function() {
-        return this.charAt(0).toUpperCase() + this.slice(1);
-    }
-
     const getValues = () => { 
 
         return(
             summaryValues.map((e) => {
                 return(
-                   <div>
+                   <div key={e.name}>
                        <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
                        {
                             Object.entries(e.values).map( ([key, value]) =>  {
@@ -91,9 +88,9 @@ const Summary = (props) => {
                                 }
 
                                 return(
-                                    <div style={{margin: "auto"}}>
-                                        <ul class="list-group" style={{width: "500px"}}>
-                                        <li class="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
+                                    <div style={{margin: "auto"}} key = {e.name + Math.random()}>
+                                        <ul className="list-group" style={{width: "500px"}}>
+                                        <li className="list-group-item" style={{'textAlign': "left"}}>{key} - {value}</li>
                                         </ul>
                                     </div>
                                 )

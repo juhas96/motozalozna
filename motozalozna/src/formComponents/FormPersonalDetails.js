@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Container }  from '@material-ui/core/';
 import { Form } from 'react-bootstrap'
 //FORM CSS
-import '../css/formPD.css'
-import '../css/uniformForm.css'
+import './formCss/formPD.css'
+import './formCss/uniformForm.css'
 
-import '../css/uniform.css'
+import './formCss/uniform.css'
 
 const FormPersonalDetails = (props) =>  {
 

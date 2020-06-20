@@ -6,10 +6,10 @@ import { Autocomplete } from '@material-ui/lab';
 import { findPrice, checkStolen } from '../service/HttpService';
 import cars from '../cars.json'
 //FORM CSS
-import '../css/formCarInfoDetails.css'
-import '../css/uniformForm.css'
+import './formCss/formCarInfoDetails.css'
+import './formCss/uniformForm.css'
 
-import '../css/uniform.css'
+import './formCss/uniform.css'
 
 const FormCarInfoDetails = (props) =>  {
 
@@ -170,7 +170,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="karoseria"
                                                 id="karoseria"
                                                 onChange={e => handleState('karoseria', e.target.value)}
-                                                defaultValue={values.karoseria ?? undefined}>
+                                                defaultValue={values.karoseria ?? ""}>
                                                 <MenuItem value={0}>Hachback / Sedan</MenuItem>
                                                 <MenuItem value={1}>Kombi</MenuItem>
                                             </Select>
@@ -186,7 +186,7 @@ const FormCarInfoDetails = (props) =>  {
                                                 labelId="palivo"
                                                 id="palivo"
                                                 onChange={e => handleState('palivo', e.target.value)}
-                                                defaultValue={values.palivo ?? undefined}>
+                                                defaultValue={values.palivo ?? ""}>
                                                 <MenuItem value={0}>Benzín</MenuItem>
                                                 <MenuItem value={1}>Nafta</MenuItem>
                                             </Select>

@@ -1,7 +1,7 @@
 import React, { Component, useEffect } from 'react';
 import { Checkbox, Box, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/';
-import '../css/formPT.css'
-import '../css/uniform.css'
+import './formCss/formPT.css'
+import './formCss/uniform.css'
 
 const FormPersonalTerms = (props) => {
     
@@ -41,7 +41,7 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.leasing ? values.leasing : false} onChange={handleChange('leasing')} />
+                                    <Checkbox color="primary" checked={values.leasing ?? false} onChange={handleChange('leasing')} />
                                 }
                                 label= {
                                     <Box component="div">
@@ -54,7 +54,7 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.blokacia ? values.blokacia : false} onChange={handleChange('blokacia')} />
+                                    <Checkbox color="primary" checked={values.blokacia ?? false} onChange={handleChange('blokacia')} />
                                 }
                                 label= {
                                     <Box component="div">
@@ -67,7 +67,7 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.kluc ? values.kluc : false} onChange={handleChange('kluc')} />
+                                    <Checkbox color="primary" checked={values.kluc ?? false} onChange={handleChange('kluc')} />
                                 }
                                 label= {
                                     <Box component="div">
@@ -80,7 +80,7 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.notar ? values.notar : false} onChange={handleChange('notar')} />
+                                    <Checkbox color="primary" checked={values.notar ?? false} onChange={handleChange('notar')} />
                                 }
                                 label= {
                                     <Box component="div">

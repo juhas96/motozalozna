@@ -2,8 +2,8 @@ import React from "react";
 import { Slider, TextField, InputLabel } from "@material-ui/core/";
 import { Row } from 'react-bootstrap'
 
-import '../css/formLoadDetails.css'
-import '../css/uniform.css'
+import './formCss/formLoadDetails.css'
+import './formCss/uniform.css'
 
 export default function DiscreteSlider({ values, handleChange, max }) {
 	const [value, setValue] = React.useState(values);

@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import UserForm from './components/UserForm';
-
+import UserForm from './formComponents/UserForm';
+import TableForm from './tableComponents/TableForm'
 
 function App() {
   return (
       <div className="App" style={{width: '100%'}}>
-        <UserForm/>
+        <UserForm />
       </div>
   );
 }

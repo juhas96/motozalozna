@@ -12,7 +12,7 @@ import FormLoanDetails from './FormLoanDetails';
 import Summary from './Summary';
 import { Row } from 'react-bootstrap'
 
-import '../css/uniform.css'
+import './formCss/uniform.css'
 
 export class UserForm extends Component {
 
@@ -20,7 +20,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 2,
+      step: 0,
 
       krstne_meno: '',
       priezvisko: '',
@@ -47,14 +47,14 @@ export class UserForm extends Component {
       kluc: false,
       notar: false,
       blokacia: false,
-      zalozne_pravo: '',
+      zalozne_pravo: false,
 
       dlzka_pozicky: null,
       cena: null,
       auto: null,
       autoIndex: null,
       autoName: '',
-      cenaPozicky: null,
+      cenaPozicky: 0,
       vysledna_pozicka: null,
 
       obcianskyFile: null,
@@ -117,7 +117,7 @@ export class UserForm extends Component {
             {
               Object.entries(type).map((e, inx) => {
                 return (
-                  <div>
+                  <div key={e[1].name}>
                     { e[1].name ? 
                       <div className="fileShow">
                         <Row>

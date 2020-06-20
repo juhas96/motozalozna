@@ -2,8 +2,8 @@ import React,  { useEffect } from 'react';
 import { Button, Container, FormControl, FormControlLabel, Checkbox, InputLabel, MenuItem, Select, Typography } from '@material-ui/core/'
 import { Form } from 'react-bootstrap'
 
-import '../css/formLoadDetails.css'
-import '../css/uniform.css'
+import './formCss/formLoadDetails.css'
+import './formCss/uniform.css'
 
 import DiscreteSlider from './DiscreteSlider'
 
@@ -81,18 +81,18 @@ const FormLoanDetails = (props) =>  {
                                 </div>
                             </div>
 
-                                <div className="divider"></div>
+                            <div className="divider"></div>
 
-                                <div className="wrapper">
-                                    <div className="chooseLvl">
-                                        <Typography id="discrete-slider-custom" gutterBottom variant='inherit'>
-                                            <h2>Vyberte si výšku Vašej pôžičky</h2>
-                                        </Typography>
-                                    </div>
-
-                                    <DiscreteSlider values={values.cenaPozicky} handleChange={handleState} max={values.cenaPozicky}/>
-
+                            <div className="wrapper">
+                                <div className="chooseLvl">
+                                    <Typography id="discrete-slider-custom" gutterBottom variant='inherit'>
+                                        <h2>Vyberte si výšku Vašej pôžičky</h2>
+                                    </Typography>
                                 </div>
+
+                                <DiscreteSlider values={values.cenaPozicky} handleChange={handleState} max={values.cenaPozicky}/>
+
+                            </div>
                             <div className="customButton">
                                 <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
                                 <Button type="submit" variant="contained" color="primary">Potvrdiť</Button>

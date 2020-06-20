@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Checkbox, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/'
-import '../css/formPT.css'
-import '../css/uniform.css'
+import './formCss/formPT.css'
+import './formCss/uniform.css'
 
 const FormCarConditionDetails = (props) =>  {
 
