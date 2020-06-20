@@ -3,7 +3,7 @@ import './App.css';
 import UserForm from './formComponents/UserForm';
 import TableForm from './tableComponents/TableForm'
 
-function App() {
+function AppForm() {
   return (
       <div className="App" style={{width: '100%'}}>
         <UserForm />
@@ -11,4 +11,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppForm;
