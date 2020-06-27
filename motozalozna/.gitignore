@@ -12,6 +12,7 @@ build
 /build
 .idea
 package-lock.json
+.env
 
 # misc
 .DS_Store
