@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, Container } from '@material-ui/core/'
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CreateIcon from '@material-ui/icons/Create';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import CreateIcon from '@material-ui/icons/Create';
 import { Modal } from 'react-bootstrap'
 import { getAllLoans } from '../service/HttpService';
 
 import '../formComponents/formCss/uniform.css'
 import '../extensions/ArrayExtension'
+import './tableCss/admin.css'
 
 const AdminTable = (props) => {
 
@@ -37,13 +38,14 @@ const AdminTable = (props) => {
       getAllLoans()
         .then(response => {
           response.data.forEach(singleRow => {
-            console.log('SINGLE ROW: ', singleRow)
+            // console.log('SINGLE ROW: ', singleRow)
             rows.push({
               meno: singleRow.user.first_name + ' ' + singleRow.user.last_name,
               email: singleRow.user.email,
               vyska: Number(singleRow.loan_price),
               dateRange: '12.3.2020 - 12.4.2020',
-              paid: singleRow.interest
+              paid: singleRow.interest,
+              row: singleRow
             });
           });
           handleState('adminRows', rows)
@@ -85,22 +87,22 @@ const AdminTable = (props) => {
     setModal(true)
   }
 
-  function handleEdit(row) {
-    setModal(true)
-  }
+  // function handleEdit(row) {
+  //   setModal(true)
+  // }
 
-  function handleDelete(row) {
-    rows.map((e, idx) => {
-      if(e == row) {
-        rows.remove(e)
-        handleState('adminRows', rows)
-      }
-    })
-  }
+  // function handleDelete(row) {
+  //   rows.map((e, idx) => {
+  //     if(e == row) {
+  //       rows.remove(e)
+  //       handleState('adminRows', rows)
+  //     }
+  //   })
+  // }
 
-  function handleSubmit() {
-    //SENDS DATA
-  }
+  // function handleSubmit() {
+  //   //SENDS DATA
+  // }
 
   function handleClose() {
     setModal(false)
@@ -116,14 +118,80 @@ const AdminTable = (props) => {
         <div className='wrapper' style={{paddingLeft: '30px', paddingRight: '30px'}}>
           <Paper className={classes.root}>
 
-            <Modal size='lg' show={isModal} onHide={() => handleClose()} animation={true}>
+            <Modal show={isModal} onHide={() => handleClose()} animation={true} size="xl">
+
               <Modal.Header closeButton>
                 <Modal.Title>Informácie</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 {
                   <div>
-                    {currentRow ? currentRow.meno : null}
+                    { currentRow ? 
+
+                    <div className="container">
+                      <div className="row">
+
+                        {console.log(currentRow)}
+
+                        <div style={{margin: "auto"}} key = {currentRow.meno} className="col-lg-auto col-sm-12 col-xs-12 modalRow">
+                          <h3>Osobné Informácie</h3>
+                          <ul className="list-group" style={{maxWidth: "300px"}}>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Meno: {currentRow.meno}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Email: {currentRow.email}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Telefonne Cislo:  {currentRow.row.user.phone_number}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Dlzka pozicky:  {currentRow.row.loan_length}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Cena pozicky: {currentRow.row.loan_price}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Pozicky od - do: 12.3.2020 - 12.4.2020</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Splatena urok: {currentRow.row.interest}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Zaplatene: {currentRow.row.interest_paid}</li>
+                          </ul>
+                        </div> 
+                        
+                        <div style={{margin: "auto"}} key = {"daco"}  className="col-lg-auto col-sm-12 col-xs-12 modalRow">
+                          <h3>Informácie o Aute</h3>
+                          <ul className="list-group" style={{maxWidth: "300px"}}>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>ECV: {currentRow.row.car_ecv}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Typ karoserie: {currentRow.row.car_bodywork_type}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Typ pohonu: {currentRow.row.car_axle_type}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Palivo: {currentRow.row.car_fuel_type}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Prevodovka: {currentRow.row.car_gearbox_type}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>KM: {currentRow.row.car_km}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>KW: {currentRow.row.car_power}</li>
+                            <li className="list-group-item" style={{'textAlign': "left"}}>Vek:  {currentRow.row.car_years_old}</li>
+                            <li className="list-group-item text-center" style={{'textAlign': "left"}}>Skody
+                              <div className="text-left">
+                                <div>
+                                • Lak: {currentRow.row.car_damaged_varnish == false ? "Nie" : "Ano"}
+                                </div>
+
+                                <div>
+                                • Karoseria: {currentRow.row.car_damaged_bodywork == false ? "Nie" : "Ano"}
+                                </div>
+
+                                <div>
+                                • Interier: {currentRow.row.car_damaged_interior == false ? "Nie" : "Ano"}
+                                </div>
+
+                                <div>
+                                • Pneumatiky: {currentRow.row.car_damaged_tires == false ? "Nie" : "Ano"}
+                                </div>
+
+                                <div>
+                                • Sklo: {currentRow.row.car_damaged_window == false ? "Nie" : "Ano"}
+                                </div>
+
+                                <div>
+                                • Naprava: {currentRow.row.car_damaged_axle == false ? "Nie" : "Ano"}
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    : null }
                   </div>
                    
                 }
@@ -164,13 +232,13 @@ const AdminTable = (props) => {
 
                               { column.label == 'Akcie' ?
 
-                              <div className="btn-group" key={row.name}>
-                                <Button onClick={() => handleEdit(row)}>
+                              <div className="btn-group" key={row.name + row.name}>
+                                {/* <Button onClick={() => handleEdit(row)}>
                                   <CreateIcon />
                                 </Button>
                                 <Button onClick={() => handleDelete(row)}>
                                   <DeleteIcon />
-                                </Button>
+                                </Button> */}
                                 <Button onClick={() => handleVisibility(row)}>
                                   <VisibilityIcon/>
                                 </Button>
@@ -206,10 +274,10 @@ const AdminTable = (props) => {
         </div>
       </div>
     : null }
-
+{/* 
       <div style={{float: "right"}}>
         <Button style={{marginTop: "20px", marginBottom: '25px'}} onClick={() => {handleSubmit()}} variant="contained" color="primary">Potvdit zmeny</Button>
-      </div>
+      </div> */}
     </Container>
   )
 }

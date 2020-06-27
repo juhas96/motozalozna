@@ -25,7 +25,16 @@ export const sendData = data => {
 }
 
 export const getAllLoans = () => {
-    return axios.get('http://localhost:5000/loans')
+    return axios.get('https://motozalozna-backend.herokuapp.com/api/loans')
+        .then(response => {
+            return response;
+        }).catch(err => console.warn(err))
+}
+
+export const getUsersLoan = async (id) => {
+    return await axios.get("https://motozalozna-backend.herokuapp.com/api/loans/by_user", {
+        headers: {"user_id": id}
+        })
         .then(response => {
             return response;
         }).catch(err => console.warn(err))

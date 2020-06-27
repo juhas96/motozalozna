@@ -17,7 +17,8 @@ export class TableForm extends Component {
         userType: "",
         isLogged: false,
         adminRows: [],
-        userRows: []
+        userRows: [],
+        payPrice: 0
     };
 
     this.handleState = this.handleState.bind(this)

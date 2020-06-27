@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { Button } from "@material-ui/core"
 import { 
     Elements,
     CardElement,
     useStripe,
     useElements
 } from '@stripe/react-stripe-js';
-import pay from '../service/HttpService';
+import { pay } from '../service/HttpService';
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = (props) => {
     const stripe = useStripe();
@@ -34,14 +35,12 @@ const CheckoutForm = (props) => {
     return (
         <form onSubmit={handleSubmit} style={{maxWidth: '400px', margin: '0 auto'}}>
             <CardElement />
-            <button type="submit" disabled={!stripe}>
-                Zaplatiť
-            </button>
+            <Button variant="contained" type="submit" color="primary" style={{marginTop: "10px"}} disabled={!stripe}>Zaplatiť</Button>
         </form>
     )
 }
 
-const Payment = (props) => {
+export const Payment = (props) => {
     return (
         <Elements stripe={stripePromise}>
             <CheckoutForm />
