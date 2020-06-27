@@ -73,7 +73,7 @@ export class TableForm extends Component {
                 </AppBar>
             </div>
             { this.state.isLogged == false ? 
-                <Container maxWidth='md' style={{marginBottom: '2%'}}>
+                <Container maxWidth='lg' style={{marginBottom: '2%'}}>
                     <div className="categoryName">
                         <h1>Prihlásiť sa</h1>
                     </div>
@@ -117,7 +117,7 @@ export class TableForm extends Component {
                     </div> 
                 </Container>
                 :
-                <Container maxWidth='md' style={{marginBottom: '2%'}}>
+                <Container maxWidth='lg' style={{marginBottom: '2%'}}>
                     <div>
                         { this.getUsersContent(this.state.userType) }
                     </div>

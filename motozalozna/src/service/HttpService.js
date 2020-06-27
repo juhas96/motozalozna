@@ -23,3 +23,10 @@ export const sendData = data => {
             return response;
         }).catch(err => console.warn(err));
 }
+
+export const getAllLoans = () => {
+    return axios.get('http://localhost:5000/loans')
+        .then(response => {
+            return response;
+        }).catch(err => console.warn(err))
+}

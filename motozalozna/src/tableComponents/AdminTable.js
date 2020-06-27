@@ -5,6 +5,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import { Modal } from 'react-bootstrap'
+import { getAllLoans } from '../service/HttpService';
 
 import '../formComponents/formCss/uniform.css'
 import '../extensions/ArrayExtension'
@@ -31,23 +32,25 @@ const AdminTable = (props) => {
     const [ currentRow, setCurrentRow ] = useState()
 
     useEffect(() => {
-      const rows = [
-        {'meno': 'Sebastian Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Kimi Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Vettel Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Max Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Dakto Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Int Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Mika Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Schummacher Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Hello Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Kimi Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Sebastian Vettel', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-        {'meno': 'Kimi Raikkonen', 'email':'vettel@scuderia.it', 'vyska': 120000, 'dateRange':'12.3.2020 - 12.4.2020', 'paid': 202},
-      ];
+      const rows = [];
 
-      handleState('adminRows', rows)
-
+      getAllLoans()
+        .then(response => {
+          response.data.forEach(singleRow => {
+            console.log('SINGLE ROW: ', singleRow)
+            rows.push({
+              meno: singleRow.user.first_name + ' ' + singleRow.user.last_name,
+              email: singleRow.user.email,
+              vyska: Number(singleRow.loan_price),
+              dateRange: '12.3.2020 - 12.4.2020',
+              paid: singleRow.interest
+            });
+          });
+          handleState('adminRows', rows)
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }, [handleState]) 
   
     const handleChangePage = (event, newPage) => {
@@ -113,7 +116,7 @@ const AdminTable = (props) => {
         <div className='wrapper' style={{paddingLeft: '30px', paddingRight: '30px'}}>
           <Paper className={classes.root}>
 
-            <Modal show={isModal} onHide={() => handleClose()} animation={true}>
+            <Modal size='lg' show={isModal} onHide={() => handleClose()} animation={true}>
               <Modal.Header closeButton>
                 <Modal.Title>Informácie</Modal.Title>
               </Modal.Header>
@@ -122,7 +125,7 @@ const AdminTable = (props) => {
                   <div>
                     {currentRow ? currentRow.meno : null}
                   </div>
-                  
+                   
                 }
               </Modal.Body>
               <Modal.Footer>
