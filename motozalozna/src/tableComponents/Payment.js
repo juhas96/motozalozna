@@ -10,7 +10,7 @@ import pay from '../service/HttpService';
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -26,6 +26,7 @@ const CheckoutForm = () => {
             const {stripeTokenId} = paymentMethod;
 
             // TODO: handle price from input
+            // 1099 equals 10.99 , replace '.' in price
             pay({stripeTokenId, price: 1099});
         }
     }
