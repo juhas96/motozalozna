@@ -11,7 +11,6 @@ const Summary = (props) => {
     const { summaryValues, values } = props;
 
     useEffect(() => {
-
         setTimeout(function () {
             window.scroll({
                 top: 0,

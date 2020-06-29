@@ -47,7 +47,7 @@ export class UserForm extends Component {
       kluc: false,
       notar: false,
       blokacia: false,
-      zalozne_pravo: '',
+      zalozne_pravo: false,
 
       dlzka_pozicky: 0,
       urok: 0,
