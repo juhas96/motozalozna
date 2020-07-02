@@ -3,42 +3,69 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Button } from '@material-ui/core/';
 import FormPersonalDetails from './FormPersonalDetails';
 import FormCarInfoDetails from './FormCarInfoDetails';
 import FormCarConditionDetails from './FormCarConditionDetails';
 import FormPersonalTerms from './FormPersonalTerms';
 import FormLoanDetails from './FormLoanDetails';
+import Summary from './Summary';
+import { Row } from 'react-bootstrap'
+
+import '../css/uniform.css'
 
 export class UserForm extends Component {
-    state = {
-        step: 4,
-        karoseria: '', 
-        palivo: '',
-        pohon: '',
-        prevodovka: '',
-        vykon: '',
-        vek: '',
-        ec: '',
-        pocetkm: 0,
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: 0,
-        poskodeny_lak: false,
-        poskodena_karoseria: false,
-        poskodeny_interier: false,
-        opotrebena_naprava: false,
-        opotrebene_pneu: false,
-        poskodene_sklo: false,
-        leasing: false,
-        kluc: false,
-        notar: false,
-        blokacia: false,
-        zalozne_pravo: '',
-        dlzka_pozicky: '',
-        cena: 0,
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      step: 1,
+
+      krstne_meno: '',
+      priezvisko: '',
+      email: '',
+      telefonne_cislo: null,
+
+      karoseria: null, 
+      palivo: null,
+      pohon: null,
+      prevodovka: null,
+      vykon: null,
+      vek: null,
+      ec: '',
+      pocetkm: null,
+
+      poskodeny_lak: false,
+      poskodena_karoseria: false,
+      poskodeny_interier: false,
+      opotrebena_naprava: false,
+      opotrebene_pneu: false,
+      poskodene_sklo: false,
+
+      leasing: false,
+      kluc: false,
+      notar: false,
+      blokacia: false,
+      zalozne_pravo: false,
+
+      dlzka_pozicky: 0,
+      urok: 0,
+      cena: 0,
+      auto: null,
+      autoIndex: null,
+      autoName: '',
+      cenaPozicky: 0,
+      vysledna_pozicka: 0,
+
+      obcianskyFile: null,
+      technickyFile: null,
+      poistenieFile: null,
+      vozidloFiles: null,
     };
+
+    this.handleState = this.handleState.bind(this)
+  }
 
     // Proceed to next step
     nextStep = () => {
@@ -58,82 +85,196 @@ export class UserForm extends Component {
 
     // Handle input change
     handleChange = input => e => {
-      console.log(e.target.value)
-        this.setState({ [input]: e.target.value || e.target.checked });
+      this.setState({ [input]: e.target.value || e.target.checked });
     }
 
-    // handleState = (name, data) => {
-    //   this.setState({
-    //     'cena': 'helo'
-    //   }, function() {
-    //     console.log(this.state)
-    //   })
-    // }
-
-    getStepContent = (stepIndex, values) => {
-      switch (stepIndex) {
-        case 0:
-          return <FormPersonalDetails
-                      nextStep={this.nextStep}
-                      handleChange={this.handleChange}
-                      values={values}/>;
-        case 1:
-          return <FormCarInfoDetails
-                      nextStep={this.nextStep}
-                      prevStep={this.prevStep}
-                      handleChange={this.handleChange}
-                      values={values}/>;
-        case 2:
-          return <FormCarConditionDetails
-                      nextStep={this.nextStep}
-                      prevStep={this.prevStep}
-                      handleChange={this.handleChange}
-                      values={values}/>;
-        case 3:
-          return <FormPersonalTerms
-                      nextStep={this.nextStep}
-                      prevStep={this.prevStep}
-                      handleChange={this.handleChange}
-                      values={values}/>;
-        case 4:
-          return <FormLoanDetails
-                      prevStep={this.prevStep}
-                      handleChange={this.handleChange}
-                      values={values}/>;
-        default:
-          return 'Unknown stepIndex';
+    handlePushLast = (value) => {
+      if(Object.entries(value).length > 0) {
+        Object.entries(value).map(e => {
+          if(e[1].name) {
+            this.setState(prevState => ({
+              vozidloFiles: [...prevState.vozidloFiles, e[1]]
+            }))
+          }
+        })
       }
+     
+      this.setState(prevState => ({
+        vozidloFiles: [...prevState.vozidloFiles, value]
+      }))
     }
 
-    render() {
-        // const classes = useStyles();
-        const steps = getSteps();
-        const { step } = this.state;
-        const { karoseria, palivo, pohon, prevodovka, vykon,
-                vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
-                poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-                opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky } = this.state;
-        const values = { karoseria, palivo, pohon, prevodovka, vykon,
-            vek, ec, pocetkm, firstName, lastName, email, phoneNumber,
-            poskodeny_lak, poskodena_karoseria, poskodeny_interier,
-            opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky };
+    handleState = async (name, data) => {
+      await this.setState({
+        [name]: data
+      }, function() {
+      })
+    }
 
+    showFiles = (type, typeName) => {
+      if( type && Object.keys(type).length > 0 )
         return (
+          <div>
+            {
+              Object.entries(type).map((e, inx) => {
+                return (
+                  <div>
+                    { e[1].name ? 
+                      <div className="fileShow">
+                        <Row>
+                          <div className="col-sm-9 col-md-9">
+                            <Typography>{e[1].name}</Typography>
+                          </div>
+                          <div className="col-sm-3 col-md-3">
+                            <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, e[1], typeName)}>Delete</Button>
+                          </div>
+                        </Row>
+                      </div>: <div> </div>
+                    }
+                  </div>
+                )
+              })
+            }
+          </div>
+        )
+      else
+        return(
             <div>
-                <Stepper activeStep={step} alternativeLabel>
-                    {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                    ))}
-                </Stepper>
-
-                <div>
-                    <Typography variant='inherit'>{this.getStepContent(step, values)}</Typography>
-                </div>
+              {
+                type ? <div> 
+                { type.name ? 
+                  <div className="fileShow">
+                    <Row>
+                      <div className="col-sm-9 col-md-9">
+                        <Typography style={{'marginTop': "5px"}}>{type.name}</Typography>
+                      </div>
+                      <div className="col-sm-3 col-md-3">
+                        <Button style={{'display': 'inline-block', 'verticalAlign': 'middle', 'height': '100%'}} onClick={this.handleDelete.bind(this, type, typeName)}>Delete</Button> 
+                      </div>
+                    </Row>
+                  </div> : <div> </div>
+                }
+                  </div> : <div> </div> 
+              }
             </div>
         )
+  }
+
+  handleDelete(file, fileName) {
+    switch(fileName) {
+      case 'vozidloFiles':
+        var array = [...this.state.vozidloFiles]
+        var index = array.indexOf(file);
+        if (index > -1) { 
+          array.splice(index, 1);
+        }
+        this.setState({vozidloFiles: array});
+        break;
+      case 'poistenieFile':
+        this.setState({poistenieFile: null})
+        break;
+      case 'obcianskyFile':
+        this.setState({obcianskyFile: null})
+        break;
+      case 'technickyFile':
+        this.setState({technickyFile: null})
+        break;
     }
+  }
+
+  getStepContent = (stepIndex, values, summaryValues) => {
+    switch (stepIndex) {
+      case 0:
+        return <FormCarInfoDetails
+                    handlePushLast = {this.handlePushLast}
+                    handleFiles = {this.showFiles}
+                    handleState = {this.handleState}
+                    nextStep={this.nextStep}
+                    prevStep={this.prevStep}
+                    handleChange={this.handleChange}
+                    values={values}/>;
+      case 1:
+        return <FormPersonalDetails
+                    handleFiles = {this.showFiles}
+                    handleState = {this.handleState}
+                    nextStep={this.nextStep}
+                    prevStep={this.prevStep}
+                    handleChange={this.handleChange}
+                    values={values}/>;
+      case 2:
+        return <Summary
+                    prevStep={this.prevStep}
+                    summaryValues={summaryValues}
+                    values={values}/>;
+      // case 3:
+      //   return <FormPersonalTerms
+      //               handleState = {this.handleState}
+      //               nextStep={this.nextStep}
+      //               prevStep={this.prevStep}
+      //               handleChange={this.handleChange}
+      //               values={values}/>;
+      // case 4:
+      //   return <FormLoanDetails
+      //               handleState = {this.handleState}
+      //               nextStep={this.nextStep}
+      //               prevStep={this.prevStep}
+      //               handleChange={this.handleChange}
+      //               values={values}/>;
+      // case 5:
+      //   return <Summary
+      //               prevStep={this.prevStep}
+      //               summaryValues={summaryValues}
+      //               values={values}/>;
+      default:
+        return 'Unknown stepIndex';
+    }
+  }
+
+  render() {
+      const steps = getSteps();
+      const { step } = this.state;
+      const { karoseria, palivo, pohon, prevodovka, vykon,
+              vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
+              poskodeny_lak, poskodena_karoseria, poskodeny_interier,
+              opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, obcianskyFile,
+              technickyFile,
+              poistenieFile,
+              autoIndex,
+              vozidloFiles, vysledna_pozicka, urok } = this.state;
+      const values = { karoseria, palivo, pohon, prevodovka, vykon,
+          vek, ec, pocetkm, krstne_meno, priezvisko, email, telefonne_cislo,
+          poskodeny_lak, poskodena_karoseria, poskodeny_interier,
+          autoIndex,
+          opotrebena_naprava, opotrebene_pneu, poskodene_sklo, leasing, kluc, notar, blokacia, zalozne_pravo, dlzka_pozicky, cena, auto, cenaPozicky, technickyFile,
+          poistenieFile,
+          vozidloFiles, obcianskyFile, vysledna_pozicka, urok };
+
+      const summaryValues = [
+        {name: 'Osobne Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
+        {name: 'Informacie o Aute', values: {karoseria, palivo, pohon, prevodovka, vykon,
+          vek, ec, pocetkm}},
+        {name: 'Stav Auta', values: {poskodeny_lak, poskodena_karoseria, poskodeny_interier,
+          opotrebena_naprava, opotrebene_pneu, poskodene_sklo}},
+        {name: 'Potvrdzujem', values: {leasing, kluc, notar, blokacia, zalozne_pravo}},
+        {name: 'Pozicka', values: {dlzka_pozicky, cena, vysledna_pozicka}}
+      ]
+
+      return (
+          <div>
+              <Stepper activeStep={step} alternativeLabel>
+                  {steps.map((label) => (
+                  <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                  </Step>
+                  ))}
+              </Stepper>
+
+              <div>
+                  <Typography variant='inherit'>{this.getStepContent(step, values, summaryValues)}</Typography>
+              </div>
+          </div>
+      )
+  }
 
 }
 
@@ -151,28 +292,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   function getSteps() {
-    return ['Osobné údaje', 'Údaje o vozidle', 'Stav vozidla', 'Podmienky', 'Typ pôžičky'];
+    return ['Údaje o vozidle', 'Osobné údaje', 'Suhrn'];
   }
-  
-//   function getStepContent(stepIndex, values) {
-//     switch (stepIndex) {
-//       case 0:
-//         return <FormPersonalDetails
-//                     nextStep={this.nextStep}
-//                     handleChange={this.handleChange}
-//                     values={values}/>;
-//       case 1:
-//         return <h1>TEST2</h1>;
-//       case 2:
-//         return <h1>TEST3</h1>;
-//       case 3:
-//         return <h1>TEST4</h1>;
-//       case 4:
-//         return <h1>TEST5</h1>;
-//       default:
-//         return 'Unknown stepIndex';
-//     }
-//   }
-
 
 export default UserForm;

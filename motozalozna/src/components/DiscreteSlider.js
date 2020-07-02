@@ -6,10 +6,11 @@ import '../css/formLoadDetails.css'
 import '../css/uniform.css'
 
 export default function DiscreteSlider({ values, handleChange, max }) {
-	const [value, setValue] = React.useState(values.cena);
+	const [value, setValue] = React.useState(values);
   
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
+		handleChange('vysledna_pozicka', newValue)
 	};
 
 	const marks = [
@@ -28,7 +29,9 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 	}
 	
 	const handleInputChange = event => {
+		handleChange('vysledna_pozicka', Number(event.target.value))
 		setValue(event.target.value === "" ? "" : Number(event.target.value));
+
 	};
   
 	return (
@@ -37,7 +40,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 			<div className="col-md-6 textField">
 				<Slider
 					style={{ marginTop: "20px" }}
-					value={typeof value === "number" ? value : 0}
+					value={parseInt(value)}
 					onChange={handleSliderChange}
 					getAriaValueText={valueText}
 					valueLabelDisplay="auto"
@@ -46,9 +49,9 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 					min={0}
 					max={max}
 					marks={marks}
-					onChangeCommitted={(event, value) =>
-						handleChange("areaSpace")({ target: { value } })
-					}
+					// onChangeCommitted={(event, value) =>
+					// 	handleState("cena")({ target: { value } })
+					// }
 					/>
 			</div>
 
@@ -63,11 +66,10 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 						min: 0,
 						max: max,
 						type: "number",
-						"aria-labelledby": "input-slider"
+						"aria-labelledby": "input-slider",
 					}}
 				/>
 			</div>
-
 	</Row>
 	);
   }

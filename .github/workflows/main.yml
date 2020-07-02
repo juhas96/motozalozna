@@ -32,5 +32,5 @@ jobs:
         host: ${{ secrets.FTP_SERVER }}
         user: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
-        localDir: "dist/main.js"
-        remoteDir: "/main.js"
+        localDir: "motozalozna/dist"
+        remoteDir: "/"

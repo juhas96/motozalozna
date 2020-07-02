@@ -17,7 +17,9 @@
 }
 
 .confirmCol {
-    padding-top: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 20px;
 }
 
 .sliderWrapper {
@@ -38,13 +40,14 @@
     /* padding-left: 10px;
     padding-right: 10px; */
     margin-left: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     max-width: 80%;
 }
 
 .customText {
     width: 250px;
-    margin-bottom: 20px;
+    /* margin-bottom: 30px;
+    padding-bottom: 30; */
     background-color: white;
 }
 

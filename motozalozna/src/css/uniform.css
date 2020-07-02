@@ -18,3 +18,24 @@
     padding-top: 16px;
     padding-bottom: 16px;
 }
+
+.fileShow {
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px;
+    border: '1px solid red';
+    border-radius: 5px;
+    background-color: white;
+    border-radius: 5px;
+    border: solid rgb(216, 216, 216);
+    border-width: 1px;
+}
+
+.fileLabel {
+    text-align: left;
+}
+
+.fileButton {
+    background-color: red;
+}

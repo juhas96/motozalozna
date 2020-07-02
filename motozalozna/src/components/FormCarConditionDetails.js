@@ -1,10 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { useEffect } from 'react';
+import { Box, Checkbox, FormControlLabel, FormControl, Container, Button } from '@material-ui/core/'
 import '../css/formPT.css'
 import '../css/uniform.css'
 
@@ -13,6 +8,7 @@ const FormCarConditionDetails = (props) =>  {
     const { values, handleChange } = props;
 
     useEffect(() => {
+        console.log(values)
         setTimeout(function () {
             window.scroll({
                 top: 0,
@@ -25,8 +21,17 @@ const FormCarConditionDetails = (props) =>  {
     const continueNext = e => {
         e.preventDefault();
 
-        var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
+        var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
         skoda = skoda*300
+
+
+        var cena = values.cena - skoda
+        props.handleState('cena', cena)
+
+        var maximum = ((cena / 100.0) * 40.0).toFixed(0)
+
+        props.handleState('cenaPozicky', maximum)
+        props.handleState('vysledna_pozicka', maximum)
 
         props.nextStep()
     }
@@ -37,7 +42,6 @@ const FormCarConditionDetails = (props) =>  {
     }
 
     return (
-        <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
                 <div className="categoryName">
@@ -45,61 +49,85 @@ const FormCarConditionDetails = (props) =>  {
                 </div>
                     <div className="wrapper" style={{'textAlign': "center"}}>
                         <div className="descriptionLabel">
-                            <h3>Má Vaše vozidlo tieto poškodenia?</h3>
+                            <h2>Má Vaše vozidlo tieto poškodenia?</h2>
                         </div>
                         <FormControl>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.poskodeny_lak ? true : false} onChange={handleChange('poskodeny_lak')} />
+                                        <Checkbox color="primary" checked={values.poskodeny_lak ?? false} onChange={handleChange('poskodeny_lak')} />
                                     }
-                                    label="Poškodený lak"
+                                    label= {
+                                        <Box component="div" >
+                                            Poškodený lak
+                                        </Box>
+                                    }
                                 />
                             </div>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.poskodena_karoseria ? true : false} onChange={handleChange('poskodena_karoseria')} />
+                                        <Checkbox color="primary" checked={values.poskodena_karoseria ?? false} onChange={handleChange('poskodena_karoseria')} />
                                     }
-                                    label="Poškodená karoséria"
+                                    label= {
+                                        <Box component="div">
+                                            Poškodená karoséria
+                                        </Box>
+                                    }
                                 />
                             </div>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.poskodeny_interier ? true : false} onChange={handleChange('poskodeny_interier')} />
+                                        <Checkbox color="primary" checked={values.poskodeny_interier ?? false} onChange={handleChange('poskodeny_interier')} />
                                     }
-                                    label="Poškodený interiér"
+                                    label= {
+                                        <Box component="div">
+                                            Poškodený interiér
+                                        </Box>
+                                    }
                                 />
                             </div>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.opotrebena_naprava ? true : false} onChange={handleChange('opotrebena_naprava')} />
+                                        <Checkbox color="primary" checked={values.opotrebena_naprava ?? false} onChange={handleChange('opotrebena_naprava')} />
                                     }
-                                    label="Opotrebená náprava"
+                                    label= {
+                                        <Box component="div">
+                                            Opotrebená náprava
+                                     </Box>
+                                    }
                                 />
                             </div>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.opotrebene_pneu ? true : false} onChange={handleChange('opotrebene_pneu')} />
+                                        <Checkbox color="primary" checked={values.opotrebene_pneu ?? false} onChange={handleChange('opotrebene_pneu')} />
                                     }
-                                    label="Opotrebené pneumatiky"
+                                    label= {
+                                        <Box component="div">
+                                            Opotrebené pneumatiky
+                                     </Box>
+                                    }
                                 />
                             </div>
 
                             <div className="checker-2">
                                 <FormControlLabel
                                     control={
-                                        <Checkbox color="primary" checked={values.poskodene_sklo ? true : false} onChange={handleChange('poskodene_sklo')} />
+                                        <Checkbox color="primary" checked={values.poskodene_sklo ?? false} onChange={handleChange('poskodene_sklo')} />
                                     }
-                                    label="Poškodené čelné sklo"
+                                    label= {
+                                        <Box component="div">
+                                            Poškodené čelné sklo
+                                        </Box>
+                                    }
                                 />
                             </div>
 
@@ -111,7 +139,6 @@ const FormCarConditionDetails = (props) =>  {
                     </div>
                 </div>
             </Container>
-        </MuiThemeProvider>
     )
 }
 

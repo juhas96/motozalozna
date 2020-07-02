@@ -1,13 +1,9 @@
-import React, { Component, useEffect } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { DropzoneArea } from 'material-ui-dropzone';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap'
+import { Select, MenuItem, InputLabel, FormControl, FormControlLabel, Container, Button, TextField, CircularProgress, Fade, Box, Checkbox } from '@material-ui/core/'
+import { Autocomplete } from '@material-ui/lab';
+import { findPrice, checkStolen } from '../service/HttpService';
+import cars from '../cars.json'
 //FORM CSS
 import '../css/formCarInfoDetails.css'
 import '../css/uniformForm.css'
@@ -16,7 +12,18 @@ import '../css/uniform.css'
 
 const FormCarInfoDetails = (props) =>  {
 
-    const { values, handleChange } = props;
+    const { values, handleState, handleFiles, handlePushLast, handleChange } = props;
+
+    var regexECV = /^([A-Z]{2}[0-9]{3}[A-Z]{2})+$/
+    var regexCustom = /^([A-Z]{2}[A-Z]{5})$/
+    var regexNumbers = /^([A-Z]{2}[0-9]{5})$/
+
+    const [ loading, setLoading ] = useState(false)
+
+    const [ KWError, setKWError ] = useState(false)
+    const [ YOError, setYOError ] = useState(false)
+    const [ KMError, setKMError ] = useState(false)
+    const [ ECVError, setECVError ] = useState(false)
 
     useEffect(() => {
         setTimeout(function () {
@@ -26,175 +33,407 @@ const FormCarInfoDetails = (props) =>  {
                 behavior: 'smooth'
             });
         }, 25);
+
     }, []) 
 
     const continueNext = e => {
         e.preventDefault();
-        
-        props.nextStep();
+        if(KWError + YOError + KMError + ECVError === 0 && values.auto) {
+            
+            setLoading(true)
+
+            var skoda = values.poskodena_karoseria + values.poskodene_sklo + values.poskodeny_interier + values.opotrebena_naprava + values.opotrebene_pneu + values.poskodeny_lak
+            skoda = skoda*300
+
+
+            // var cena = values.cena - skoda
+            // props.handleState('cena', cena)
+
+            // var maximum = ((cena / 100.0) * 40.0).toFixed(0)
+
+            // props.handleState('cenaPozicky', maximum)
+            // props.handleState('vysledna_pozicka', maximum)
+
+            cars.map((value, index) => {
+                if(value.key == values.auto) {
+                    handleState('autoIndex', index)
+                    return;
+                }
+            })
+
+            findPrice({
+                karoseria: props.values.karoseria,
+                palivo: props.values.palivo,
+                pohon: props.values.pohon,
+                prevodovka: props.values.prevodovka,
+                vykon: props.values.vykon,
+                vek: props.values.vek,
+                pocetkm: props.values.pocetkm,
+                dovezene: 0,
+                auto: props.values.auto
+            }).then(res => {
+                var cena = res.data - skoda
+                props.handleState('cena', cena)
+                var maximum = ((cena / 100.0) * 40.0).toFixed(0)
+
+                props.handleState('cenaPozicky', maximum)
+                props.handleState('vysledna_pozicka', maximum)
+            }).catch(err => console.log(err));
+
+            checkStolen({
+                ecv: values.ec
+            }).then(res => res.data == 0 ? props.nextStep() : console.log('stolen')).catch(err => console.log(err));
+        }
     }
 
     const back = e => {
         e.preventDefault();
         props.prevStep();
     }
+
+    function handleCheck(e) {
+        var value = e.target.value
+
+        switch(e.target.name) {
+            case 'KW':
+                if((1000 > value) && (value > 10)) {
+                    setKWError(false)
+                    handleState('vykon', value)
+                } else 
+                    setKWError(true)
+                break;
+            case 'YO':
+                if(value > 0 && value < 100) {
+                    setYOError(false)
+                    handleState('vek', value)
+                } else
+                    setYOError(true)
+                break;
+            case 'KM':
+                if(value > 1000 && value < 1000000) {
+                    setKMError(false)
+                    handleState('pocetkm', value)
+                } else
+                    setKMError(true)
+                break;
+            case 'ECV':
+                if(regexECV.test(value) || regexCustom.test(value) || regexNumbers.test(value)) {
+                    setECVError(false)
+                    handleState('ec', value)
+                } else 
+                    setECVError(true)
+                break;
+            default:
+                break;
+        }
+    }
+
+    function handleCar(value) {
+        if(value != undefined)
+            handleState('auto', value.key);
+    }
+
+    function handleVozidlo(e) {
+        if(values.vozidloFiles && e.target.files.length == 1)
+            handlePushLast(e.target.files[0])
+        else if(values.vozidloFiles)
+            handlePushLast(e.target.files)
+        else
+            handleState('vozidloFiles', e.target.files)
+    }
+
+    const styleButtons = () => {
+        if(!loading) 
+            return (
+                <div className="customButton">
+                    <div>
+                        {/* <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button> */}
+                        <Button type="submit" variant="contained" color="primary">Ďalej</Button>
+                    </div>
+                </div> 
+            )
+
+        return (
+            <div className="customButton">
+                <div>
+                    <Fade in={loading}>
+                        <CircularProgress />
+                    </Fade>
+                </div>
+            </div>
+        )
+    }
+
+    const carConditionDetails = () => {
+        return (
+            <div>
+                <div className="wrapper" style={{'textAlign': "center"}}>
+                    <div className="descriptionLabel">
+                        <h2>Má Vaše vozidlo tieto poškodenia?</h2>
+                    </div>
+                    <FormControl>
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.poskodeny_lak ?? false} onChange={handleChange('poskodeny_lak')} />
+                                }
+                                label= {
+                                    <Box component="div" >
+                                        Poškodený lak
+                                    </Box>
+                                }
+                            />
+                        </div>
+
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.poskodena_karoseria ?? false} onChange={handleChange('poskodena_karoseria')} />
+                                }
+                                label= {
+                                    <Box component="div">
+                                        Poškodená karoséria
+                                    </Box>
+                                }
+                            />
+                        </div>
+
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.poskodeny_interier ?? false} onChange={handleChange('poskodeny_interier')} />
+                                }
+                                label= {
+                                    <Box component="div">
+                                        Poškodený interiér
+                                    </Box>
+                                }
+                            />
+                        </div>
+
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.opotrebena_naprava ?? false} onChange={handleChange('opotrebena_naprava')} />
+                                }
+                                label= {
+                                    <Box component="div">
+                                        Opotrebená náprava
+                                    </Box>
+                                }
+                            />
+                        </div>
+
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.opotrebene_pneu ?? false} onChange={handleChange('opotrebene_pneu')} />
+                                }
+                                label= {
+                                    <Box component="div">
+                                        Opotrebené pneumatiky
+                                    </Box>
+                                }
+                            />
+                        </div>
+
+                        <div className="checker-2">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox color="primary" checked={values.poskodene_sklo ?? false} onChange={handleChange('poskodene_sklo')} />
+                                }
+                                label= {
+                                    <Box component="div">
+                                        Poškodené čelné sklo
+                                    </Box>
+                                }
+                            />
+                        </div>
+                    </FormControl>
+                </div>
+            </div>
+    )
+    }
     
     return (
-        <MuiThemeProvider>
             <Container maxWidth='md' style={{marginBottom: '2%'}}>
                 <div>
-                    <div className="categoryName">
-                        <h1>Údaje o vozidle</h1>
-                    </div>
-                    <div className="wrapper">
-                        <h3>Zákaldne informácie</h3>
-                        <div className="controlForm">
-                            <div className="row d-flex justify-content-center">
-                                <div className="col-md-offset-2 topCol">
-                                    <FormControl className="form">
-                                        <InputLabel id="karoseria-label">Typ karosérie</InputLabel>
-                                        <Select
-                                            required = {true}
-                                            style={{width: '25ch'}}
-                                            labelId="karoseria"
-                                            id="karoseria"
-                                            onChange={handleChange('karoseria')}
-                                            defaultValue={values.karoseria ? values.karoseria : undefined}>
-                                            <MenuItem value={'Hachback/Sedan'}>Hachback / Sedan</MenuItem>
-                                            <MenuItem value={'Kombi'}>Kombi</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                    <Form onSubmit={continueNext} id='form'>
+                        <div className="categoryName">
+                            <h1>Údaje o vozidle</h1>
+                        </div>
+                        <div className="wrapper">
+                            <h2>Základné informácie</h2>
+                            <div className="controlForm">
+                                <div className="row d-flex justify-content-center">
+                                    <div className="col-md-offset-2 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="karoseria-label">Typ karosérie</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                style={{width: '25ch'}}
+                                                labelId="karoseria"
+                                                id="karoseria"
+                                                onChange={e => handleState('karoseria', e.target.value)}
+                                                value={values.karoseria ?? ''}>
+                                                <MenuItem value={0}>Hachback / Sedan</MenuItem>
+                                                <MenuItem value={1}>Kombi</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                        
+                                    <div className="col-md-3 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="palivo-label">Palivo</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                style={{width: '25ch'}}
+                                                labelId="palivo"
+                                                id="palivo"
+                                                onChange={e => handleState('palivo', e.target.value)}
+                                                value={values.palivo ?? ''}>
+                                                <MenuItem value={0}>Benzín</MenuItem>
+                                                <MenuItem value={1}>Nafta</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
                                 </div>
-                    
-                                <div className="col-md-3 topCol">
-                                    <FormControl className="form">
-                                        <InputLabel id="palivo-label">Palivo</InputLabel>
-                                        <Select
-                                            required = {true}
-                                            style={{width: '25ch'}}
-                                            labelId="palivo"
-                                            id="palivo"
-                                            onChange={handleChange('palivo')}
-                                            defaultValue={values.palivo ? values.palivo : undefined}>
-                                            <MenuItem value={'Benzín'}>Benzín</MenuItem>
-                                            <MenuItem value={'Nafta'}>Nafta</MenuItem>
-                                        </Select>
-                                    </FormControl>
+
+                                <div className="row d-flex justify-content-center">
+                                    <div className="col-md-offset-2 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="pohon-label">Typ pohonu</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                style={{width: '25ch'}}
+                                                labelId="pohon"
+                                                id="pohon"
+                                                onChange={e => handleState('pohon', e.target.value)}
+                                                value={values.pohon ?? ''}>
+                                                <MenuItem value={0}>Jednej nápravy</MenuItem>
+                                                <MenuItem value={1}>4x4</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+
+                                    <div className="col-md-3 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="prevodovka-label">Prevodovka</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                style={{width: '25ch'}}
+                                                labelId="prevodovka"
+                                                id="prevodovka"
+                                                onChange={e => handleState('prevodovka', e.target.value)}
+                                                value={values.prevodovka ?? ''}>
+                                                <MenuItem value={0}>Manuálna</MenuItem>
+                                                <MenuItem value={1}>Automatická</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="row d-flex justify-content-center">
-                                <div className="col-md-offset-2 topCol">
-                                    <FormControl className="form">
-                                        <InputLabel id="pohon-label">Typ pohonu</InputLabel>
-                                        <Select
-                                            required = {true}
-                                            style={{width: '25ch'}}
-                                            labelId="pohon"
-                                            id="pohon"
-                                            onChange={handleChange('pohon')}
-                                            defaultValue={values.pohon ? values.pohon : undefined}>
-                                            <MenuItem value={'JednejNápravy'}>Jednej nápravy</MenuItem>
-                                            <MenuItem value={'4x4'}>4x4</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>
+                            <div className="infoHolder">
+                                <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto">Vyberte si zo {Object.keys(cars).length} aut</InputLabel>
+                                <Autocomplete
+                                    id="auto"
+                                    onChange={(e, value) => { handleCar(value) }}
+                                    style={{maxWidth: 300}}
+                                    defaultValue = {cars[values.autoIndex]}
+                                    className="autoComplete"
+                                    options={cars}
+                                    getOptionLabel={(option) => option.model}
+                                    renderInput={(params) => <TextField {...params} label={"Auto"} variant="outlined" />}
+                                    />
 
-                                <div className="col-md-3 topCol">
-                                    <FormControl className="form">
-                                        <InputLabel id="prevodovka-label">Prevodovka</InputLabel>
-                                        <Select
-                                            required = {true}
-                                            style={{width: '25ch'}}
-                                            labelId="prevodovka"
-                                            id="prevodovka"
-                                            onChange={handleChange('prevodovka')}
-                                            defaultValue={values.prevodovka ? values.prevodovka : undefined}>
-                                            <MenuItem value={'Manuálna'}>Manuálna</MenuItem>
-                                            <MenuItem value={'Automatická'}>Automatická</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>
+                                <TextField
+                                    required = {true}
+                                    name = "KW"
+                                    label="Vykon v KW"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="number"
+                                    error={KWError}
+                                    onChange={e => handleCheck(e)}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.vykon ?? null}/>
+
+                                <TextField
+                                    required = {true}
+                                    name = "YO"
+                                    label="Vek vozidla v rokoch"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="number"
+                                    error={YOError}
+                                    onChange={e => handleCheck(e)}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.vek ?? null}/>
+                
+                                <TextField
+                                    required = {true}
+                                    name = "KM"
+                                    label="Počet najazdených km"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="number"
+                                    error={KMError}
+                                    onChange={e => handleCheck(e)}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.pocetkm ?? null}/>
+
+                                <TextField
+                                    required = {true}
+                                    name = "ECV"
+                                    label="EČV vozidla"
+                                    variant="outlined"
+                                    className="textLabel"
+                                    type="text"
+                                    error={ECVError}
+                                    onChange={e => handleCheck(e)}
+                                    size="small"
+                                    margin="normal"
+                                    fullWidth
+                                    defaultValue={values.ec ?? ''}/>
                             </div>
                         </div>
 
-                        <div className="infoHolder">
-                            <TextField
-                                required = {true}
-                                label="Vykon v KW"
-                                variant="outlined"
-                                className="textLabel"
-                                type="number"
-                                onChange={handleChange('vykon')}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                defaultValue={values.vykon ? values.vykon : 0}/>
+                        <div className="divider"></div>
+                        {/* <div className="wrapper">
+                            <div className="attachment">
+                                <h2 className="definitionName">Poistenie vozidla</h2>
+                                <div className="custom-file">
+                                    <input type="file" className="custom-file-input" id="customFile" onChange={(e) => handleState('poistenieFile', e.target.files[0])}/>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                </div>
 
-                            <TextField
-                                required = {true}
-                                label="Vek vozidla v rokoch"
-                                variant="outlined"
-                                className="textLabel"
-                                type="number"
-                                onChange={handleChange('vek')}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                defaultValue={values.vek ? values.vek : 0}/>
-            
-                            <TextField
-                                required = {true}
-                                label="Počet najazdených km"
-                                variant="outlined"
-                                className="textLabel"
-                                type="number"
-                                onChange={handleChange('pocetkm')}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                defaultValue={values.pocetkm ? values.pocetkm : 0}/>
+                                    {handleFiles(values.poistenieFile, 'poistenieFile')}
+                            </div>
 
-                            <TextField
-                                required = {true}
-                                label="EČV vozidla"
-                                variant="outlined"
-                                className="textLabel"
-                                type="text"
-                                onChange={handleChange('ec')}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                defaultValue={values.ec ? values.ec : 0}/>
-                        </div>
-                    </div>
+                            <div className="attachment">
+                                <h2 className="definitionName">Fotky vozidla</h2>
+                                <div className="custom-file">
+                                    <input type="file" className="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                </div>
+                                    {handleFiles(values.vozidloFiles, 'vozidloFiles')}
+                            </div>
+                        </div> */}
 
-                    <div className="divider"></div>
+                        {carConditionDetails()}
 
-                    <div className="wrapper">
-                        <div className="attachment">
-                            <h3 className="definitionName">Poistenie vozidla</h3>
-                            <DropzoneArea
-                                required = {true}
-                                filesLimit={1}
-                                dropzoneText={"Prosím nahrajte potvrdenie o poisteni Vašeho vozidla"}/>
-                        </div>
-
-                        <div className="attachment">
-                            <h3 className="definitionName">Fotky vozidla</h3>
-                            <DropzoneArea
-                                required = {true}
-                                filesLimit={1}
-                                dropzoneText={"Prosím nahrajte fotky Vašeho vozidla"} />
-                        </div>
-                    </div>
-                    <div className="customButton">
-                        <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                        <Button onClick={continueNext} variant="contained" color="primary">Ďalej</Button>
-                    </div>
+                        {styleButtons()}
+                    </Form>
                 </div>
             </Container>
-        </MuiThemeProvider>
+        //</MuiThemeProvider> 
     )
 }
 

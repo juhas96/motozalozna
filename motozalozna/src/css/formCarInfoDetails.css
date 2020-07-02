@@ -16,3 +16,9 @@
     /* margin-left: 30px; */
     padding-top: 30px;
 }
+
+.autoComplete {
+    margin: auto;
+    /* margin-bottom: 20px; */
+    background-color: white
+}

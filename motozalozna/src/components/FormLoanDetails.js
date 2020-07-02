@@ -1,111 +1,65 @@
-import React, { Component, useEffect, useState } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/core/Slider'
-import { Row } from 'react-bootstrap' 
-import { TextField } from '@material-ui/core';
+import React,  { useEffect } from 'react';
+import { FormControl, FormControlLabel, Checkbox, InputLabel, MenuItem, Select, Typography } from '@material-ui/core/'
+
 import '../css/formLoadDetails.css'
 import '../css/uniform.css'
 
-import DiscreteSlider from './Filter'
+import DiscreteSlider from './DiscreteSlider'
 
 const FormLoanDetails = (props) =>  {
 
-    const { values, handleChange } = props;
-
-    useEffect(() => {
-        setTimeout(function () {
-            window.scroll({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-            });
-        }, 25);
-    }, []) 
-
-     // const continueNext = e => {
-    //     e.preventDefault();
-    //     props.nextStep();
-    // }
-
-    const back = e => {
-        e.preventDefault();
-        props.prevStep();
-    }
-
+    const { values, handleChange, handleState } = props;
     return (
-        <MuiThemeProvider>
-            <Container maxWidth='md' style={{marginBottom: '2%'}}>
-                <div>
-                    <div className="categoryName">
-                        <h1>Stav vozidla</h1>
-                    </div>
-                    <div className="wrapper">
-                        {/* <div> */}
-                            <div className="header">
-                                <h3>Chcete Vaše vozidlo používať počas záložného práva?</h3>
-                                {/* <Row className='d-flex justify-content-center holder'> */}
-                                <div className="holder">
-                                    <div className="loanLenght">
-                                        <InputLabel style={{'marginRight': "10px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
-                                        <FormControl style={{marginRight: '10px'}}>
-                                            {/* <InputLabel style={{'height': "20px"}}id="dlzka_pozicky">Dĺžka pôžičky</InputLabel> */}
-                                            <Select
-                                                style={{width: '25ch', "backgroundColor":"white"}}
-                                                labelId="dlzka_pozicky"
-                                                id="dlzka_pozicky"
-                                                onChange={handleChange('dlzka_pozicky')}
-                                                defaultValue={values.dlzka_pozicky ? values.dlzka_pozicky : undefined}>
-                                                <MenuItem value={'1T'}>1 Týždeň</MenuItem>
-                                                <MenuItem value={'2T'}>2 Týždne</MenuItem>
-                                                <MenuItem value={'mesiac'}>Mesiac</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </div>
-                                            
-                                    <div className="confirmCol">
-                                        <label className="labelConfirm">Potvrdzujem svoj záujem  - </label> 
-                                        <FormControl>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox color="primary" checked={values.zalozne_pravo ? values.zalozne_pravo : false} onChange={handleChange('zalozne_pravo')} />
-                                                }
-                                                label="Áno"
-                                            />
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                    {/* </Row> */}
+        <div>
+            <div className="wrapper">
+                <div className="header">
+                    <h2>Chcete Vaše vozidlo používať počas záložného práva?</h2>
+                    <div className="holder">
+                        <div className="confirmCol">
+                                <label className="labelConfirm">Áno, chcem používať svoje vozidlo  - </label> 
+                                <FormControl>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox color="primary" checked={values.zalozne_pravo ?? false} onChange={handleChange('zalozne_pravo')} />
+                                        }
+                                        label="Áno"
+                                    />
+                                </FormControl>
                             </div>
                         </div>
 
-                            <div className="divider"></div>
-
-                            <div className="wrapper">
-                                <div className="chooseLvl">
-                                    <Typography id="discrete-slider-custom" gutterBottom variant='inherit'>
-                                        <h3>Vyberte si výšku Vašej pôžičky</h3>
-                                    </Typography>
-                                </div>
-
-                                 <DiscreteSlider values={values} handleChange={handleChange} max={10000}/>
-                            </div>
-                        <div className="customButton">
-                            <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                            <Button variant="contained" color="primary">Potvrdiť</Button>
+                        <div className="loanLenght">
+                            <InputLabel style={{'marginRight': "10px"}} id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
+                            <FormControl style={{marginRight: '10px'}}>
+                                <Select
+                                    required = {true}
+                                    style={{width: '25ch', "backgroundColor":"white", "height": "50px"}}
+                                    labelId="dlzka_pozicky"
+                                    id="dlzka_pozicky"
+                                    onChange={handleChange('dlzka_pozicky')}
+                                    value={values.dlzka_pozicky ?? 0}>
+                                    <MenuItem value={0}>1 Týždeň: Úrok {values.zalozne_pravo ? 9 : 3}%</MenuItem>
+                                    <MenuItem value={1}>2 Týždeň: Úrok {values.zalozne_pravo ? 15 : 6}%</MenuItem>
+                                    <MenuItem value={2}>Mesiac: Úrok {values.zalozne_pravo ? 19 : 12}%</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
-                    {/* </div> */}
                 </div>
-            </Container>
-        </MuiThemeProvider>
+            </div>
+
+            <div className="divider"></div>
+
+            <div className="wrapper">
+                <div className="chooseLvl">
+                    <Typography id="discrete-slider-custom" gutterBottom variant='inherit'>
+                        <h2>Vyberte si výšku Vašej pôžičky</h2>
+                        <h5>Vaše vozidlo bolo ohodnotené na: {values.cena}€</h5>
+                        <h5>Maximálna výška pôžičky je: {values.cenaPozicky}€</h5>
+                    </Typography>
+                </div>
+                <DiscreteSlider values={values.cenaPozicky} handleChange={handleState} max={values.cenaPozicky}/>
+            </div>
+        </div>
     )
 }
 
