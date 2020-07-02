@@ -34,6 +34,7 @@ const Summary = (props) => {
             }
         })
         sendData(formData);
+        props.nextStep();
     }
 
     const back = e => {
