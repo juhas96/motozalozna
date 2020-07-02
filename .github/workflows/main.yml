@@ -6,7 +6,7 @@ on:
   push:
     branches: 
       - master
-      - feat/new-form
+      - feat/form-latest
 jobs:
   FTP-Action:
     name: FTP-Action
