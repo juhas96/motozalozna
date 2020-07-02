@@ -13,6 +13,7 @@ import Summary from './Summary';
 import { Row } from 'react-bootstrap'
 
 import '../css/uniform.css'
+import ThankYou from './ThankYou';
 
 export class UserForm extends Component {
 
@@ -20,7 +21,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 0,
+      step: 3,
 
       krstne_meno: '',
       priezvisko: '',
@@ -206,13 +207,8 @@ export class UserForm extends Component {
                     prevStep={this.prevStep}
                     summaryValues={summaryValues}
                     values={values}/>;
-      // case 3:
-      //   return <FormPersonalTerms
-      //               handleState = {this.handleState}
-      //               nextStep={this.nextStep}
-      //               prevStep={this.prevStep}
-      //               handleChange={this.handleChange}
-      //               values={values}/>;
+      case 3:
+        return <ThankYou />;
       // case 4:
       //   return <FormLoanDetails
       //               handleState = {this.handleState}
