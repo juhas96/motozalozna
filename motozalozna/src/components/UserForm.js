@@ -21,7 +21,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 3,
+      step: 0,
 
       krstne_meno: '',
       priezvisko: '',
@@ -206,6 +206,7 @@ export class UserForm extends Component {
         return <Summary
                     prevStep={this.prevStep}
                     summaryValues={summaryValues}
+                    nextStep={this.nextStep}
                     values={values}/>;
       case 3:
         return <ThankYou />;

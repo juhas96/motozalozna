@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    maxWidth: 800,
+    maxWidth: 1600,
     marginTop: '10%',
     margin: '0 auto',
     alignItems: 'center'
@@ -17,7 +17,10 @@ const ThankYou = () => {
     return (
         <div className={classes.root}>
             <Typography variant="h2" gutterBottom>
-                Ďakujeme za vyplnenie formuláru. Súhrn a novo vytvorený používateľský účet nájdete v maily.
+                Ďakujeme za vyplnenie formuláru.
+            </Typography>
+            <Typography variant="h2" gutterBottom>
+                Súhrn a novo vytvorený používateľský účet nájdete v maily.
             </Typography>
         </div>
     );
