@@ -1,17 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import AppForm from './AppForm';
 import AppTable from './AppTable';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <AppForm />
-//   </React.StrictMode>,
-//   document.getElementById('form')
-// );
 
 ReactDOM.render(
   <React.StrictMode>
