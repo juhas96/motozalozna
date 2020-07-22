@@ -44,4 +44,4 @@ export const Payment = () => (
   <Elements stripe={stripePromise}>
     <CheckoutForm />
   </Elements>
-    ); 
+); 

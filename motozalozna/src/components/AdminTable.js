@@ -257,8 +257,7 @@ const AdminTable = (props) => {
 
                         </div>
                       </div>
-)
-
+                    )
                     : null }
                   </div>
                 </Modal.Body>
