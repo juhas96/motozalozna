@@ -279,8 +279,8 @@ const FormCarInfoDetails = (props) =>  {
                                                 id="karoseria"
                                                 onChange={e => handleState('karoseria', e.target.value)}
                                                 value={values.karoseria ?? ''}>
-                                                <MenuItem value={0}>Hachback / Sedan</MenuItem>
-                                                <MenuItem value={1}>Kombi</MenuItem>
+                                                <MenuItem value={1}>Hachback / Sedan</MenuItem>
+                                                <MenuItem value={0}>Kombi</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </div>
