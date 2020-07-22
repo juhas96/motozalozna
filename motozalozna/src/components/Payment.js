@@ -10,7 +10,7 @@ import {
 import { pay } from '../service/HttpService';
 import './css/card.css'
 
-const stripePromise = loadStripe('pk_test_51Gvl54FkmxPqM4nEAWAunvaQQnQxp229DBNWrMrRwMp0bgoGpYpGCvZMfH6830VUv6lRlPaWh3DSnaV6wpO6MJDS0011NE1Ox3');
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
 const createOptions = () => {
   return {
