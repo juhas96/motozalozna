@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, componentDidMount } from 'react';
 import {
  AppBar, Toolbar, Typography, IconButton, Button, Container, TextField
 } from '@material-ui/core/';
@@ -8,6 +8,7 @@ import UserTable from './UserTable';
 import AdminTable from './AdminTable';
 import './css/uniform.css';
 import './css/tableForm.css';
+import { login, logout } from '../service/HttpService';
 
 export class TableForm extends Component {
   constructor(props) {
@@ -16,8 +17,11 @@ export class TableForm extends Component {
     this.state = {
         userType: '',
         isLogged: false,
+        email: '',
+        password: '',
         adminRows: [],
         userRows: [],
+        user_id: ''
         // payPrice: 0
     };
 
@@ -25,20 +29,36 @@ export class TableForm extends Component {
     // this.handleComponent = this.handleComponent.bind(this)
   }
 
-    handleState = async (name, data) => {
-      await this.setState({
-        [name]: data
-      }, () => {
-      });
+  componentDidMount() {
+    if (window.localStorage.getItem('userId')) {
+      this.setState({user_id: window.localStorage.getItem('userId')})
+      this.setState({ userType: 'user' })
+      this.setState({isLogged: true});
     }
+  }
 
-    handleComponent = () => {
-        const { userType } = this.state;
-        if (userType === 'admin' || userType === 'user') { this.setState({ isLogged: true }); }
-    }
+  handleState = async (name, data) => {
+    await this.setState({
+      [name]: data
+    }, () => {
+    });
+  }
+
+  handleComponent = () => {
+      const { userType, email, password } = this.state;
+      login({ email, password }).then(res => {
+        this.setState({user_id: res.data.userId})
+        console.log('userId:', res.data.userId);
+        window.localStorage.setItem('token', res.data.token.toString());
+        window.localStorage.setItem('userId', res.data.userId);
+        this.setState({ userType: 'user' })
+        this.setState({ isLogged: true })
+      });
+      // if (userType === 'admin' || userType === 'user') { this.setState({ isLogged: true }); }
+  }
 
   getUsersContent = (userType) => {
-      const { adminRows, userRows } = this.state;
+      const { adminRows, userRows, user_id } = this.state;
     switch (userType) {
         case 'admin':
             return (
@@ -46,17 +66,27 @@ export class TableForm extends Component {
                 handleState={this.handleState}
                 rows={adminRows}
               />
-);
+            );
         case 'user':
             return (
               <UserTable
                 handleState={this.handleState}
+                user_id={user_id}
                 rows={userRows}
               />
-);
+            );
       default:
         return 'Go home';
     }
+  }
+
+  handleLogout = () => {
+    logout();
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('userId');
+    this.setState({ userType: '' })
+    this.setState({ isLogged: false })
+    this.setState({ user_id: '' })
   }
 
   render() {
@@ -72,9 +102,12 @@ export class TableForm extends Component {
                               <IconButton edge="start" color="inherit" aria-label="menu">
                                 <MenuIcon />
                               </IconButton>
-)
+                              )
                             : null}
-                <Typography variant="h6" color="inherit"> Motozalozna </Typography>
+                <Typography variant="h6" color="inherit"> Motozalozna</Typography>
+                {isLogged === true ? (
+                  <Button onClick={this.handleLogout} variant="primary">Odhlásiť</Button>
+                ) : null}
               </Toolbar>
             </AppBar>
           </div>
@@ -90,15 +123,15 @@ export class TableForm extends Component {
                         <div>
                           <TextField
                             required
-                            label="Meno"
+                            label="Email"
                             variant="outlined"
                             className="loginLabel"
                             style={{ marginLeft: '10px', marginRight: '10px' }}
                             type="text"
-                            onChange={(e) => this.setState({ userType: e.target.value })}
+                            onChange={(e) => this.setState({ email: e.target.value })}
                             margin="normal"
-                            name="krstne_meno"
-                            id="krstne_meno"
+                            name="email"
+                            id="email"
                             size="small"
                           />
                         </div>
@@ -111,10 +144,10 @@ export class TableForm extends Component {
                             className="loginLabel"
                             style={{ marginLeft: '10px', marginRight: '10px' }}
                             type="text"
-                                        // onChange={(e) => handleCheck(e)}
+                            onChange={(e) => this.setState({password: e.target.value})}
                             margin="normal"
-                            name="krstne_meno"
-                            id="krstne_meno"
+                            name="heslo"
+                            id="heslo"
                             size="small"
                           />
                         </div>
@@ -123,7 +156,7 @@ export class TableForm extends Component {
                       {/* </Form> */}
                     </div> 
                   </Container>
-)
+                  )
                 : (
                   <Container maxWidth="lg" style={{ marginBottom: '2%' }}>
                     <div>

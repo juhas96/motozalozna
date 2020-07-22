@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-const subscriber = new BehaviorSubject(0);
+const subscriber = new BehaviorSubject('normal');
 
 const dataService = {
     send: (data) => {

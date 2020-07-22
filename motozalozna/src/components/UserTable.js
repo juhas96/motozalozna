@@ -11,12 +11,14 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import { getUsersLoan } from '../service/HttpService';
 
 import { Payment } from './Payment';
+import Dinero from 'dinero.js';
+
 
 import './css/uniform.css';
 import '../extensions/ArrayExtension';
 
 const UserTable = (props) => {
-  const { handleState, rows } = props;
+  const { handleState, rows, user_id } = props;
   const [isModal, setModal] = useState(false);
   const [currentRow, setCurrentRow] = useState();
   // const [isPayed, setPayment] = useState(false);
@@ -37,19 +39,32 @@ const UserTable = (props) => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     useEffect(() => {
-      getUsersLoan(1)
+      console.log(user_id);
+      getUsersLoan(user_id)
         .then(response => {
           response.data.forEach(singleRow => {
-            console.log('SINGLE ROW: ', singleRow);
+            const until = new Date(singleRow.loan_until);
+            let loanLength = '';
+            switch (singleRow.loan_length.toString()) {
+              case '0':
+                loanLength = '1 týždeň';
+                break;
+              case '1':
+                loanLength = '2 týždne';
+                break;
+              default:
+                loanLength = 'Mesiac';
+                break;
+            }
             rows.push({
               car_ecv: singleRow.car_ecv,
               car_km: singleRow.car_km,
               car_power: singleRow.car_power,
-              car_years_old: singleRow.car_years_old,
-              loan_length: singleRow.loan_length,
-              loan_price: singleRow.loan_price,
-              dateRange: '12.2.2020 - 13.3.2020',
-              interest: singleRow.interest,
+              car_years_old: singleRow.car_years_old + ' rokov',
+              loan_length: loanLength,
+              loan_price: Dinero({amount: parseInt(singleRow.loan_price.toString()), currency: 'EUR'}).toFormat(),
+              dateRange: `${until.getDate()}.${until.getMonth()}.${until.getFullYear()}`,
+              interest: Dinero({amount: parseInt(singleRow.interest.toString()), currency: 'EUR'}).toFormat(),
               interest_paid: singleRow.interest_paid === false ? 'Nie' : 'Ano',
               row: singleRow
             });
@@ -99,7 +114,7 @@ const UserTable = (props) => {
       format: (value) => value.toLocaleString('en-US'),
     },
     {
-      id: 'interest', label: 'Splatený úrok',
+      id: 'interest', label: 'Výška úroku',
     },
     {
       id: 'interest_paid', label: 'Zaplatene',
@@ -156,18 +171,6 @@ const UserTable = (props) => {
                               €
                             </h3>
                           </div>
-
-                          <TextField
-                            required
-                            label="Suma na zaplatenie"
-                            variant="outlined"
-                            style={{ marginLeft: '10px', marginRight: '10px', marginTop: '10px' }}
-                            type="text"
-                            onChange={e => handleState({ payPrice: e.target.value })}
-                            name="pay"
-                            id="pay"
-                            size="small"
-                          />
 
                           <div style={{ marginTop: '30px' }}>
                             <Payment />
