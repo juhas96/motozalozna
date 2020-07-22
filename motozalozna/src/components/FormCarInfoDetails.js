@@ -25,6 +25,9 @@ const FormCarInfoDetails = (props) =>  {
     const [ KMError, setKMError ] = useState(false)
     const [ ECVError, setECVError ] = useState(false)
 
+    const year = new Date().getFullYear();
+    const years = Array.from(new Array(40), (val, index) => index - year);
+
     useEffect(() => {
         setTimeout(function () {
             window.scroll({
@@ -292,8 +295,8 @@ const FormCarInfoDetails = (props) =>  {
                                                 id="palivo"
                                                 onChange={e => handleState('palivo', e.target.value)}
                                                 value={values.palivo ?? ''}>
-                                                <MenuItem value={0}>Benzín</MenuItem>
-                                                <MenuItem value={1}>Nafta</MenuItem>
+                                                <MenuItem value={1}>Benzín</MenuItem>
+                                                <MenuItem value={0}>Nafta</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </div>
@@ -310,8 +313,8 @@ const FormCarInfoDetails = (props) =>  {
                                                 id="pohon"
                                                 onChange={e => handleState('pohon', e.target.value)}
                                                 value={values.pohon ?? ''}>
-                                                <MenuItem value={0}>Jednej nápravy</MenuItem>
-                                                <MenuItem value={1}>4x4</MenuItem>
+                                                <MenuItem value={1}>Jednej nápravy</MenuItem>
+                                                <MenuItem value={0}>4x4</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </div>
@@ -332,6 +335,54 @@ const FormCarInfoDetails = (props) =>  {
                                         </FormControl>
                                     </div>
                                 </div>
+
+                                <div className="row d-flex justify-content-center">
+                                    <div className="col-md-offset-2 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="vykon-label">Výkon v KW</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                labelId="vykon"
+                                                id="vykon"
+                                                error={KWError}
+                                                style={{width: '25ch'}}
+                                                onChange={e => handleState('vykon', e.target.value)}
+                                                value={values.vykon ?? ''}>
+                                                <MenuItem value={44}>do 44 kW (60 PS)</MenuItem>
+                                                <MenuItem value={45}>45 - 56 kW (61 - 76 PS)</MenuItem>
+                                                <MenuItem value={56}>56 - 67 kW (76 - 91 PS)</MenuItem>
+                                                <MenuItem value={67}>67 - 85 kW (91 - 116 PS)</MenuItem>
+                                                <MenuItem value={85}>85 - 96 kW (116 - 131 PS)</MenuItem>
+                                                <MenuItem value={96}>96 - 111 kW (131 - 151 PS)</MenuItem>
+                                                <MenuItem value={111}>111 - 148 kW (151 - 201 PS)</MenuItem>
+                                                <MenuItem value={148}>148 - 184 kW (201 - 250 PS)</MenuItem>
+                                                <MenuItem value={184}>184 - 223 kW (250 - 303 PS)</MenuItem>
+                                                <MenuItem value={223}>223 - 262 kW (303 - 358 PS)</MenuItem>
+                                                <MenuItem value={262}>262 - 297 kW (358 - 404 PS)</MenuItem>
+                                                <MenuItem value={297}>297 - 334 kW (404 - 454 PS)</MenuItem>
+                                                <MenuItem value={334}>viac ako 334 kW (viac ako 454 PS)</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+
+                                    <div className="col-md-3 topCol">
+                                        <FormControl className="form">
+                                            <InputLabel id="vek-label">Rok výroby vozidla</InputLabel>
+                                            <Select
+                                                required = {true}
+                                                style={{width: '25ch'}}
+                                                labelId="vek"
+                                                id="vek"
+                                                error={YOError}
+                                                onChange={e => handleState('vek', e.target.value)}
+                                                value={values.vek ?? ''}>
+                                                {years.map((year, index) => {
+                                                    return <MenuItem key={index} value={index}>{year.toString().replace('-','')}</MenuItem>
+                                                })}
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="infoHolder">
@@ -347,7 +398,7 @@ const FormCarInfoDetails = (props) =>  {
                                     renderInput={(params) => <TextField {...params} label={"Auto"} variant="outlined" />}
                                     />
 
-                                <TextField
+                                {/* <TextField
                                     required = {true}
                                     name = "KW"
                                     label="Vykon v KW"
@@ -359,9 +410,9 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vykon ?? null}/>
+                                    defaultValue={values.vykon ?? null}/> */}
 
-                                <TextField
+                                {/* <TextField
                                     required = {true}
                                     name = "YO"
                                     label="Vek vozidla v rokoch"
@@ -373,7 +424,7 @@ const FormCarInfoDetails = (props) =>  {
                                     size="small"
                                     margin="normal"
                                     fullWidth
-                                    defaultValue={values.vek ?? null}/>
+                                    defaultValue={values.vek ?? null}/> */}
                 
                                 <TextField
                                     required = {true}
