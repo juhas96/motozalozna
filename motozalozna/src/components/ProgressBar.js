@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {subscriber, dataService} from '../service/AppStateService';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    zIndex: 10,
-    '& > * + *': {
-      marginTop: theme.spacing(2),
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
     },
-  },
-}));
+  }));
 
 export const ProgressBar = () => {
   const classes = useStyles();
@@ -19,15 +17,17 @@ export const ProgressBar = () => {
 
   useEffect(() => {
       subscriber.subscribe((v) => {
-          console.log('state is', v)
           setState(v);
       })
   });
 
   return (
     <div className={classes.root}>
-      { (state === 'loading' ? <LinearProgress color="secondary" /> : null)}
+      { (state === 'loading' ? (
+        <Backdrop open={state === 'loading'} className={classes.backdrop}>
+            <CircularProgress color="inherit" />
+        </Backdrop>
+       ) : null)}
     </div>
-
   );
 }

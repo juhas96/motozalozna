@@ -8,9 +8,11 @@ import UserTable from './UserTable';
 import AdminTable from './AdminTable';
 import './css/uniform.css';
 import './css/tableForm.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { login, logout } from '../service/HttpService';
 
-export class TableForm extends Component {
+export class LoginPage extends Component {
   constructor(props) {
     super(props);
 
@@ -30,9 +32,11 @@ export class TableForm extends Component {
   }
 
   componentDidMount() {
+    this.setState({userRows: []});
+    this.setState({adminRows: []});
     if (window.localStorage.getItem('userId')) {
       this.setState({user_id: window.localStorage.getItem('userId')})
-      this.setState({ userType: 'user' })
+      this.setState({ userType: window.localStorage.getItem('userType') })
       this.setState({isLogged: true});
     }
   }
@@ -47,14 +51,17 @@ export class TableForm extends Component {
   handleComponent = () => {
       const { userType, email, password } = this.state;
       login({ email, password }).then(res => {
+        toast.success('Prihlásenie prebehlo úspešne.', {position: toast.POSITION.TOP_RIGHT});
         this.setState({user_id: res.data.userId})
-        console.log('userId:', res.data.userId);
         window.localStorage.setItem('token', res.data.token.toString());
         window.localStorage.setItem('userId', res.data.userId);
-        this.setState({ userType: 'user' })
+        window.localStorage.setItem('userType', res.data.isAdmin == true ? 'admin' : 'user');
+        this.setState({ userType: res.data.isAdmin == true ? 'admin' : 'user' })
         this.setState({ isLogged: true })
+      }).catch(err => {
+        console.log('error nastal')
+        toast.error('Prihlásenie sa nepodarilo. Pravdepodobne ste zadali zlé údaje. V prípade opakovanej chyby kontaktujte admina.', {position: toast.POSITION.TOP_RIGHT});
       });
-      // if (userType === 'admin' || userType === 'user') { this.setState({ isLogged: true }); }
   }
 
   getUsersContent = (userType) => {
@@ -81,12 +88,25 @@ export class TableForm extends Component {
   }
 
   handleLogout = () => {
-    logout();
-    window.localStorage.removeItem('token');
-    window.localStorage.removeItem('userId');
-    this.setState({ userType: '' })
-    this.setState({ isLogged: false })
-    this.setState({ user_id: '' })
+    logout().then(() => {
+      toast.success('Odhlásenie prebehlo úspešne.',
+      {position: toast.POSITION.TOP_RIGHT}
+    );
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('userId');
+      window.localStorage.removeItem('userType');
+      this.setState({ userType: '' })
+      this.setState({ isLogged: false })
+      this.setState({ user_id: '' })
+      this.setState({userRows: []});
+      this.setState({adminRows: []});
+      this.setState({email: ''});
+      this.setState({password: ''});
+    }).catch(() => {
+      toast.error('Odhlásenie sa nepodarilo.',
+      {position: toast.POSITION.TOP_RIGHT}
+    );
+    });
   }
 
   render() {
@@ -106,7 +126,7 @@ export class TableForm extends Component {
                             : null}
                 <Typography variant="h6" color="inherit"> Motozalozna</Typography>
                 {isLogged === true ? (
-                  <Button onClick={this.handleLogout} variant="primary">Odhlásiť</Button>
+                  <Button onClick={this.handleLogout} variant="primary" style={{color: 'white'}}>Odhlásiť</Button>
                 ) : null}
               </Toolbar>
             </AppBar>
@@ -147,12 +167,13 @@ export class TableForm extends Component {
                             onChange={(e) => this.setState({password: e.target.value})}
                             margin="normal"
                             name="heslo"
+                            type="password"
                             id="heslo"
                             size="small"
                           />
                         </div>
                       </div>
-                      <Button style={{ marginTop: '20px' }} onClick={this.handleComponent} variant="contained" color="primary">Login</Button>
+                      <Button style={{ marginTop: '20px' }} onClick={this.handleComponent} variant="contained" color="primary" disabled={this.state.password.length == 0 ? true : false}>Prihlásiť sa</Button>
                       {/* </Form> */}
                     </div> 
                   </Container>
@@ -164,10 +185,9 @@ export class TableForm extends Component {
                     </div>
                   </Container>
               )}
-
         </div>
       );
   }
 }
 
-export default TableForm;
+export default LoginPage;

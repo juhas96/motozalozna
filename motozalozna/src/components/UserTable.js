@@ -39,7 +39,8 @@ const UserTable = (props) => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     useEffect(() => {
-      console.log(user_id);
+      handleState('userRows', []);
+      console.log('rows', rows);
       getUsersLoan(user_id)
         .then(response => {
           response.data.forEach(singleRow => {
@@ -85,9 +86,16 @@ const UserTable = (props) => {
       setPage(0);
     };
 
+    const handleSuccPayment = (data) => {
+      currentRow.loan_price = Dinero({amount: parseInt(data.loanPrice.toString()), currency: 'EUR'}).toFormat();
+      currentRow.row.loan_price = data.loanPrice;
+      currentRow.interest = Dinero({amount: parseInt(data.loanInterest.toString()), currency: 'EUR'}).toFormat();
+      currentRow.row.interest = data.loanInterest;
+    };
+
   const columns = [
     { 
-      id: 'car_ecv', label: 'ECV',
+      id: 'car_ecv', label: 'EČV',
     },
     { 
       id: 'car_km', label: 'KM',
@@ -100,7 +108,7 @@ const UserTable = (props) => {
     },
     { 
       id: 'loan_length',
-      label: 'Dlzka pôžičky',
+      label: 'Dĺžka pôžičky',
       format: (value) => value.toFixed(2),
     },
     { 
@@ -117,7 +125,7 @@ const UserTable = (props) => {
       id: 'interest', label: 'Výška úroku',
     },
     {
-      id: 'interest_paid', label: 'Zaplatene',
+      id: 'interest_paid', label: 'Splatené?',
     },
     {
       id: 'zaplatit', label: 'Zaplatiť'
@@ -143,7 +151,7 @@ const UserTable = (props) => {
       ? (
         <div>
           <div className="categoryName">
-            <h1>{ rows[0] ? `Vitajte ${rows[0].meno}` : 'Vitajte'}</h1>
+            <h1>Vitajte</h1>
           </div>
           <div className="wrapper" style={{ paddingLeft: '30px', paddingRight: '30px' }}>
             <Paper>
@@ -158,22 +166,20 @@ const UserTable = (props) => {
                       ? (
                         <div>
                           <div className="categoryName">
-                            <h3 style={{ marginBottom: '10px' }}>
-                              Ostava Zaplatiť:
-                              {currentRow.loan_price}
+                            {/* <h3 style={{ marginBottom: '10px' }}>
+                              Ostáva zaplatiť: 
+                              {' '}{currentRow.loan_price}
                               {' '}
-                              €
                             </h3>
-                            <h3 style={{ marginBottom: '10px' }}>
-                              Z toho urok:
-                              {currentRow.interest}
+                            <h3 >
+                              Z toho úrok: 
+                              {' '}{currentRow.interest}
                               {' '}
-                              €
-                            </h3>
+                            </h3> */}
                           </div>
 
-                          <div style={{ marginTop: '30px' }}>
-                            <Payment />
+                          <div >
+                            <Payment loanId={currentRow.row.id} sendData={handleSuccPayment} />
                           </div>
                         </div>
 )

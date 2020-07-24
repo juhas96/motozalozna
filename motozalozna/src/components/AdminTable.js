@@ -3,22 +3,34 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
  Paper,
  Table,
- TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, Container 
+ Grid,
+ TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, Container as MaterialContainer
 } from '@material-ui/core/';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment'
 import { getAllLoans } from '../service/HttpService';
+import Dinero from 'dinero.js'
+import { updateLoanPrice } from '../service/HttpService';
 
 import './css/uniform.css';
 import '../extensions/ArrayExtension';
 import './css/admin.css';
+import './css/card.css';
 
 const AdminTable = (props) => {
   const { handleState, rows } = props;
+  const [amount, setAmount] = useState(0);
 
-  const useStyles = makeStyles({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       margin: 'auto',
@@ -26,7 +38,10 @@ const AdminTable = (props) => {
     container: {
       maxHeight: 500,
     },
-  });
+    root_div: {
+      flexGrow: 1,
+    },
+  }));
   
     const classes = useStyles();
     const [page, setPage] = useState(0);
@@ -39,13 +54,28 @@ const AdminTable = (props) => {
       getAllLoans()
         .then(response => {
           response.data.forEach(singleRow => {
-            // console.log('SINGLE ROW: ', singleRow)
+            console.log('loanUntil', singleRow.loan_until)
+            const until = new Date(singleRow.loan_until);
+            let loanLength = '';
+            switch (singleRow.loan_length.toString()) {
+              case '0':
+                loanLength = '1 týždeň';
+                break;
+              case '1':
+                loanLength = '2 týždne';
+                break;
+              default:
+                loanLength = 'Mesiac';
+                break;
+            }
             rows.push({
+              id: singleRow.id,
               meno: `${singleRow.user.first_name} ${singleRow.user.last_name}`,
               email: singleRow.user.email,
-              vyska: Number(singleRow.loan_price),
-              dateRange: '12.3.2020 - 12.4.2020',
-              paid: singleRow.interest,
+              vyska: Dinero({amount: parseInt(singleRow.loan_price.toString()), currency: 'EUR'}).toFormat(),
+              dateRange: `${until.getDate()}.${until.getMonth()}.${until.getFullYear()}`,
+              paid: Dinero({amount: parseInt(singleRow.interest.toString()), currency: 'EUR'}).toFormat(),
+              loan_length: loanLength,
               row: singleRow
             });
           });
@@ -80,12 +110,12 @@ const AdminTable = (props) => {
     },
     {
       id: 'paid',
-      label: 'Splatený úrok',
+      label: 'Úrok',
       format: (value) => value.toFixed(2),
     },
     {
       id: 'actions',
-      label: 'Akcie'
+      label: 'Podrobnosti'
     }
   ];
 
@@ -95,29 +125,41 @@ const AdminTable = (props) => {
     setModal(true);
   }
 
-  // function handleEdit(row) {
-  //   setModal(true)
-  // }
+  function handleEdit(row) {
+    setModal(true)
+  }
 
-  // function handleDelete(row) {
-  //   rows.map((e, idx) => {
-  //     if(e == row) {
-  //       rows.remove(e)
-  //       handleState('adminRows', rows)
-  //     }
-  //   })
-  // }
+  function handleDelete(row) {
+    // rows.map((e, idx) => {
+    //   if(e == row) {
+    //     rows.remove(e)
+    //     handleState('adminRows', rows)
+    //   }
+    // })
+  }
 
-  // function handleSubmit() {
-  //   //SENDS DATA
-  // }
+  function handleSubmit(row) {
+    let tempAmount = Number(amount);
+    tempAmount = tempAmount * 100;
+    tempAmount = tempAmount.toFixed(2).split('.')[0];
+    updateLoanPrice({price: Number(tempAmount), loanId: row.id}).then((res) => {
+      toast.success('Pôžička bola úspešne aktualizovaná.', {position: toast.POSITION.TOP_RIGHT});
+      row.vyska = Dinero({amount: parseInt(res.data.loanPrice.toString()), currency: 'EUR'}).toFormat();
+      row.paid = Dinero({amount: parseInt(res.data.loanInterest.toString()), currency: 'EUR'}).toFormat();
+      setModal(false);
+    }).catch((err) => {
+      console.log('error:', err);
+      toast.error('Pri aktualizacii pôžičky nastala chyba', {position: toast.POSITION.TOP_RIGHT});
+      setModal(false);
+    });
+  }
 
   function handleClose() {
     setModal(false);
   }
 
   return (
-    <Container>
+    <MaterialContainer>
       { rows
       ? (
         <div>
@@ -137,125 +179,174 @@ const AdminTable = (props) => {
                     { currentRow 
 
                     ? (
-                      <div className="container">
-                        <div className="row">
-
-                          {console.log(currentRow)}
-
-                          <div style={{ margin: 'auto' }} key={currentRow.meno} className="col-lg-auto col-sm-12 col-xs-12 modalRow">
-                            <h3>Osobné Informácie</h3>
-                            <ul className="list-group" style={{ maxWidth: '300px' }}>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Meno:
+                      <div className='root_div'>
+                        <Container fluid spacing={3}>
+                          {/* <Row>
+                            <div style={{textAlign: 'center'}}>
+                              <h3>Osobné Informácie</h3>
+                            </div>
+                          </Row> */}
+                          <Row xs md='12' style={{alignItems: 'center', justifyContent: 'center', marginBottom: '20px'}}>
+                            <Col xs md='6' style={{alignItems: 'center'}}>
+                              <Paper className='paper'>
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Meno: '}</span>
                                 {currentRow.meno}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Email:
-                                {currentRow.email}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Telefonne Cislo:
-                                {currentRow.row.user.phone_number}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Dlzka pozicky:
-                                {currentRow.row.loan_length}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Cena pozicky:
-                                {currentRow.row.loan_price}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>Pozicky od - do: 12.3.2020 - 12.4.2020</li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Splatena urok:
-                                {currentRow.row.interest}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Zaplatene:
-                                {currentRow.row.interest_paid}
-                              </li>
-                            </ul>
-                          </div> 
-                        
-                          <div style={{ margin: 'auto' }} key="daco" className="col-lg-auto col-sm-12 col-xs-12 modalRow">
-                            <h3>Informácie o Aute</h3>
-                            <ul className="list-group" style={{ maxWidth: '300px' }}>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                ECV:
-                                {currentRow.row.car_ecv}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Typ karoserie:
-                                {currentRow.row.car_bodywork_type}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Typ pohonu:
-                                {currentRow.row.car_axle_type}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Palivo:
-                                {currentRow.row.car_fuel_type}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Prevodovka:
-                                {currentRow.row.car_gearbox_type}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                KM:
-                                {currentRow.row.car_km}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                KW:
-                                {currentRow.row.car_power}
-                              </li>
-                              <li className="list-group-item" style={{ textAlign: 'left' }}>
-                                Vek:
-                                {currentRow.row.car_years_old}
-                              </li>
-                              <li className="list-group-item text-center" style={{ textAlign: 'left' }}>
-                                Skody
-                                <div className="text-left">
-                                  <div>
-                                    • Lak: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_varnish === false ? 'Nie' : 'Ano'}
-                                  </div>
-
-                                  <div>
-                                    • Karoseria: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_bodywork === false ? 'Nie' : 'Ano'}
-                                  </div>
-
-                                  <div>
-                                    • Interier: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_interior === false ? 'Nie' : 'Ano'}
-                                  </div>
-
-                                  <div>
-                                    • Pneumatiky: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_tires === false ? 'Nie' : 'Ano'}
-                                  </div>
-
-                                  <div>
-                                    • Sklo: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_window === false ? 'Nie' : 'Ano'}
-                                  </div>
-
-                                  <div>
-                                    • Naprava: 
-                                    {' '}
-                                    {currentRow.row.car_damaged_axle === false ? 'Nie' : 'Ano'}
-                                  </div>
                                 </div>
-                              </li>
-                            </ul>
-                          </div>
 
-                        </div>
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Email: '}</span>
+                                {currentRow.email}
+                                </div>
+
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Telefónne číslo: '}</span>
+                                {currentRow.row.user.phone_number}
+                                </div>
+
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Dĺžka pôžičky: '}</span>
+                                {currentRow.loan_length}
+                                </div>
+                              </Paper>
+                            </Col>
+
+                          <Col xs md='6' style={{alignItems: 'center'}}>
+                            <Paper className='paper'>
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Výška pôžičky: '}</span>
+                              {currentRow.vyska}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Pôžička do: '}</span>
+                              {currentRow.dateRange}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Úrok: '}</span>
+                              {currentRow.paid}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Zaplatené: '}</span>
+                              {currentRow.row.interest_paid == 'true' ? 'Áno' : 'Nie'}
+                              </div>
+                            </Paper>
+                          </Col>
+                          </Row>
+
+                          <Row xs md='12' style={{alignItems: 'center', justifyContent: 'center', marginBottom: '20px'}}>
+                            <Col xs md='6' style={{alignItems: 'center'}}>
+                              <Paper className='paper'>
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'EČV: '}</span>
+                                {currentRow.row.car_ecv}
+                                </div>
+
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Typ karosérie: '}</span>
+                                {currentRow.row.car_bodywork_type}
+                                </div>
+
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Typ pohonu: '}</span>
+                                {currentRow.row.car_axle_type}
+                                </div>
+
+                                <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>{'Palivo: '}</span>
+                                {currentRow.row.car_fuel_type}
+                                </div>
+                              </Paper>
+                            </Col>
+
+                          <Col xs md='6' style={{alignItems: 'center'}}>
+                            <Paper className='paper'>
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Prevodovka: '}</span>
+                              {currentRow.row.car_gearbox_type}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'KM: '}</span>
+                              {currentRow.row.car_km}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'KW: '}</span>
+                              {currentRow.row.car_power}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                              <span style={{fontWeight: '600'}}>{'Vek vozidla: '}</span>
+                              {currentRow.row.car_years_old}
+                              </div>
+                            </Paper>
+                          </Col>
+                          </Row>
+
+                          <Row xs md='12' style={{alignItems: 'center', justifyContent: 'center', marginBottom: '20px'}}>
+                            <Col>
+                            <Paper className='paper'>
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodený lak: '}</span>
+                                {currentRow.row.car_damaged_varnish === false ? 'Nie' : 'Ano'}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodená karoséria: '}</span>
+                                {currentRow.row.car_damaged_bodywork === false ? 'Nie' : 'Ano'}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodený interiér: '}</span>
+                                {currentRow.row.car_damaged_interior === false ? 'Nie' : 'Ano'}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodené pneumatiky: '}</span>
+                                {currentRow.row.car_damaged_tires === false ? 'Nie' : 'Ano'}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodené čelné sklo: '}</span>
+                                {currentRow.row.car_damaged_window === false ? 'Nie' : 'Ano'}
+                              </div>
+
+                              <div style={{textAlign: 'center'}}>
+                                <span style={{fontWeight: '600'}}>• {'Poškodená náprava: '}</span>
+                                {currentRow.row.car_damaged_axle === false ? 'Nie' : 'Ano'}
+                              </div>
+                            </Paper>
+                            </Col>
+                          </Row>
+
+                          <Row xs md='12' style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Col>
+                            <Paper className='paper' style={{display: 'flex',flexDirection: 'column' ,alignItems: 'center', justifyContent: 'center'}}>
+                              <h3>Úprava splátky</h3>
+                              <h6>Zadajte sumu o ktorú chcete pôžičku znížiť</h6>
+                              <Input
+                                required
+                                className="StripeElement"
+                                type="text"
+                                style={{marginBottom: '10px', marginTop: '10px', width: '30%'}}
+                                endAdornment={<InputAdornment position="end">€</InputAdornment>}
+                                onChange={e => setAmount(e.target.value.replace(',','.') )}
+                                name="pay"
+                                id="pay"
+                                fullWidth="true"
+                                size="medium"
+                              />
+                              <div>
+                                  <Button style={{marginTop: "20px", marginBottom: '25px'}}
+                                  onClick={() => {handleSubmit(currentRow)}} variant="contained" color="primary">Potvdiť zmeny</Button>
+                              </div>
+                            </Paper>
+                            </Col>
+                          </Row>
+                        </Container>
                       </div>
                     )
                     : null }
@@ -296,16 +387,16 @@ const AdminTable = (props) => {
 
                             <TableCell key={column.id} align="center">
 
-                              { column.label === 'Akcie'
+                              { column.label === 'Podrobnosti'
 
                               ? (
                                 <div className="btn-group" key={row.name + row.name}>
                                   {/* <Button onClick={() => handleEdit(row)}>
-                                  <CreateIcon />
-                                </Button>
+                                  <CreateIcon /> */}
+                                {/* </Button> */}
                                 <Button onClick={() => handleDelete(row)}>
                                   <DeleteIcon />
-                                </Button> */}
+                                </Button>
                                   <Button onClick={() => handleVisibility(row)}>
                                     <VisibilityIcon />
                                   </Button>
@@ -342,12 +433,7 @@ const AdminTable = (props) => {
         </div>
 )
     : null }
-      {/* 
-      <div style={{float: "right"}}>
-        <Button style={{marginTop: "20px", marginBottom: '25px'}}
-        onClick={() => {handleSubmit()}} variant="contained" color="primary">Potvdit zmeny</Button>
-      </div> */}
-    </Container>
+    </MaterialContainer>
   );
 };
 
