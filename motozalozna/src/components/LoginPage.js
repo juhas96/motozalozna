@@ -116,7 +116,7 @@ export class LoginPage extends Component {
         <div>
           <div>
             <AppBar position="static">
-              <Toolbar variant="dense" style={{ backgroundColor: '#3949ab' }}>
+              <Toolbar variant="dense" style={{ backgroundColor: '#D26B39' }}>
                 { userType === 'admin' && isLogged 
                             ? (
                               <IconButton edge="start" color="inherit" aria-label="menu">
