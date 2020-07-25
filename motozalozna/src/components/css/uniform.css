@@ -4,9 +4,10 @@
 }
 
 .wrapper {
-    background-color: #F0F0F0;
+    background-color: #292929!important;
     padding-top: 40px;
     padding-bottom: 40px;
+    border-radius: 20px;
 }
 
 .divider {
@@ -38,4 +39,12 @@
 
 .fileButton {
     background-color: red;
+}
+
+.whiterText {
+    color: #D3D3D3!important;
+}
+
+.orangeCheckbox {
+    color: #D26B39!important;
 }

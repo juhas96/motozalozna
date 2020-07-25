@@ -32,3 +32,15 @@
     transform: rotate(360deg);
   }
 }
+
+.MuiStepIcon-root.MuiStepIcon-active {
+  color: #D26B39!important;
+}
+
+.MuiSlider-markLabelActive {
+  color: #D3D3D3!important;
+}
+
+.PrivateNotchedOutline-legendLabelled-3 > span {
+  color: white!important;
+}

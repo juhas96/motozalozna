@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import { ProgressBar } from 'react-bootstrap';
 
+// Test build
 ReactDOM.render(
   <React.StrictMode>
     <AppTable />
