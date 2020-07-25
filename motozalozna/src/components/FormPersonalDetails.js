@@ -3,6 +3,9 @@ import { TextField, Button, Container }  from '@material-ui/core/';
 import { Form } from 'react-bootstrap'
 import FormLoanDetails from './FormLoanDetails';
 import FormPersonalTerms from './FormPersonalTerms'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //FORM CSS
 import '../css/formPD.css'
 import '../css/uniformForm.css'
@@ -40,6 +43,8 @@ const FormPersonalDetails = (props) =>  {
         e.preventDefault();
         if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.technickyFile && values.obcianskyFile && ((values.leasing + values.notar + values.kluc + values.blokacia) == 4)) {
             props.nextStep();
+        } else {
+            toast.error('Musíte vyplniť všetky polia.', {position: toast.POSITION.TOP_RIGHT});
         }
     }
 
@@ -66,7 +71,7 @@ const FormPersonalDetails = (props) =>  {
                     handleState('priezvisko', value)
                 break;
             case 'email':
-                if(regexTMail.test(value) || value === "")
+                if(regexEmail.test(value) || value === "")
                     handleState('email',value)
                 if(regexEmail.test(value))
                     setEmailError(false)
@@ -108,7 +113,7 @@ const FormPersonalDetails = (props) =>  {
                             <h1>Osobné údaje</h1>
                         </div>
                         <div className="wrapper">
-                            <h2>Základné informácie</h2>
+                            <h2 className="whiterText">Kontaktné údaje</h2>
                                 <div className="textHolders">
                                     <TextField
                                         required={true}
@@ -178,30 +183,32 @@ const FormPersonalDetails = (props) =>  {
                                 handleChange={handleChange}
                                 values={values}/>
 
+                            <div className="divider"></div>
+
                             <div className="wrapper">
                                 <div className="attachment">
-                                    <h2 className="definitionName">Občiansky preukaz</h2>
+                                    <h2 className="definitionName whiterText">Občiansky preukaz</h2>
                                     <div className="custom-file">
                                         <input type="file" className="custom-file-input" name="ID" id="ID" onChange={(e) => handleState('obcianskyFile', e.target.files[0])}/>
-                                        <label id="obciansky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                        <label id="obciansky" className="custom-file-label" htmlFor="customFile">Vyberte súbor</label>
                                     </div>
                                         {handleFiles(values.obcianskyFile, 'obcianskyFile')}
                                 </div>
 
                                 <div className="attachment">
-                                    <h2 className="definitionName">Technický preukaz</h2>
+                                    <h2 className="definitionName whiterText">Technický preukaz</h2>
                                     <div className="custom-file">
                                         <input type="file" className="custom-file-input" name="carLicense" id="carLicense" onChange={(e) => handleState('technickyFile', e.target.files[0])}/>
-                                        <label id="technicky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                        <label id="technicky" className="custom-file-label" htmlFor="customFile">Vyberte súbor</label>
                                     </div>
                                         {handleFiles(values.technickyFile, 'technickyFile')}
                                 </div>
 
                                 <div className="attachment">
-                                <h2 className="definitionName">Fotky vozidla</h2>
+                                <h2 className="definitionName whiterText">Fotky vozidla</h2>
                                 <div className="custom-file">
                                     <input type="file" className="custom-file-input" id="customFile" multiple onChange={(e) => handleVozidlo(e)}/>
-                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                    <label id="vodicsky" className="custom-file-label" htmlFor="customFile">Vyberte súbor</label>
                                 </div>
                                     {handleFiles(values.vozidloFiles, 'vozidloFiles')}
                             </div>
@@ -214,7 +221,14 @@ const FormPersonalDetails = (props) =>  {
 
                         <div className="customButton">
                             <Button style={{marginRight: '10px'}} onClick={back} variant="contained" color="primary">Späť</Button>
-                            <Button type="submit" variant="contained" color="primary">Ďalej</Button>
+                            <Button 
+                                onClick={continueNext}
+                                disabled={((values.leasing + values.notar + values.kluc + values.blokacia) != 4)}
+                                type="submit"
+                                variant="contained"
+                                color="primary">
+                                    Ďalej
+                            </Button>
                         </div>
                     </Form>
                 </div>

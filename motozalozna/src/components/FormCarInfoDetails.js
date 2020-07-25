@@ -172,17 +172,17 @@ const FormCarInfoDetails = (props) =>  {
             <div>
                 <div className="wrapper" style={{'textAlign': "center"}}>
                     <div className="descriptionLabel">
-                        <h2>Má Vaše vozidlo tieto poškodenia?</h2>
+                        <h2 className="whiterText">Má Vaše vozidlo tieto poškodenia?</h2>
                     </div>
                     <FormControl>
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.poskodeny_lak ?? false} onChange={handleChange('poskodeny_lak')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.poskodeny_lak ?? false} onChange={handleChange('poskodeny_lak')} />
                                 }
                                 label= {
                                     <Box component="div" >
-                                        Poškodený lak
+                                        <span className="whiterText">Poškodený lak</span>
                                     </Box>
                                 }
                             />
@@ -191,11 +191,11 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.poskodena_karoseria ?? false} onChange={handleChange('poskodena_karoseria')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.poskodena_karoseria ?? false} onChange={handleChange('poskodena_karoseria')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        Poškodená karoséria
+                                        <span className="whiterText">Poškodená karoséria</span>
                                     </Box>
                                 }
                             />
@@ -204,11 +204,11 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.poskodeny_interier ?? false} onChange={handleChange('poskodeny_interier')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.poskodeny_interier ?? false} onChange={handleChange('poskodeny_interier')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        Poškodený interiér
+                                        <span className="whiterText">Poškodený interiér</span>
                                     </Box>
                                 }
                             />
@@ -217,11 +217,11 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.opotrebena_naprava ?? false} onChange={handleChange('opotrebena_naprava')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.opotrebena_naprava ?? false} onChange={handleChange('opotrebena_naprava')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        Opotrebená náprava
+                                        <span className="whiterText">Opotrebená náprava</span>
                                     </Box>
                                 }
                             />
@@ -230,11 +230,11 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.opotrebene_pneu ?? false} onChange={handleChange('opotrebene_pneu')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.opotrebene_pneu ?? false} onChange={handleChange('opotrebene_pneu')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        Opotrebené pneumatiky
+                                        <span className="whiterText">Opotrebené pneumatiky</span>
                                     </Box>
                                 }
                             />
@@ -243,11 +243,11 @@ const FormCarInfoDetails = (props) =>  {
                         <div className="checker-2">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.poskodene_sklo ?? false} onChange={handleChange('poskodene_sklo')} />
+                                    <Checkbox className="orangeCheckbox" checked={values.poskodene_sklo ?? false} onChange={handleChange('poskodene_sklo')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        Poškodené čelné sklo
+                                        <span className="whiterText">Poškodené čelné</span> sklo
                                     </Box>
                                 }
                             />
@@ -266,7 +266,7 @@ const FormCarInfoDetails = (props) =>  {
                             <h1>Údaje o vozidle</h1>
                         </div>
                         <div className="wrapper">
-                            <h2>Základné informácie</h2>
+                            <h2 className="whiterText">Základné informácie</h2>
                             <div className="controlForm">
                                 <div className="row d-flex justify-content-center">
                                     <div className="col-md-offset-2 topCol">
@@ -386,7 +386,7 @@ const FormCarInfoDetails = (props) =>  {
                             </div>
 
                             <div className="infoHolder">
-                                <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto">Vyberte si zo {Object.keys(cars).length} aut</InputLabel>
+                                <InputLabel style={{'marginTop': "20px", "marginBottom": "10px"}} id="auto"><span className="whiterText">Vyberte si zo {Object.keys(cars).length} aut</span></InputLabel>
                                 <Autocomplete
                                     id="auto"
                                     onChange={(e, value) => { handleCar(value) }}

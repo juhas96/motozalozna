@@ -52,7 +52,7 @@ const Summary = (props) => {
             summaryValues.map((e) => {
                 return(
                    <div>
-                       <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}>{e.name}</h2>
+                       <h2 style={{'marginBottom': "20px", "marginTop": "20px"}}><span className='whiterText'>{e.name}</span></h2>
                        {
                             Object.entries(e.values).map( ([key, value]) =>  {
                                 key = key.Capitalize()

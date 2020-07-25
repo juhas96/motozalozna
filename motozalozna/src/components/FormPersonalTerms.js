@@ -10,18 +10,18 @@ const FormPersonalTerms = (props) => {
         <div>
                 <div className="wrapper" style={{'textAlign': "left"}}>
                 <div className="categoryName" style={{'textAlign': "center"}}>
-                    <h1>Podmienky</h1>
+                    <h1 className='whiterText'>Podmienky</h1>
                 </div>
                     <FormControl>
 
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.leasing ? values.leasing : false} onChange={handleChange('leasing')} />
+                                    <Checkbox className='orangeCheckbox'  checked={values.leasing ? values.leasing : false} onChange={handleChange('leasing')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        1. Potvrdzujem, že na vozidlo nie je žiadna ťarcha, leasing a iné záložné právo.
+                                        <span className='whiterText'>1. Potvrdzujem, že na vozidlo nie je žiadna ťarcha, leasing a iné záložné právo.</span>
                                     </Box>
                                 }
                             />
@@ -30,11 +30,11 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.blokacia ? values.blokacia : false} onChange={handleChange('blokacia')} />
+                                    <Checkbox className='orangeCheckbox'  checked={values.blokacia ? values.blokacia : false} onChange={handleChange('blokacia')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        2. Potvrdzujem, že na vozidlo nie je blokácia na dopravnom inšpektoráte alebo blokácia na daňovom úrade a exekútorskom úrade.
+                                        <span className='whiterText'>2. Potvrdzujem, že na vozidlo nie je blokácia na dopravnom inšpektoráte alebo blokácia na daňovom úrade a exekútorskom úrade.</span>
                                     </Box>
                                 }
                             />
@@ -43,11 +43,11 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.kluc ? values.kluc : false} onChange={handleChange('kluc')} />
+                                    <Checkbox className='orangeCheckbox'  checked={values.kluc ? values.kluc : false} onChange={handleChange('kluc')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        3. Potvrdzujem, že vlastním druhý náhradný kľúč.
+                                        <span className='whiterText'>3. Potvrdzujem, že vlastním druhý náhradný kľúč.</span>
                                     </Box>
                                 }
                             />
@@ -56,11 +56,11 @@ const FormPersonalTerms = (props) => {
                         <div className="checker">
                             <FormControlLabel
                                 control={
-                                    <Checkbox color="primary" checked={values.notar ? values.notar : false} onChange={handleChange('notar')} />
+                                    <Checkbox className='orangeCheckbox'  checked={values.notar ? values.notar : false} onChange={handleChange('notar')} />
                                 }
                                 label= {
                                     <Box component="div">
-                                        4. Potvrdzujem umožnenie plnej moci na zriadenie záložného práva na tlačive Motozáložne overenú notárom.
+                                        <span className='whiterText'>4. Potvrdzujem umožnenie plnej moci na zriadenie záložného práva na tlačive Motozáložne overenú notárom.</span>
                                      </Box>
                                 }
                             />

@@ -56,7 +56,7 @@ export default function DiscreteSlider({ values, handleChange, max }) {
 			</div>
 
 			<div className="col-md-4 slider">
-				<InputLabel>Výška pôžičky</InputLabel>
+				<InputLabel><span className='whiterText'>Výška pôžičky</span></InputLabel>
 				<TextField
 					className="customText"
 					value={value}

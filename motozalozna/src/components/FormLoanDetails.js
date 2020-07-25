@@ -13,14 +13,14 @@ const FormLoanDetails = (props) =>  {
         <div>
             <div className="wrapper">
                 <div className="header">
-                    <h2>Chcete Vaše vozidlo používať počas záložného práva?</h2>
+                    <h2 className='whiterText'>Chcete Vaše vozidlo používať počas záložného práva?</h2>
                     <div className="holder">
                         <div className="confirmCol">
-                                <label className="labelConfirm">Áno, chcem používať svoje vozidlo  - </label> 
+                                <label className="labelConfirm"><span className='whiterText'>Áno, chcem používať svoje vozidlo  - </span></label> 
                                 <FormControl>
                                     <FormControlLabel
                                         control={
-                                            <Checkbox color="primary" checked={values.zalozne_pravo ?? false} onChange={handleChange('zalozne_pravo')} />
+                                            <Checkbox className='orangeCheckbox' checked={values.zalozne_pravo ?? false} onChange={handleChange('zalozne_pravo')} />
                                         }
                                         label="Áno"
                                     />
@@ -29,7 +29,7 @@ const FormLoanDetails = (props) =>  {
                         </div>
 
                         <div className="loanLenght">
-                            <InputLabel style={{'marginRight': "10px"}} id="dlzka_pozicky">Dĺžka pôžičky</InputLabel>
+                            <InputLabel style={{'marginRight': "10px"}} id="dlzka_pozicky"><span className='whiterText'>Dĺžka pôžičky</span></InputLabel>
                             <FormControl style={{marginRight: '10px'}}>
                                 <Select
                                     required = {true}
@@ -52,9 +52,9 @@ const FormLoanDetails = (props) =>  {
             <div className="wrapper">
                 <div className="chooseLvl">
                     <Typography id="discrete-slider-custom" gutterBottom variant='inherit'>
-                        <h2>Vyberte si výšku Vašej pôžičky</h2>
-                        <h5>Vaše vozidlo bolo ohodnotené na: {values.cena}€</h5>
-                        <h5>Maximálna výška pôžičky je: {values.cenaPozicky}€</h5>
+                        <h2 className='whiterText'>Vyberte si výšku Vašej pôžičky</h2>
+                        <h5 className='whiterText'>Vaše vozidlo bolo ohodnotené na: {values.cena}€</h5>
+                        <h5 className='whiterText'>Maximálna výška pôžičky je: {values.cenaPozicky}€</h5>
                     </Typography>
                 </div>
                 <DiscreteSlider values={values.cenaPozicky} handleChange={handleState} max={values.cenaPozicky}/>

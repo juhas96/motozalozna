@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, Button } from '@material-ui/core/';
 import FormPersonalDetails from './FormPersonalDetails';
 import FormCarInfoDetails from './FormCarInfoDetails';
-import FormCarConditionDetails from './FormCarConditionDetails';
 import FormPersonalTerms from './FormPersonalTerms';
 import FormLoanDetails from './FormLoanDetails';
 import Summary from './Summary';
@@ -21,7 +20,7 @@ export class UserForm extends Component {
     super(props)
 
     this.state = {
-      step: 0,
+      step: 3,
 
       krstne_meno: '',
       priezvisko: '',
@@ -247,13 +246,13 @@ export class UserForm extends Component {
           vozidloFiles, obcianskyFile, vysledna_pozicka, urok };
 
       const summaryValues = [
-        {name: 'Osobne Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
-        {name: 'Informacie o Aute', values: {karoseria, palivo, pohon, prevodovka, vykon,
+        {name: 'Osobné Informacie', values: {krstne_meno, priezvisko, email, telefonne_cislo}},
+        {name: 'Informácie o Aute', values: {karoseria, palivo, pohon, prevodovka, vykon,
           vek, ec, pocetkm}},
         {name: 'Stav Auta', values: {poskodeny_lak, poskodena_karoseria, poskodeny_interier,
           opotrebena_naprava, opotrebene_pneu, poskodene_sklo}},
         {name: 'Potvrdzujem', values: {leasing, kluc, notar, blokacia, zalozne_pravo}},
-        {name: 'Pozicka', values: {dlzka_pozicky, cena, vysledna_pozicka}}
+        {name: 'Pôžička', values: {dlzka_pozicky, cena, vysledna_pozicka}}
       ]
 
       return (
