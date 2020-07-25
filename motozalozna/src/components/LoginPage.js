@@ -173,7 +173,14 @@ export class LoginPage extends Component {
                           />
                         </div>
                       </div>
-                      <Button style={{ marginTop: '20px' }} onClick={this.handleComponent} variant="contained" color="primary" disabled={this.state.password.length == 0 ? true : false}>Prihlásiť sa</Button>
+                      <Button 
+                        style={{ marginTop: '20px' }} 
+                        onClick={this.handleComponent} 
+                        variant="contained" 
+                        color="primary" 
+                        disabled={(this.state.password.length == 0 || this.state.email.length == 0) ? true : false}>
+                          Prihlásiť sa
+                      </Button>
                       {/* </Form> */}
                     </div> 
                   </Container>
