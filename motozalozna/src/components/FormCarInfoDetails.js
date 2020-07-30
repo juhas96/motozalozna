@@ -4,6 +4,8 @@ import { Select, MenuItem, InputLabel, FormControl, FormControlLabel, Container,
 import { Autocomplete } from '@material-ui/lab';
 import { findPrice, checkStolen } from '../service/HttpService';
 import cars from '../cars.json'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 //FORM CSS
 import '../css/formCarInfoDetails.css'
 import '../css/uniformForm.css'
@@ -76,16 +78,19 @@ const FormCarInfoDetails = (props) =>  {
                 auto: props.values.auto
             }).then(res => {
                 var cena = res.data - skoda
+                if (cena <= 0) {
+                    toast.error('Vaše auto bolo ohodnotené na menej ako 0eur. Nie je možné požiadať o pôžičku.', {position: toast.POSITION.TOP_RIGHT});
+                    return;
+                }
                 props.handleState('cena', cena)
                 var maximum = ((cena / 100.0) * 40.0).toFixed(0)
 
                 props.handleState('cenaPozicky', maximum)
                 props.handleState('vysledna_pozicka', maximum)
+                checkStolen({
+                    ecv: values.ec
+                }).then(res => res.data == 0 ? props.nextStep() : console.log('stolen')).catch(err => console.log(err));
             }).catch(err => console.log(err));
-
-            checkStolen({
-                ecv: values.ec
-            }).then(res => res.data == 0 ? props.nextStep() : console.log('stolen')).catch(err => console.log(err));
         }
     }
 
