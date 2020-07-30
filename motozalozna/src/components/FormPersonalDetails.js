@@ -44,9 +44,52 @@ const FormPersonalDetails = (props) =>  {
         if(emailError + numberError === 0 && values.krstne_meno && values.priezvisko && values.technickyFile && values.obcianskyFile && ((values.leasing + values.notar + values.kluc + values.blokacia) == 4)) {
             props.nextStep();
         } else {
-            toast.error('Musíte vyplniť všetky polia.', {position: toast.POSITION.TOP_RIGHT});
+            toast.error(`Pole ${handleErrorResponse()} je nesprávne vyplnené.`, {position: toast.POSITION.TOP_RIGHT});
         }
     }
+
+    const handleErrorResponse = () => {
+        if (emailError) {
+            return 'Email';
+        }
+
+        if (numberError) {
+            return 'Telefónne číslo'
+        }
+
+        if (!values.krstne_meno) {
+            return 'Krstné meno'
+        }
+
+        if (!values.priezvisko) {
+            return 'Priezvisko'
+        }
+
+        if (!values.technickyFile) {
+            return 'Technický preukaz'
+        }
+
+        if (!values.obcianskyFile) {
+            return 'Občiansky preukaz'
+        }
+
+        if (!values.leasing) {
+            return 'Leasing'
+        }
+
+        if (!values.notar) {
+            return 'Notar'
+        }
+
+        if (!values.kluc) {
+            return 'Druhy kľúč'
+        }
+
+        if (!values.blokacia) {
+            return 'Blokácia'
+        }
+    }
+
 
     const back = e => {
         e.preventDefault();
